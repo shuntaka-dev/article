@@ -129,7 +129,7 @@ export const createSetedTitleSiginedUrl = (
 };
 ```
 
-### GitHub Apps
+## GitHub Apps
 リポジトリに記事をpushしたら、記事が格納されているDynamoDBを更新している。その仕組み実現するために、GiHub Appsを活用している。GitHub Appsはエンドユーザーがインストール時にGitHub Appsに対して認可(権限とその権限が使えるリポジトリ)を与えること出来る。その認可を使ってGitHub Appsは様々なサービスを提供可能。本ブログでは例えば下記のことをGitHub Appsで行っている。
 * リポジトリpush時にこちらの設定したサーバーにwebhookしてもらう(このwebhookを契機にDBを更新)
 * 認可のあるリポジトリを参照
