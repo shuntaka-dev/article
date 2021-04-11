@@ -343,3 +343,12 @@ GAEへホスティングする際に、想像以上詰まることがなく、�
 
 二番煎じの記事ですが、参考になれば幸いです。GCPの画面キャプチャ疲れる...
 
+# 付録(環境停止手順)
+## GAEの停止
+
+![gif](https://res.cloudinary.com/dkerzyk09/image/upload/v1618040606/blog/01f2wwqs2jcdgc7fh8bmhnewk6/27-fin.png)
+![gif](https://res.cloudinary.com/dkerzyk09/image/upload/v1618040606/blog/01f2wwqs2jcdgc7fh8bmhnewk6/28-fin.png)
+
+## Cloud Load Balancingの停止
+オプションから削除できます(キャプチャ忘れました..)
+![gif](https://res.cloudinary.com/dkerzyk09/image/upload/v1618040606/blog/01f2wwqs2jcdgc7fh8bmhnewk6/29-fin.png)
