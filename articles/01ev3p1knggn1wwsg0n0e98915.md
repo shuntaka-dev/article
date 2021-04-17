@@ -26,6 +26,29 @@ packages配下の各パッケージの依存関係をリンクするオプショ
 ## lerna run <script>
 `yarn run <script>`を各パッケージで実行するオプション。例えば各パッケージで`yarn build`を実行したい場合は、`lerna run build`を実行すると良い。モノレポらしい便利なコマンド。
 
+## lerna run build -- <subcommand>
+個人的に便利に感じたコマンド。モノレポ配下で`yarn build`に設定したnpm scriptsにサブコマンドを渡せる。`--`が必要になるので注意。
+**packagesの各リポジトリで変更が検知されたら、各リポジトリで設定されたyarn build <subcommand>を実行するみたいなことが可能**。
+
+このコマンドが効いてくるのはwatchオプションをつけたとき、どのリポジトリで編集をかけてもすぐビルド資材に反映されるため、**リポジトリを跨いだプレビューがしやすい**
+```bash
+$ tree
+packages
+├── css     # yarn buildに `node-sass ./src/index.scss ./build/index.css --output-style compressed`を設定
+└── parser  # yarn buildに `tsc`を設定
+
+$ lerna run build -- --watch
+info cli using local version of lerna
+lerna notice cli v3.22.1
+lerna info versioning independent
+lerna info Executing command in 2 packages: "yarn run build --watch"
+
+# 変更を検知すると下記が並列実行される
+# packages
+# ├── css     # node-sass ./src/index.scss ./build/index.css --output-style compressed --watch
+# └── parser  # tsc --watch
+```
+
 ## lerna publish
 
 注意点を結論から言うと、`lerna publish`する前にnpmにログインしていることを確認する。しないと余計な作業をする必要がある。
@@ -33,6 +56,7 @@ packages配下の各パッケージの依存関係をリンクするオプショ
 npm whoami
 lerna publish
 ```
+
 
 ### 失敗例
 実行した結果から推測した`lerna publish`の挙動は下記の通り。
