@@ -58,7 +58,7 @@ Enter a path to an rc file to update, or leave blank to use
 
 私の環境のzshは、`~/.zshrc`ではなく、`~/.zsh/.zshrc`が読み込まれるように設定しているため、下記の内容を`~/.zsh/.zshrc`へ転記します。
 
-```bash
+```bash: ~/.zsh/.zshrc
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 [[ -f ~/.anyenv/envs/nodenv/versions/12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.anyenv/envs/nodenv/versions/12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
@@ -114,14 +114,12 @@ gcloudコマンドの初期設定完了
 # Next.jsアプリのデプロイ
 
 ## プロジェクトの設定
-`package.json`を修正
-```json
+```json: package.json
 -    "start": "next start"
 +    "start": "next start -p $PORT"
 ```
 
-`app.yaml`を追加
-```bash
+```bash:app.yaml
 runtime: nodejs12
 
 handlers:
@@ -262,7 +260,7 @@ $ yarn add -D @types/luxon
 ```
 
 [stale-while-revalidate対応のCDNでISRと同じような挙動を実現する](https://zenn.dev/catnose99/articles/0b601c1f62019b)記事を参考に、`stale-while-revalidate`の設定を入れる
-```ts
+```ts: pages/sample.tsx
 import { DateTime } from 'luxon';
 
 export const getServerSideProps = ({ res }) => {
@@ -343,7 +341,7 @@ GAEへホスティングする際に、想像以上詰まることがなく、�
 
 二番煎じの記事ですが、参考になれば幸いです。GCPの画面キャプチャ疲れる...
 
-# 付録(環境停止手順)
+# 付録
 ## GAEの停止
 
 ![gif](https://res.cloudinary.com/dkerzyk09/image/upload/v1618040606/blog/01f2wwqs2jcdgc7fh8bmhnewk6/27-fin.png)

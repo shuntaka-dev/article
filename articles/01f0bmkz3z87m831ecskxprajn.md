@@ -27,8 +27,7 @@ typescript 4.2.2
 ```
 
 [coc-deno](https://github.com/fannheyward/coc-deno)をインストール
-```json
-// ~/.config/coc/extensions/package.json
+```json: ~/.config/coc/extensions/package.json
 {
   "dependencies": {
     "coc-css": ">=1.2.6",
@@ -48,8 +47,7 @@ typescript 4.2.2
 # プロジェクト設定(coc.nvim)
 tsserverがあると競合するのでfalseにする
 
-```json
-// .vim/coc-settings.json
+```json: .vim/coc-settings.json
 {
   "deno.enable": true,
   "deno.lint": false,

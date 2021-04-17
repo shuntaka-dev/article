@@ -72,8 +72,7 @@ nvim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim
 * [#最低限のinit.vim](#最低限のinit.vim)に開発するプラグインのパスを追記
 * coc.nvimを利用している場合は、denoの設定ファイルを作成
 
-```json
-// .vim/coc-settings.json
+```json:.vim/coc-settings.json
 {
   "deno.enable": true,
   "deno.lint": false,
