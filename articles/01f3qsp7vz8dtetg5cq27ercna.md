@@ -1,16 +1,18 @@
 ---
-title: "next/linkのpassHrefがどのような場合に必要か整理する"
+title: "next/linkのpassHref属性がどのような場合に必要か整理、検証してみる"
 type: "tech"
 category: []
-description: ""
-publish: false
+description: "next/link(Link属性、Linkコンポーネント)でpassHref属性の使い方を調査、検証しました"
+publish: true
 ---
 
 # 結論
-下記のケースで、Linkコンポーネントのhref属性を、子コンポーネントのaタグに付与しないからSEO的に悪影響よという話。
+Linkコンポーネントのhref属性が、その子コンポーネントであるaタグに付与されないケースがあり、SEO的に悪影響なのでpassHref属性を使う必要がある。
 
-* 子が **<a>タグをラップするカスタムコンポーネント**の場合、**passHrefすると**とaタグにhref属性を付与するよ！
-* 子が **(<a>タグをラップした)関数コンポーネント**の場合、**passHrefかつReact.forwardRefでラップする**ととhref属性を付与するよ！
+* 子が **<a>タグをラップするカスタムコンポーネント**の場合、**passHrefすると**とaタグにhref属性を付与
+* 子が **(<a>タグをラップした)関数コンポーネント**の場合、**passHrefかつReact.forwardRefでラップする**ととhref属性を付与
+
+逆に上記のお作法を取らないと、href属性はつかない。詳しくは、項目[検証](#検証)で各パターン検証した。
 
 # 公式ドキュメントを確認
 公式ドキュメント[next/link](https://nextjs.org/docs/api-reference/next/link)の章題は下記。
@@ -26,15 +28,26 @@ publish: false
 
 
 # 検証
-※ ◯はaタグにhref属性が付与されることを示す
-|項|Linkコンポーネントでラップされたコンポーネント|passHref無|passHref有|
+検証結果は下記。◯はaタグにhref属性が**付与されること**を表す。
+|項|Linkコンポーネントでラップされたコンポーネント|Linkコンポーネント(passHref無)|Linkコンポーネント(passHref有)|
 |---|---|---|---|
 |1|aタグ|◯|◯|
 |2|aタグをWarpしたカスタムコンポーネント||◯|
 |3|FunctionalComponent|||
 |4|React.forwardRefでWrapしたFunctionalComponent||◯|
 
+
+検証コードは下記。コメントアウトでHTML出力結果も示します。
 ```ts
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+
+/* aタグをWrapしたカスタムコンポーネント */
+const CustomComponent = styled.a`
+  color: red;
+`;
+
 /* FunctionalComponent */
 const FunctionalComponent: React.VFC<{ value: string }> = ({ value }) => (
   <a>{value}</a>
@@ -54,50 +67,79 @@ const FunctionalComponentForwardRef = React.forwardRef<
   );
 });
 
-ForwardRefComponentWrapForwardRef.displayName = 'ForwardRefComponent';
+FunctionalComponentForwardRef.displayName = 'ForwardRefComponent';
 
 const HogePage: React.VFC = () => {
   return (
-    {/* 表 項1-passHref無 */}
-    <Link href="/test">
-      <a>testLink</a>
-    </Link>
-    {/* 表 項1-passHref有 */}
-    <Link href="/test" passHref>
-      <a>testLink</a>
-    </Link>
-    // TODO カスタムコンポーネントについて書く
+    <div>
+      {/* ----------- 表 項1 ----------- */}
+      <Link href="/test">
+        <a>testLink</a>
+      </Link>
+      <Link href="/test" passHref>
+        <a>testLink</a>
+      </Link>
+      {/* HTML */}
+      {/* <a href="/test">testLink</a> */}
+      {/* <a href="/test">testLink</a> */}
 
-    {/* 表 項3-passHref無 */}
-    <Link href="/test">
-      <FunctionalComponent value={`testLink`} />
-    </Link>
-    {/* 表 項3-passHref有 */}
-    <Link href="/test" passHref>
-      <FunctionalComponent value={`testLink`} />
-    </Link>
-    {/* 表 項4-passHref無 */}
-    <Link href="/test" passHref>
-      <FunctionalComponentForwardRef value={`testLink`} />
-    </Link>
-    {/* 表 項4-passHref有 */}
-    <Link href="/test" passHref>
-      <FunctionalComponentForwardRef value={`testLink`} />
-    </Link>
-  )
-}
+      {/* ----------- 表 項2 ----------- */}
+      <Link href="/test">
+        <CustomComponent>{'testLink'}</CustomComponent>
+      </Link>
+      <Link href="/test" passHref>
+        <CustomComponent>{'testLink'}</CustomComponent>
+      </Link>
+      {/* HTML */}
+      {/* <a class="sc-bdvvaa hAZGnr">testLink</a> */}
+      {/* <a href="/test">testLink</a> */}
+
+      {/* ----------- 表 項3 ----------- */}
+      <Link href="/test">
+        <FunctionalComponent value={`testLink`} />
+      </Link>
+      <Link href="/test" passHref>
+        <FunctionalComponent value={`testLink`} />
+      </Link>
+      {/* HTML */}
+      {/* <a>testLink</a> */}
+      {/* <a>testLink</a> */}
+
+      {/* ----------- 表 項4 ----------- */}
+      <Link href="/test">
+        <FunctionalComponentForwardRef value={`testLink`} />
+      </Link>
+      <Link href="/test" passHref>
+        <FunctionalComponentForwardRef value={`testLink`} />
+      </Link>
+      {/* HTML */}
+      {/* <a>testLink</a> */}
+      {/* <a href="/test">testLink</a> */}
+    </div>
+  );
+};
+
+export default HogePage;
 ```
 
-// TODO HTMLの結果を載せておく
 
 # おまけ
+React.forwardRefでラップする書き方、アローを使わないで書く方法は以下。
 
-// TODO function各パターンで↑を書き直す
 ```ts
-const ForwardRefComponent2 = React.forwardRef(function forwardRefComponent2(
-  _props,
+type AncoherPorps = JSX.IntrinsicElements['a'];
+type FunctionalComponentForwardRefProps = { value: string };
+const FunctionalComponentForwardRef = React.forwardRef<
+  HTMLAnchorElement,
+  AncoherPorps & FunctionalComponentForwardRefProps
+>(function functionalComponentForwardRef(
+  props,
   ref: React.LegacyRef<HTMLAnchorElement>,
 ) {
-  return <a ref={ref}>Click Me</a>;
+  return (
+    <a href={props.href} ref={ref}>
+      {props.value}
+    </a>
+  );
 });
 ```
