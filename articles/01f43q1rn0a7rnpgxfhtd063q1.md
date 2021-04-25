@@ -66,8 +66,67 @@ FEEDBACK
 :::
 
 # GitHub Actions用語
+詳細は[GitHub公式](https://docs.github.com/ja/actions/learn-github-actions/introduction-to-github-actions)を参照。
 
-workflow...
+## ワークフロー
+* workflowは1つ以上のジョブで構成されている
+* 下記のタイミングトリガー可能
+  * スケジュール
+  * イベント
+
+## イベント
+ワークフローをトリガーする。イベントには下記のような種類がある
+
+* リポジトリにプッシュ
+* issueが作成される
+* プルリクエストが作成される
+* [リポジトリディスパッチ](https://docs.github.com/ja/rest/reference/repos#create-a-repository-dispatch-event)
+
+
+## イベント(repository_dispatch)
+GitHub ActionsのワークフローやGitHub Appでワークフローをトリガーする場合、`repository_dispatch`というwebhookイベントを利用する。
+
+|Name|Type|説明|
+|---|---|---|
+|accept|string|application/vnd.github.v3+json推奨
+|owner|string|
+|repo|string|
+|event_type|string|必須。自分でカスタマイズしたイベント名を指定
+|client_payload|object|ワークフローが使用するWebhookイベントに関する追加情報(JSON)
+
+実行には権限が必要。
+* Personal Token(repo scope)
+* GitHub Appsの場合`metadata:read`と`contents:read&write`のpermissionが必要。
+
+```bash
+curl \
+  -X POST \
+  -H "Accept: application/vnd.github.v3+json" \
+  https://api.github.com/repos/octocat/hello-world/dispatches \
+  -d '{"event_type":"hoge", "client_payload": {"ref": "feature/branch-a"}}'
+```
+
+```yaml:.github/workflows/hoge.yaml
+on:
+  repository_dispatch:
+    types: [hoge]
+jobs:
+  hoge:
+    runs-on: ubuntu-latest
+    name: hoge
+    steps:
+      - uses: actions/checkout@master
+      - if: github.event.client_payload # client_payloadがある場合
+        uses: actions/checkout@master # client_payload
+        with:
+          ref: ${{ github.event.client_payload.ref }} # client_payloadに入っている内容でcheckoutする
+```
+
+## イベント(workflow_dispatch)
+
+## ジョブ
+
+TODO: jobのIdについて
 
 # gh actions
 GitHub Actionsのヘルプ内容を表示
@@ -258,3 +317,8 @@ TODO
 ## gh workflow enable <subcommand>
 ## gh workflow disable <subcommand>
 ## gh workflow run
+
+# refs
+[GitHub Actions](https://docs.github.com/en/actions)
+[GitHubActionsのrepository_dispatchを使い特定ブランチでWorkflowを実行する](https://swfz.hatenablog.com/entry/2020/01/23/080000)
+
