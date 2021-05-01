@@ -368,13 +368,21 @@ mosquitto_pub \
   --cafile AmazonRootCA1.pem \
   --cert deviceCertAndCACert.crt \
   --key deviceCert.key \
-  -h <IOTエンドポイント>.iot.ap-northeast-1.amazonaws.com \
+  -h <IOTエンドポイント>-ats.iot.ap-northeast-1.amazonaws.com \
   -p 8883 \
   -q 1 \
   -t topic \
   -i anyclientID \
   --tls-version tlsv1.2 \
   -m '{"event": "hello"}' -d
+```
+
+```bash:結果
+Client anyclientID sending CONNECT
+Client anyclientID received CONNACK (0)
+Client anyclientID sending PUBLISH (d0, q1, r0, m1, 'topic', ... (18 bytes))
+Client anyclientID received PUBACK (Mid: 1, RC:0)
+Client anyclientID sending DISCONNECT
 ```
 
 テストツールで取得でイベントの送信を確認
@@ -414,6 +422,61 @@ MQTT接続する際に、AmazonのルートCA証明書を指定してる。引�
 ![image](https://user-images.githubusercontent.com/12817245/116724546-c2902e80-aa1b-11eb-8247-e246601fdfcf.png)
 
 こうみると、デバイスがサーバーのサーバーがデバイスのルート証明書をそれぞれ持っており、認証しあっていることが分かる(当たり前か..)
+
+# その他
+## VeriSignクラス3パブリックプライマリG5ルートCA証明書の扱い
+AWS IoTには、2つの異なるデータエンドポイントタイプを[用意している](https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/server-authentication.html#endpoint-types)。各エンドポイントのルート証明書が異なる。
+
+* iot:Data
+  * account-specific-prefix.iot.your-region.amazonaws.com
+  * VeriSignクラス3パブリックプライマリG5ルートCA証明書
+* iot:Data-ATS
+  * account-specific-prefix **-ats** .iot.your-region.amazonaws.com
+  * Amazon TrustServicesによって署名されたルートCA証明書
+
+:::details opensslでルート証明書を確認した結果
+```bash
+$ openssl s_client -connect <ACCOUNT_PREFIX>.iot.ap-northeast-1.amazonaws.com:443 -showcerts
+CONNECTED(00000006)
+depth=2 C = US, O = "VeriSign, Inc.", OU = VeriSign Trust Network, OU = "(c) 2006 VeriSign, Inc. - For authorized use only", CN = VeriSign Class 3 Public Primary Certification Authority - G5
+```
+
+```bash
+$ openssl s_client -connect <ACCOUNT_PREFIX>-ats.iot.ap-northeast-1.amazonaws.com:443 -showcerts
+CONNECTED(00000006)
+depth=4 C = US, O = "Starfield Technologies, Inc.", OU = Starfield Class 2 Certification Authority
+verify return:1
+depth=3 C = US, ST = Arizona, L = Scottsdale, O = "Starfield Technologies, Inc.", CN = Starfield Services Root Certificate Authority - G2
+```
+:::
+
+[boto3でIoT CoreのATSエンドポイントに接続する（SSL validation failedエラー対応）](https://dev.classmethod.jp/articles/boto3-iot-core-use-ats-endpointo-ssl-validation-failed/)にある通り、boto3のcertifiで`VeriSign Class 3 Public Primary Certification Authority - G5 O`のルート証明書が削除された。
+boto3は、デフォルトでiot:Dataを参照しており、certifiでVeriSignルート証明書が削除されたことで、ルート証明書の検証が出来ず、SSL検証でエラーになった。VeriSignルート証明書が削除されたcertifiと依存があるboto3を使った場合明示的にiot:Data-ATSエンドポイントを指定する必要があある。
+
+:::details MQTT接続をiot:Dataエンドポイントに行うと、TLSのエラーが確認できる
+ACCOUNT_PREFIXに、 **-ats** なし。
+```bash
+$ mosquitto_pub \
+  --cafile AmazonRootCA1.pem \
+  --cert deviceCertAndCACert.crt \
+  --key deviceCert.key \
+  -h <ACCOUNT_PREFIX>.iot.ap-northeast-1.amazonaws.com \
+  -p 8883 \
+  -q 1 \
+  -t topic \
+  -i anyclientID \
+  --tls-version tlsv1.2 \
+  -m '{"event": "hello"}' -d
+```
+もちろんこれは、`--cafile`にAmazon TrustServicesによって署名されたルートCA証明書を指定しているため。
+
+```bash:結果
+Client anyclientID sending CONNECT
+OpenSSL Error[0]: error:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed
+Error: A TLS error occurred.
+```
+:::
+
 
 # 参考
 * [X.509クライアント証明書(AWS)](https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/x509-client-certs.html)
