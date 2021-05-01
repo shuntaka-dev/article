@@ -1,0 +1,67 @@
+[plantuml]
+----
+@startuml
+box "クライアントサイド(デバイス)" #dee6ee
+  participant "mqttクライアント" as client
+  participant "Amazonルート証明書" as amazonRootCa
+  participant "クライアント証明書(ルートCA秘密鍵で署名済)" as clientCert
+  participant "クライアント証明書秘密鍵" as clientCertPem
+end box
+box "サーバーサイド(AWS IoT)" #fdf0b6
+  participant "server" as server
+  participant "サーバー証明書(Amazonルート証明書秘密鍵で署名済)" as serverCert
+  participant "ルートCA証明書" as rootCa
+  participant "ルートCA検証証明書" as verificationCert
+end box
+==サーバー認証==
+activate client
+client->server: 接続
+activate server
+server->serverCert: 取得
+activate serverCert
+serverCert-->server: 取得OK
+deactivate serverCert
+server-->client: サーバー証明書を送信
+deactivate server
+client->amazonRootCa: サーバ証明書を公開鍵で検証
+activate amazonRootCa
+amazonRootCa-->client: 検証OK
+deactivate amazonRootCa
+client->client: サーバー認証OK
+deactivate client
+==クライアント認証==
+server->client: クライアント証明書を要求
+activate server
+activate client
+client->clientCert: 取得
+activate clientCert
+clientCert-->client: 取得OK
+deactivate clientCert
+client-->server: クライアント証明書
+deactivate client
+server->rootCa: クライアント証明書を公開鍵で検証
+activate rootCa
+rootCa-->server: 検証OK
+deactivate rootCa
+group 推測を多く含みます(わかりません。誰か教えてください)
+  server->client: 証明書に含まれている公開鍵に対応する秘密鍵の所有権の証明要求
+  activate client
+  client->clientCertPem: 署名要求(?)
+  activate clientCertPem
+  clientCertPem-->client: 署名OK
+  deactivate clientCertPem
+  client-->server: 署名取得OK
+  deactivate client
+  server->rootCa: 署名を公開鍵で検証
+  activate rootCa
+  rootCa-->server: 検証OK
+  deactivate rootCa
+end
+deactivate client
+server->server: クライアント認証OK
+deactivate server
+==mqtt接続==
+group TODO
+end
+@enduml
+----
