@@ -391,7 +391,7 @@ export class AnalysisStack extends cdk.Stack {
       },
     );
 
-    /* EventBridgeで定期的に更新する(cronの方がよいかも)
+    /* EventBridgeで定期的に更新する場合(cronの方がよいかも)
     new events.Rule(this, `articleExportDyanmoRule`, {
       ruleName: `article-export-dynamo-rule`,
       schedule: events.Schedule.rate(cdk.Duration.hours(8)),
@@ -481,7 +481,7 @@ Prefixはexportを実行する際に指定可能です。Prefixには、複数�
 ### Glueテーブル定義の作成
 今回は、AWS Glueクローラー利用せず、事前にテーブル定義を作成しています。クローラーが型解釈を間違えるリスクがないのがメリットです。(クローラーを使うパターンにもメリットがあるので、状況によりけりです)
 
-本Step Functionsは、**入力イベントのテーブル名に対応したテーブル(小文字)を更新するようにしているため**、定期的にAthenaで検索したいテーブルは、全てCDKでテーブル定義の事前作成が必要です。
+本Step Functionsは、**入力イベントで指定したDynamoDBテーブル名に対応したGlueテーブルを更新するようにしているため**、Athenaで検索したい(自動化したい)テーブルは、全てCDKでテーブル定義の事前作成が必要です。
 
 定義してしまえば、あとはポチポチで自動更新されますし、EventBridgeで定期的にイベントを流しても良いと思います。
 
