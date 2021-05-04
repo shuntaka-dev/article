@@ -8,8 +8,7 @@ publish: false
 
 # はじめに
 
-DyanmoDBには、S3にエクスポートする機能があります。本機能の概要は下記の記事が参考になります。
-本機能は、エクスポートされたデータがS3上に下記のような形で配置されます。
+DyanmoDBには、S3にエクスポートする機能があります。本機能は、エクスポートされたデータがS3上に下記のような形で配置されます。
 
 ```bash
 /
@@ -19,7 +18,7 @@ DyanmoDBには、S3にエクスポートする機能があります。本機能�
     └── 01620089105917-bed5879e/data
 ```
 
-新しくエクスポートされたDyanmoDBのデータをみたい場合、Athenaのテーブルが参照しているS3のパス(location)を変更するがあり、ALTER TABLEを毎回叩く必要があります。
+新しくエクスポートされたDyanmoDBのデータを検索する場合、テーブルが参照しているS3のパス(location)を変更するがあり、ALTER TABLEを毎回叩く必要があります。
 
 以上より、今回はStep Functionsを利用して以下の作業の自動化してみました。
 1. DynamoDBからエクスポート指示
@@ -28,9 +27,9 @@ DyanmoDBには、S3にエクスポートする機能があります。本機能�
 4. ALTERテーブルクエリ実行待機
 5. 完了
 
-Glue Jobを使うまでもなく、手軽にDynamoDBのデータをAthenaで検索環境を作りたい場合に、おすすめです。
+手軽にDynamoDBのデータをAthenaで検索する環境を作りたい場合に、おすすめです。
 
-DynamoDBからS3にエクスポートする機能に関しては、下記の記事がおすすめです。
+DynamoDBからS3にエクスポートする機能に関しては、下記の記事がおすすめです。本記事は、下記を非常を参考にして作りました。
 * [New – Export Amazon DynamoDB Table Data to Your Data Lake in Amazon S3, No Code Writing Required](https://aws.amazon.com/jp/blogs/aws/new-export-amazon-dynamodb-table-data-to-data-lake-amazon-s3/)
 * [【新機能】Amazon DynamoDB Table を S3 に Export して Amazon Athena でクエリを実行する](https://dev.classmethod.jp/articles/dynamodb-table-export-service/)
 * [DynamoDBのData Export機能を使って、データを定期的にS3にエクスポートする](https://dev.classmethod.jp/articles/dynamodb-data-export-s3/)
@@ -47,7 +46,7 @@ Step Functionsのステートマシーンの構成は以下の通りです。紫
 
 ## サンプルデータ
 
-サンプルには、馴染みにやすいようにブログサービスを想定して、下記ようなDynamoDBを用意します。(本筋とは関係ないので、なんでも構いません)
+DynamoDBとそのサンプルデータを用意します。(テーブルはなんでも構いません)
 
 テーブル名: Article
 |userId(PK)|articleId(SK)|title|category|
@@ -107,7 +106,7 @@ Step Functionsのステートマシーンの構成は以下の通りです。紫
 ## 実行結果
 ### Step Functions
 
-::: details 実行ログ
+::: details Step Functions実行結果
 |時刻|イベント|
 |---|---|
 |12:23:56.839|実行開始|
@@ -469,9 +468,9 @@ export class AnalysisStack extends cdk.Stack {
 
 ### 作成するS3バケットの用途
 
-DynamoDBでexportを実行すると、成果物は`s3://${Prefix}/AWSDynamoDB/${ExportArn}`に作成されます。
+DynamoDBでエクスポートを実行すると、成果物は`s3://${Prefix}/AWSDynamoDB/${ExportArn}`に作成されます。
 
-Prefixはexportを実行する際に指定可能です。Prefixには、複数のDynamoDBをエクスポートし、Glueテーブルの向け先を更新することを想定し、DyanmoDBのテーブル名を指定します。(詳しく後述するLambdaの実装参照)
+Prefixは、エクスポートを実行する際に指定可能です。今回Prefixには、エクスポートするDyanmoDBのテーブル名を指定しています。理由は、テーブル毎にディレクトリを分けて実行結果の場所を分かりやすくするためで、ExportArn自体一意なので混ざっても問題ないです。
 
 |S3のパス|用途|
 |---|---|
@@ -479,11 +478,11 @@ Prefixはexportを実行する際に指定可能です。Prefixには、複数�
 |s3://${DynamoDBテーブル名}/athena-work-group|athenaの実行結果参照先|
 
 ### Glueテーブル定義の作成
-今回は、AWS Glueクローラー利用せず、事前にテーブル定義を作成しています。クローラーが型解釈を間違えるリスクがないのがメリットです。(クローラーを使うパターンにもメリットがあるので、状況によりけりです)
+今回は、AWS Glueクローラー利用せず、事前にGlueでテーブル定義をしています。クローラーが型解釈を間違えるリスクがないのがメリットです。(クローラーを使うパターンにもメリットがあるので、状況によりけりです)
 
-本Step Functionsは、**入力イベントで指定したDynamoDBテーブル名に対応したGlueテーブルを更新するようにしているため**、Athenaで検索したい(自動化したい)テーブルは、全てCDKでテーブル定義の事前作成が必要です。
+本Step Functionsは、**入力イベントで指定したDynamoDBテーブル名に対応したGlueテーブルを更新**します。本Step Functionsで実行する予定のDynamoDBテーブル全てのGlueテーブル定義を、CDKで実装する必要があります。
 
-定義してしまえば、あとはポチポチで自動更新されますし、EventBridgeで定期的にイベントを流しても良いと思います。
+定義してしまえば、あとはポチポチで自動更新されます。EventBridgeで定期的にイベントを流せばポチポチすら必要ありません。
 
 
 ## Lambda
