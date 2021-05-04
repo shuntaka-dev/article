@@ -8,45 +8,59 @@ publish: false
 
 # はじめに
 
-DyanmoDBには、S3にエクスポートする機能があります。本機能は、エクスポートされたデータがS3上に下記のような形で配置されます。
+DyanmoDBには、S3へエクスポートする機能があります。機能については、[New – Export Amazon DynamoDB Table Data to Your Data Lake in Amazon S3, No Code Writing Required](https://aws.amazon.com/jp/blogs/aws/new-export-amazon-dynamodb-table-data-to-data-lake-amazon-s3/)が参考になります。
+
+本機能を使うと、S3上のAWSDynamoDBディレクトリ配下に、ディレクトリ毎に実行結果(016~)が格納されます。
 
 ```bash
 /
 └── AWSDynamoDB
     ├── 01620089105917-bed5879e/data
     ├── 01620089211868-3135f307/data
+    ├── 01620089211868-4134f508/data
+    ├── ...
     └── 01620089105917-bed5879e/data
 ```
 
-新しくエクスポートされたDyanmoDBのデータを検索する場合、テーブルが参照しているS3のパス(location)を変更するがあり、ALTER TABLEを毎回叩く必要があります。
+エクスポートされたデータをAthenaで検索する場合、作成するテーブルのロケーションには、`s3://${BUCKET_NAME}/AWSDynamoDB/01620089105917-bed5879e/data`を指定する必要があります。
 
-以上より、今回はStep Functionsを利用して以下の作業の自動化してみました。
+```bash
+CREATE EXTERNAL TABLE IF NOT EXISTS ddb_exported_table (
+  Item struct <id:struct<S:string>,
+               name:struct<S:string>,
+               coins:struct<N:string>>
+)
+ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
+LOCATION 's3://my-dynamodb-export-bucket/AWSDynamoDB/{EXPORT_ID}/data/'
+TBLPROPERTIES ( 'has_encrypted_data'='true');
+```
+
+以上より、常に最新のDynamoDBのエクスポート結果をAthenaから検索したい場合、エクスポートする度にALTER TABLEでLOCATIONを更新する必要があります。面倒なので、Step Functionsを利用して自動化することにしました。
 1. DynamoDBからエクスポート指示
 2. エクスポート完了待機
 3. ALTERテーブルクエリ実行
 4. ALTERテーブルクエリ実行待機
 5. 完了
 
-手軽にDynamoDBのデータをAthenaで検索する環境を作りたい場合に、おすすめです。
+手軽にDynamoDBのデータをAthenaで検索する環境を作りたい場合におすすめです。
 
-DynamoDBからS3にエクスポートする機能に関しては、下記の記事がおすすめです。本記事は、下記を非常を参考にして作りました。
-* [New – Export Amazon DynamoDB Table Data to Your Data Lake in Amazon S3, No Code Writing Required](https://aws.amazon.com/jp/blogs/aws/new-export-amazon-dynamodb-table-data-to-data-lake-amazon-s3/)
+DynamoDBからS3にエクスポートする機能に関しては、以下の記事がおすすめです。
 * [【新機能】Amazon DynamoDB Table を S3 に Export して Amazon Athena でクエリを実行する](https://dev.classmethod.jp/articles/dynamodb-table-export-service/)
 * [DynamoDBのData Export機能を使って、データを定期的にS3にエクスポートする](https://dev.classmethod.jp/articles/dynamodb-data-export-s3/)
 
-AWS Glue と Step Functionsを使ってS3にあげる方法は、下記の記事がおすすめです。
+AWS Glue と Step Functionsを使うは方法、以下の記事がおすすめです。
 [DynamoDB から S3 への定期的なエクスポートの仕組みを AWS Glue と Step Functions を使用して実装してみた](https://dev.classmethod.jp/articles/how-to-export-an-amazon-dynamodb-table-to-amazon-s3/)
 
 
 # 構成
-## ステートマシーン
-Step Functionsのステートマシーンの構成は以下の通りです。紫字で各処理の概要を示します。Lambda①〜Lambda④については、後述します。
+## ステートマシン
+Step Functionsのステートマシンの構成は以下の通りです。紫字で各処理の概要を示します。Lambda①〜Lambda④については、後述します。
 
-![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1620094051/blog/01f4teed1en2ae0cd2ckbtteta/1_export-dynamo-statemachine-1.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1620094051/blog/01f4teed1en2ae0cd2ckbtteta/1_export-dynamo-statemachine-2.png)
 
 ## サンプルデータ
 
-DynamoDBとそのサンプルデータを用意します。(テーブルはなんでも構いません)
+DynamoDBのテーブルとサンプルデータを用意します。(テーブルはなんでも構いません)
 
 テーブル名: Article
 |userId(PK)|articleId(SK)|title|category|
@@ -66,7 +80,7 @@ DynamoDBとそのサンプルデータを用意します。(テーブルはな�
         type: dynamodb.AttributeType.STRING,
       },
       tableName: `Article`,
-      pointInTimeRecovery: true,
+      pointInTimeRecovery: true, // エクスポート機能を使う場合は、有効にする必要があります。
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
 ```
@@ -94,9 +108,10 @@ DynamoDBとそのサンプルデータを用意します。(テーブルはな�
 ## 実行方法
 実装イメージが湧きやすいように、実行方法を先に説明します。
 
+Step Functionsのコンソール画面でステートマシンの実行を開始します。
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1620094540/blog/01f4teed1en2ae0cd2ckbtteta/2_use.png)
 
-入力には、exportしたいテーブルの名前を入れます。
+入力には、exportしたいテーブルの名前を入れます。あとは待つだけで、S3へのエクスポートとGlueテーブル定義の更新を自動でやってくれます。
 ```json
 {"tableName":"Article"}
 ```
@@ -105,6 +120,7 @@ DynamoDBとそのサンプルデータを用意します。(テーブルはな�
 
 ## 実行結果
 ### Step Functions
+大体12分程度で終わりました。
 
 ::: details Step Functions実行結果
 |時刻|イベント|
@@ -151,7 +167,7 @@ DynamoDBとそのサンプルデータを用意します。(テーブルはな�
 # 実装
 
 ## CDK
-CDKのバージョンは、`1.101.0`を利用します。全体的に権限が緩めなので、動作確認が済次第絞ることをお勧めします。
+CDKのバージョンは、`1.101.0`を利用します。全体的に権限が緩めなので、動作確認が出来たら絞ることを推奨します。
 
 :::details Athena,S3,Step Functions,Glue TableのCDK定義
 ```ts
@@ -464,29 +480,28 @@ export class AnalysisStack extends cdk.Stack {
 ```
 :::
 
-下記に補足します
+それぞれ、以下に補足します。
 
 ### 作成するS3バケットの用途
-
-DynamoDBでエクスポートを実行すると、成果物は`s3://${Prefix}/AWSDynamoDB/${ExportArn}`に作成されます。
-
-Prefixは、エクスポートを実行する際に指定可能です。今回Prefixには、エクスポートするDyanmoDBのテーブル名を指定しています。理由は、テーブル毎にディレクトリを分けて実行結果の場所を分かりやすくするためで、ExportArn自体一意なので混ざっても問題ないです。
-
 |S3のパス|用途|
 |---|---|
 |s3://${DynamoDBテーブル名}/AWSDynamoDB/${ExportArn}/data|Glueテーブルの参照先|
-|s3://${DynamoDBテーブル名}/athena-work-group|athenaの実行結果参照先|
+|s3://athena-work-group|Athenaの実行結果参照先(ワークグループ)|
+
+DynamoDBでエクスポートを実行すると、成果物は`s3://${Prefix}/AWSDynamoDB/${ExportArn}`に作成されます。
+
+Prefixは、エクスポートを実行する際に指定可能です。今回Prefixには、エクスポートするDyanmoDBのテーブル名を指定しています。理由は、テーブル毎にディレクトリを分けて実行結果の場所を人間に推測しやすくするためです。ExportArn自体一意なので、Prefixを付けなくても成立します。
+
 
 ### Glueテーブル定義の作成
-今回は、AWS Glueクローラー利用せず、事前にGlueでテーブル定義をしています。クローラーが型解釈を間違えるリスクがないのがメリットです。(クローラーを使うパターンにもメリットがあるので、状況によりけりです)
+AWS Glueクローラー利用せず、CDKでGlueテーブルを定義をしています。クローラーが型解釈を間違えるリスクがないのがメリットです。(クローラーを使うことによるメリットもあるので、状況によります)
 
-本Step Functionsは、**入力イベントで指定したDynamoDBテーブル名に対応したGlueテーブルを更新**します。本Step Functionsで実行する予定のDynamoDBテーブル全てのGlueテーブル定義を、CDKで実装する必要があります。
+本Step Functionsは、**入力イベントで指定したDynamoDBテーブル名に対応したGlueテーブルを更新**します。本Step Functionsで実行する予定があるDynamoDBテーブル全てのGlueテーブル定義を、CDKで実装する必要があります。
 
-定義してしまえば、あとはポチポチで自動更新されます。EventBridgeで定期的にイベントを流せばポチポチすら必要ありません。
-
+EventBridgeで定期的にイベントを流すことで、Glueテーブルが常に最新のエクスポート結果を参照するようになります。
 
 ## Lambda
-※ 実装は、記事と関係ないエラー定義などは削除しているので、動作を保証するものではありません。
+※ 実装は一部不要な定義を削除しているので、動作を保証するものではなくあくまで参考程度です。
 
 :::details Lambda① DynamoDBへエクスポートを指示する
 ```ts
@@ -743,6 +758,7 @@ export const handler = async (event: Event): Promise<Result> => {
 
 
 # 最後に
-本記事では、DynamoDBの内容を定期的にS3にあげてAthenaでクエリできる環境をStep Functionsで自動化しました。AthenaのPrestoは非常に強力なので、DynamoDBを使っていて検索まわりで壁にぶつかったら、本Step Functionsを導入してまず何ができる試してみることをお勧めします。
+本記事では、Step FunctionsでDynamoDBをAthenaでクエリする環境作成を自動化しました。AthenaのPrestoは非常に強力なので、DynamoDBで検索まわりで辛くなったら、本Step Functionsを導入してまず何ができるか試してみることをお勧めします。
 
-ソースコードがもっと詳しくみたい！とかありましたら、[こちら](https://github.com/hozi-dev/article/issues)までご連絡ください。
+ソースコードがもっと詳しくみたい！よくわからない！ことがありましたら、[こちら](https://github.com/hozi-dev/article/issues)までご連絡ください。
+
