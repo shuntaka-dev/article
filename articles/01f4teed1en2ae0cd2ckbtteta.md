@@ -501,7 +501,7 @@ AWS Glueクローラー利用せず、CDKでGlueテーブルを定義をして�
 EventBridgeで定期的にイベントを流すことで、Glueテーブルが常に最新のエクスポート結果を参照するようになります。
 
 ## Lambda
-※ 実装は一部不要な定義を削除しているので、動作を保証するものではなくあくまで参考程度です。
+※ 実装は記事の都合上、最低限の記述ありません。適宜エラーハンドリングやロギングが必要です。
 
 :::details Lambda① DynamoDBへエクスポートを指示する
 ```ts
@@ -525,31 +525,28 @@ export const handler = async (
   event: Event,
   context: Context,
 ): Promise<Result> => {
-  try {
-    const AWS_REGION = process.env.AWS_REGION!;
-    const EXPORT_S3_BUCKET_NAME = process.env.EXPORT_S3_BUCKET_NAME!; // CDKで作成したS3を指定
+  const AWS_REGION = process.env.AWS_REGION!;
+  const EXPORT_S3_BUCKET_NAME = process.env.EXPORT_S3_BUCKET_NAME!; // CDKで作成したS3を指定
 
-    const accountId = context.invokedFunctionArn.split(':')[4];
-    const tableArn = `arn:aws:dynamodb:${AWS_REGION}:${accountId}:table/${event.tableName}`;
+  const accountId = context.invokedFunctionArn.split(':')[4];
+  const tableArn = `arn:aws:dynamodb:${AWS_REGION}:${accountId}:table/${event.tableName}`;
 
-    const exportRequestResult = await DynamoDB.requestExportToS3({ // 次のコードブロックに記述
-      tableArn: tableArn,
-      s3Bucket: EXPORT_S3_BUCKET_NAME,
-      s3Prefix: event.tableName, // s3://${Prefix}/AWSDynamoDB/${exportArn}/data でエクスポートするように指示
-    });
+  const exportRequestResult = await DynamoDB.requestExportToS3({
+    // 次のコードブロックに記述
+    tableArn: tableArn,
+    s3Bucket: EXPORT_S3_BUCKET_NAME,
+    s3Prefix: event.tableName, // s3://${Prefix}/AWSDynamoDB/${exportArn}/data でエクスポートするように指示
+  });
 
-    if (!exportRequestResult.ExportDescription?.ExportArn) {
-      throw new ExportToS3RequestHandlerNotFoundExportArnError(event);
-    }
-
-    return {
-      exportArn: exportRequestResult.ExportDescription.ExportArn,
-      s3Bucket: EXPORT_S3_BUCKET_NAME,
-      tableName: event.tableName,
-    };
-  } catch (e) {
-    throw e;
+  if (!exportRequestResult.ExportDescription?.ExportArn) {
+    throw new Error();
   }
+
+  return {
+    exportArn: exportRequestResult.ExportDescription.ExportArn,
+    s3Bucket: EXPORT_S3_BUCKET_NAME,
+    tableName: event.tableName,
+  };
 };
 ```
 
@@ -606,33 +603,28 @@ interface Result {
 }
 
 export const handler = async (event: Event): Promise<Result> => {
-  try {
-    const exportRequests = await DynamoDB.getExportToS3Status(); // 次のコードブロックに記述
-    const filteredExportSummary = exportRequests.ExportSummaries?.filter(
-      (exportSummary) => {
-        return exportSummary.ExportArn === event.exportArn;
-      },
-    );
+  const exportRequests = await DynamoDB.getExportToS3Status(); // 次のコードブロックに記述
+  const filteredExportSummary = exportRequests.ExportSummaries?.filter(
+    (exportSummary) => {
+      return exportSummary.ExportArn === event.exportArn;
+    },
+  );
 
-    if (
-      !filteredExportSummary ||
-      !filteredExportSummary[0].ExportArn ||
-      !filteredExportSummary[0].ExportStatus
-    ) {
-      throw new GetExportDynamoStatusUnknownError(event);
-    }
-
-    return {
-      exportArn: event.exportArn,
-      exportStaus: filteredExportSummary[0].ExportStatus,
-      s3Bucket: event.s3Bucket,
-      tableName: event.tableName,
-    };
-  } catch (e) {
-    throw e;
+  if (
+    !filteredExportSummary ||
+    !filteredExportSummary[0].ExportArn ||
+    !filteredExportSummary[0].ExportStatus
+  ) {
+    throw new Error();
   }
-};
 
+  return {
+    exportArn: event.exportArn,
+    exportStaus: filteredExportSummary[0].ExportStatus,
+    s3Bucket: event.s3Bucket,
+    tableName: event.tableName,
+  };
+};
 ```
 
 ```ts
@@ -681,33 +673,28 @@ export const athenaClient = new Athena({
 });
 
 export const handler = async (event: Event): Promise<Result> => {
-  try {
-    const splitExportArn = event.exportArn.split('/');
+  const splitExportArn = event.exportArn.split('/');
 
-   // CDKでテーブル名はLowerCaseにしているので変換
-    const athenaTableName = event.tableName.toLowerCase();
-    const exportId = splitExportArn[3];
+  // CDKでテーブル名はLowerCaseにしているので変換
+  const athenaTableName = event.tableName.toLowerCase();
+  const exportId = splitExportArn[3];
 
-    const queryLocation = `ALTER TABLE ${DB_NAME}.${athenaTableName}
-SET LOCATION 's3://${event.s3Bucket}/${event.tableName}/AWSDynamoDB/${exportId}/data/';`;
+  const queryLocation = `ALTER TABLE ${DB_NAME}.${athenaTableName}
+T LOCATION 's3://${event.s3Bucket}/${event.tableName}/AWSDynamoDB/${exportId}/data/';`;
 
-    const response = await athenaClient
-      .startQueryExecution({
-        QueryString: queryLocation,
-        QueryExecutionContext: {
-          Database: DB_NAME,
-        },
-        WorkGroup: ATHENA_WORK_GROUP, // CDKで作成したAtehnaのワークグループ
-      })
-      .promise();
+  const response = await athenaClient
+    .startQueryExecution({
+      QueryString: queryLocation,
+      QueryExecutionContext: {
+        Database: DB_NAME,
+      },
+      WorkGroup: ATHENA_WORK_GROUP, // CDKで作成したAtehnaのワークグループ
+    })
+    .promise();
 
-    return {
-      queryExecutionId: response.QueryExecutionId!, // null undefined判定したほうがよいです..
-    };
-  } catch (e) {
-
-    throw e;
-  }
+  return {
+    queryExecutionId: response.QueryExecutionId!, // null undefined判定したほうがよいです..
+  };
 };
 ```
 :::
@@ -733,25 +720,21 @@ export const athenaClient = new Athena({
 });
 
 export const handler = async (event: Event): Promise<Result> => {
-  try {
-    const response = await athenaClient
-      .getQueryExecution({
-        QueryExecutionId: event.queryExecutionId,
-      })
-      .promise();
+  const response = await athenaClient
+    .getQueryExecution({
+      QueryExecutionId: event.queryExecutionId,
+    })
+    .promise();
 
-    if (response.QueryExecution?.Status?.State !== 'SUCCEEDED') {
-      return {
-        status: response.QueryExecution?.Status?.State ?? 'UNKNOWN',
-      };
-    }
-
+  if (response.QueryExecution?.Status?.State !== 'SUCCEEDED') {
     return {
-      status: response.QueryExecution?.Status.State,
+      status: response.QueryExecution?.Status?.State ?? 'UNKNOWN',
     };
-  } catch (e) {
-    throw e;
   }
+
+  return {
+    status: response.QueryExecution?.Status.State,
+  };
 };
 ```
 :::
