@@ -32,10 +32,21 @@ publish: true
 
 
 # 最低限のinit.vim
+## deinを利用しない
+
+```vim
+set runtimepath+=~/repos/github.com/vim-denops/denops.vim " エコシステムプラグイン
+set runtimepath+=~/repos/github.com/shuntaka9576/dps-helloworld " 動作確認対象のプラグイン
+```
+
+`nvim -u`でinit.vimを指定して実行する
+```bash
+nvim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim
+```
 
 ## deinを利用する場合
+※ 開発側のNeovimにキャッシュが残るケースがあります
 
-動作確認用のvimがデフォルト設定だと使いにくため、後述する方法よりこちらがおすすめ。
 ```vim
 set runtimepath+=~/repos/github.com/Shougo/dein.vim
 
@@ -54,17 +65,6 @@ call dein#end()
 call dein#recache_runtimepath()
 ```
 
-## deinを利用しない
-
-```vim
-set runtimepath+=~/repos/github.com/vim-denops/denops.vim " エコシステムプラグイン
-set runtimepath+=~/repos/github.com/shuntaka9576/dps-helloworld " 動作確認対象のプラグイン
-```
-
-`nvim -u`でinit.vimを指定して実行する
-```bash
-nvim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim
-```
 
 # 開発の流れ
 
