@@ -1,5 +1,5 @@
 ---
-title: "Neovimのプラグイン開発サイクルをまとめてみる"
+title: "Neovim/Vimプラグイン開発サイクルをまとめてみる"
 type: "tech"
 category: []
 description: "denops.vimでプラグイン開発するにあたり、初心者なりに開発サイクルを考えてみました。"
@@ -11,59 +11,62 @@ publish: true
 
 
 # 前提
-1. Neovimを利用
-2. denops.vimを利用したプラグイン開発
-3. パッケージマネージャーはdeinを利用
-4. `~/repos`配下にリポジトリをghqで管理
+以下を前提とした開発サイクルとする
+
+* Neovim/Vimを利用
+* denops.vimを利用したプラグイン開発
+* vimscriptを利用したプラグイン開発
 
 # 実現したいこと
-* 開発で利用するNeovimの設定に影響を与えないこと
-* ghq管理配下でソースの管理が行えること
+* 開発で利用するVim/Neovimの設定に影響を与えないこと
 
-# Neovimの環境設定
-|設定|開発側|プラグイン動作確認側|
+# Vim/Neovimの環境設定
+
+|Vim/Neovim|version|
+|---|---|
+|Vim|VIM - Vi IMproved 8.2 |
+|Neovim|NVIM v0.5.0-828-g0a95549d6|
+
+
+|設定|開発するVim/Neovim|プラグインの動確をするVim/Neovim|
 |---|---|---|
-|init.vim|~/.config/nvim/init.vim|`nvim -u`で任意指定|
-|deinのラインタイム|~/.cache/dein/repos/github.com/Shougo/dein.vim|~/repos/github.com/Shougo/dein.vim|
-|プラグインルート|~/.cache/dein/repos|~/repos|
-
-プラグインルートが大事で、ghq getでcloneしたリポジトリをプラグインとしてそのまま利用可能
-開発も~/reposで行うため、開発->動作確認->リポジトリへpushの流れで開発可能
+|init.vim|~/.config/nvim/init.vim|`vim -S` `nvim -u`で任意指定|
 
 
 # 最低限のinit.vim
-## deinを利用しない
+動作検証のため、副作用のないinit.vimを作ります。私はリポジトリを作って管理している。
 
-```vim
-set runtimepath+=~/repos/github.com/vim-denops/denops.vim " エコシステムプラグイン
-set runtimepath+=~/repos/github.com/shuntaka9576/dps-helloworld " 動作確認対象のプラグイン
+下記のような仮定に基づいた`init.vim`を示す
+* vimscriptで開発中のプラグイン名を`practice.vim`とする
+* denops.vimエンジンを使った開発中のプラグイン名を`dps-helloworld`とする
+
+```vim:~/repos/github.com/shuntaka9576/init.vim/init.vim
+" --- denopsエンジンの読み込み ---
+set runtimepath+=~/repos/github.com/vim-denops/denops.vim
+
+" --- 開発するプラグインの読み込み ---
+" Vimの場合,autoloadの遅延ロードのみ
+"   $runtimepath/plugin/**/*.vimを読み込むため
+" Neovimの場合,autoloadの遅延ロード,plugin/*.vimのロード
+set runtimepath+=~/repos/github.com/shuntaka9576/practice.vim
+set runtimepath+=~/repos/github.com/shuntaka9576/dps-helloworld
+
+" Vimのplugin/*.vimのロード
+"   dps-helloworldは、denops.vim経由起動なのでsource不要
+source ~/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+source ~/repos/github.com/shuntaka9576/practice.vim/plugin/practice.vim
 ```
 
-`nvim -u`でinit.vimを指定して実行する
-```bash
+`Neovim` `Vim`前述のinit.vimを指定して、実行します
+
+```bash:Vimの場合
+vim -S ~/repos/github.com/shuntaka9576/init.vim/init.vim
+```
+
+```bash:Neovimの場合
 nvim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim
 ```
 
-## deinを利用する場合
-※ 開発側のNeovimにキャッシュが残るケースがあります
-
-```vim
-set runtimepath+=~/repos/github.com/Shougo/dein.vim
-
-let s:dein_dir = expand('~')
-
-call dein#begin(s:dein_dir)
-
-call dein#add('vim-denops/denops.vim') " エコシステムプラグイン
-call dein#add('shuntaka9576/dps-helloworld') " 動作確認対象のプラグイン
-" /* 開発に必要なプラグインを追記する */
-call dein#end()
-
-" /* 開発に必要なプラグイン設定やVimのキーバインド設定を追記する */
-
-" cacheを削除(開発中のプラグインの更新)
-call dein#recache_runtimepath()
-```
 
 
 # 開発の流れ
@@ -82,12 +85,10 @@ call dein#recache_runtimepath()
 ```
 
 ## 開発中
-1. プラグインを改修する
-2. `nvim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim`でnvimを起動し動作確認(CLIのスニペットに登録しておく)
-3. プラグインを改修する
-4. 2で起動したnvimを終了し、再起動して動作確認
-
-nvimを毎回再起動するのは非効率のように見えて、sourceでinit.vimを読み込み直してみたが、プラグインの更新内容は反映されなかった。。。
+1. プラグインを改修
+2. `vim -S` `nvim -u` を利用して動作確認
+3. プラグインを改修
+4. 2で起動したVim/Neovimを終了し、再起動して動作確認
 
 # 最後に
 
