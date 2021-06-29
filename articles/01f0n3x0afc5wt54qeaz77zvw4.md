@@ -1,5 +1,5 @@
 ---
-title: "Neovim/Vimプラグイン開発サイクルをまとめてみる"
+title: "Vim/Neovimプラグイン開発サイクルをまとめてみる"
 type: "tech"
 category: []
 description: "denops.vimでプラグイン開発するにあたり、初心者なりに開発サイクルを考えてみました。"
@@ -13,7 +13,7 @@ publish: true
 # 前提
 以下を前提とした開発サイクルとする
 
-* Neovim/Vimを利用
+* Vim/Neovimを利用
 * denops.vimを利用したプラグイン開発
 * vimscriptを利用したプラグイン開発
 
@@ -47,20 +47,38 @@ set runtimepath+=~/repos/github.com/vim-denops/denops.vim
 " --- 開発するプラグインの読み込み ---
 " Vimの場合,autoloadの遅延ロードのみ
 "   $runtimepath/plugin/**/*.vimを読み込むため
-" Neovimの場合,autoloadの遅延ロード,plugin/*.vimのロード
+" Neovimの場合,autoloadの遅延ロード,pluginのロード
 set runtimepath+=~/repos/github.com/shuntaka9576/practice.vim
 set runtimepath+=~/repos/github.com/shuntaka9576/dps-helloworld
 
-" Vimのplugin/*.vimのロード
-"   dps-helloworldは、denops.vim経由起動なのでsource不要
-source ~/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
-source ~/repos/github.com/shuntaka9576/practice.vim/plugin/practice.vim
+" --- vimのみ ---
+if !has('nvim')
+  " -uコマンドを実行するとcompatibleオプションがONになる
+  " vi互換とか持たせるためのオプション(?)
+  set nocompatible
+  " Vimのpluginのロード
+  source ~/repos/github.com/vim-denops/denops.vim/plugin/denops.vim
+  source ~/repos/github.com/shuntaka9576/dps-helloworld/plugin/deps-helloworld.vim
+  source ~/repos/github.com/shuntaka9576/practice.vim/plugin/practice.vim
+endif
+
+" --- 追加設定 ---
+" Vimのファイルタイプ検出,ファイルタイププラグインとインデントプラグインをオンにする設定
+filetype plugin indent on
+
+" --- denopsの設定 ---
+" Denoの起動時型チェックを有効化(開発が安定したら明示指定を削除する
+let g:denops#server#service#deno_args = [
+      \ '-q',
+      \ '--unstable',
+      \ '-A',
+      \ ]
 ```
 
-`Neovim` `Vim`前述のinit.vimを指定して、実行します
+`Vim` `Neovim`に前述のinit.vimを指定して、実行します
 
 ```bash:Vimの場合
-vim -S ~/repos/github.com/shuntaka9576/init.vim/init.vim
+vim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim
 ```
 
 ```bash:Neovimの場合
@@ -86,7 +104,7 @@ nvim -u ~/repos/github.com/shuntaka9576/init.vim/init.vim
 
 ## 開発中
 1. プラグインを改修
-2. `vim -S` `nvim -u` を利用して動作確認
+2. `vim -u` `nvim -u` を利用して動作確認
 3. プラグインを改修
 4. 2で起動したVim/Neovimを終了し、再起動して動作確認
 
