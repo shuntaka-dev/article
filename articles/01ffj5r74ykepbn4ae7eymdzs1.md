@@ -136,7 +136,10 @@ pio run --environment core2foraws --target upload
 ```bash
 pio run --environment core2foraws --target monitor
 ```
-ESP RainMaker スマートフォンアプリ用のQRコードが出ない場合、**上記のコマンドが実行中の状態**で、M5Stackを再起動(電源OFF->ON)させることでQRを再出力することが可能
+
+:::message warn
+ESP RainMaker スマートフォンアプリ用のQRコードが出ない場合、**上記のコマンドが実行中の状態**で、M5Stackを再起動(電源OFF->ON)することでQRを再出力することが可能
+:::
 
 
 ## ファームの削除
@@ -237,12 +240,12 @@ void loop() {
 platformioの`PROJECT TASKS`から`Build` -> `Upload`を順に実行します
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631949716/blog/01ffj5r74ykepbn4ae7eymdzs1/gorifhbjtbrcmmnbm00e.png)
 
-出力されました！
+出力されました！`LovyanGFX`は`src/main.cpp`にはないですが、内部的に活用されています。
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631949591/blog/01ffj5r74ykepbn4ae7eymdzs1/bbgczr1l6odhgluyxwau.jpg)
 
 
 # 最後に
-`LovyanGFX`は動かせませんでしたが、動いたら別記事で別途書こうと思います！以降はおまけです。
+また進捗があったら、別途記事を書こうと思います！以降はおまけです。
 
 ---
 
