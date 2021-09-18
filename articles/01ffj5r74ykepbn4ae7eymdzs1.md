@@ -1,15 +1,20 @@
 ---
-title: "M5Stack Core2 for AWSを買ったので環境構築してみる"
+title: "M5Stack Core2 for AWSが届いたのでHello Worldしてみる"
 type: "tech"
 category: []
 description: "M5Stack Core2 for AWSを動かすための環境を作ります"
+thumbnail: "https://res.cloudinary.com/dkerzyk09/image/upload/v1631953192/blog/01ffj5r74ykepbn4ae7eymdzs1/mojydjbg1zybfp1h03m8.webp"
 publish: false
 ---
 
-## はじめに
+# はじめに
 業務でATECC608Aを使う機会があり、もうちょっとCレイヤーに入り込めたら実装できたであろう出来事があったため、素振りのため買ってみました。
+今回は、下記について試し見てみました
 
-## 外観
+* AWS IoT EduKitの一部サンプルを動かしてみる
+* プロジェクトを新規作成して動かしてみる
+
+# 外観
 **パッケージ**
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631630905/blog/01ffj5r74ykepbn4ae7eymdzs1/cj27lxejbzck136jm1pe.png)
 
@@ -20,12 +25,12 @@ AWSカラーがかっこいい(!)
 **内容物**
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631630592/blog/01ffj5r74ykepbn4ae7eymdzs1/eukuk6karp6gdbjbwrkb.jpg)
 
-## PlatformIOを使ってAWS IoT EduKitを動かしてみる
+# PlatformIOを使ってAWS IoT EduKitを動かしてみる
 
-### はじめに
+## はじめに
 [AWS IoT EduKit](https://edukit.workshop.aws/jp/getting-started/prerequisites/macos.html)に従って環境構築を進める。
 
-### Silicon Labs USB to UART bridgeのセットアップ
+## Silicon Labs USB to UART bridgeのセットアップ
 [Silicon Labs USB to UART bridgeのセットアップ](https://edukit.workshop.aws/jp/getting-started/prerequisites/macos.html#silicon-labs-usb-to-uart-bridgeのセットアップ)を参考にし、設定
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631634117/blog/01ffj5r74ykepbn4ae7eymdzs1/fouyzahpki1fiq3ih7cz.png)
@@ -33,10 +38,10 @@ AWSカラーがかっこいい(!)
 インストーラーが起動します
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631634146/blog/01ffj5r74ykepbn4ae7eymdzs1/tegjhuhfxxlumbh0jalr.png)
 
-### VSCodeの設定
+## VSCodeの設定
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631634297/blog/01ffj5r74ykepbn4ae7eymdzs1/slubzp6bprh7oikhdmo8.png)
 
-### ソースコードの取得
+## ソースコードの取得
 [ソースコードの取得](https://edukit.workshop.aws/jp/getting-started/prerequisites/macos.html#ソースコードの取得) の手順はやらない。
 変わりに、[github.com/m5stack/Core2-for-AWS-IoT-EduKit](https://github.com/m5stack/Core2-for-AWS-IoT-EduKit.git)を`ghq`を利用して取得。
 
@@ -44,32 +49,72 @@ AWSカラーがかっこいい(!)
 $ ghq get https://github.com/m5stack/M5Core2.git
 ```
 
-### スマートフォン向けアプリのダウンロードとインストール
+## スマートフォン向けアプリのダウンロードとインストール
 [スマートフォン向けアプリのダウンロードとインストール](https://edukit.workshop.aws/jp/getting-started/prerequisites/windows.html#スマートフォン向けアプリのダウンロードとインストール)の通り実施
 
-### USBポートの確認
+## USBポートの確認
 [USBポートの確認](https://edukit.workshop.aws/jp/getting-started/prerequisites/macos.html#usbポートの確認)を参考に、`/dev/cu.SLAB_USBtoUART`をコピーします。
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631634924/blog/01ffj5r74ykepbn4ae7eymdzs1/rkyiaiiaohcwxl9h3rdm.png)
 
-### PlatformIO でプロジェクトを開く
+## PlatformIO でプロジェクトを開く
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631635129/blog/01ffj5r74ykepbn4ae7eymdzs1/veikahx4pl6ovy9rravc.png)
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631635241/blog/01ffj5r74ykepbn4ae7eymdzs1/crjjj5tyeg8lwxmtdapq.png)
 
 コピーした内容`github.com/m5stack/Core2-for-AWS-IoT-EduKit/Getting-Started/platformio.ini`を修正
 
-```bash
+```bash: platformio.ini
 -; upload_port =
 +upload_port = /dev/cu.SLAB_USBtoUART
 ```
 
-### ターミナルを開く
+:::details platformio.ini全体
+```bash: platformio.ini
+; AWS IoT EduKit Getting Started PlatformIO Configuration File
+[platformio]
+src_dir = main
+
+[env:core2foraws]
+platform = espressif32@3.2.0
+framework = espidf
+board = m5stack-core2
+monitor_speed = 115200
+upload_speed = 2000000
+board_build.f_flash = 80000000L
+board_build.flash_mode = dio
+build_unflags = -mfix-esp32-psram-cache-issue
+
+; If PlatformIO does not auto-detect the port the device is virtually mounted to, 
+; uncomment the line below to set the upload_port (remove the ";") and paste the
+; copied port you identified from PIO Quick Access menu --> PIO Home --> Devices 
+; after the equal sign. You do not need to add quotes 
+;(e.g. upload_port = /dev/cu.SLAB_USBtoUART).
+;
+upload_port = /dev/cu.SLAB_USBtoUART
+
+
+; Custom partition file
+board_build.partitions = partitions_4MB_sec.csv
+
+; Files to include in upload to non-volitile storage (nvs flash)
+board_build.embed_txtfiles = 
+  components/esp_rainmaker/server_certs/rmaker_mqtt_server.crt
+  components/esp_rainmaker/server_certs/rmaker_claim_service_server.crt
+  components/esp_rainmaker/server_certs/rmaker_ota_server.crt
+
+; Please visit documentation for the other PlatformIO
+; configuration options and examples
+; http://docs.platformio.org/page/projectconf.html
+```
+:::
+
+## ターミナルを開く
 ターミナルを開きます。本手順でTerminalを開かないと`pio`コマンドが利用できない
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631635356/blog/01ffj5r74ykepbn4ae7eymdzs1/fcrjxvhgdakjgvqblyah.png)
 
-### ファームのビルド/転送
+## ファームのビルド/転送
 
 ファームウェアのビルド
 ```bash
@@ -81,17 +126,17 @@ pio run --environment core2foraws
 pio run --environment core2foraws --target upload
 ```
 
-### シリアルの出力を監視
+## シリアルの出力を監視
 
 自分がM5Stackに対して行ったタッチ操作などイベントを監視可能
 
 ```bash
 pio run --environment core2foraws --target monitor
 ```
-ESP RainMaker スマートフォンアプリ用のQRコードが出ない場合、上記のコマンドを実行中の状態で、M5Stackを再起動させることで再出力することが可能
+ESP RainMaker スマートフォンアプリ用のQRコードが出ない場合、**上記のコマンドが実行中の状態**で、M5Stackを再起動(電源OFF->ON)させることでQRを再出力することが可能
 
 
-### ファームの削除
+## ファームの削除
 
 デバイスのファームウェアを消去
 ```bash
@@ -100,17 +145,113 @@ pio run --environment core2foraws --target erase
 
 再起動するとディスプレイには何も映らない。なんかプチプチ変な音がする。。(これは私だけかもしれない..)
 
+# プロジェクトの作成とライブラリの追加の追加
+
+## プロジェクトの作成
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631947259/blog/01ffj5r74ykepbn4ae7eymdzs1/z4unwlgtmpw88gt9quzn.png)
+
+保存場所を自分で決めたい場合、`Location`のチェックボックスを外します。画像では見えてませんが、Finishボタンを押下します。
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631947362/blog/01ffj5r74ykepbn4ae7eymdzs1/c8pvvjiycfggldz9i8mu.png)
+
+プロジェクトが作成され、自動的にVSCodeで作成したプロジェクトが開きます。
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631947493/blog/01ffj5r74ykepbn4ae7eymdzs1/oe43mrcfqwlvkzv4x5xt.png)
+
+※ ファイルの変更を管理したい場合は、この段階でgitで初期化した方が良いです。このあとライブラリ追加した際に、設定ファイルの変更差分が追いやすいです。
+
+## ライブラリの追加
+
+基本的に[VSCodeとPlatformIOでM5Stack Core2開発](https://qiita.com/desertfox_i/items/a6ff7deaa0a0b3802bcd)の記事と同様なので、原文の方をご参考にした方が良いです。
+
+### M5Core2を追加
+`M5Core2`で検索
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631947958/blog/01ffj5r74ykepbn4ae7eymdzs1/jep7slmtwsc2tkemyr2s.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631948045/blog/01ffj5r74ykepbn4ae7eymdzs1/xpzvjthnzbdfs7whxfp4.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631948244/blog/01ffj5r74ykepbn4ae7eymdzs1/hiuptfb7s0ce7w1vuzse.png)
+
+### LovyanGFXを追加
+`M5Core2`を追加したのと同じ手順で、`LovyanGFX`を追加します。
+
+`LovyanGFX`で検索
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631948411/blog/01ffj5r74ykepbn4ae7eymdzs1/gwm9otemyiwbmekgkcdf.png)
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631948466/blog/01ffj5r74ykepbn4ae7eymdzs1/l5ffnbk0stuxszgp46f2.png)
+
+追加完了すると下記のメッセージが通知されるみたい。`{リポジトリルート}/.pio/libdeps`配下に追加されていることが分かる
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631948645/blog/01ffj5r74ykepbn4ae7eymdzs1/qtdq3l6bsuuj4fpoeafk.png)
+
+### platformio.ioファイルの変化
+追加ライブラリが、`lib_deps`オプションの中に入っている。これは依存管理が捗るの助かりますね。
+```bash:platformio.io
+; PlatformIO Project Configuration File
+;
+;   Build options: build flags, source filter
+;   Upload options: custom upload port, speed and extra flags
+;   Library options: dependencies, extra library storages
+;   Advanced options: extra scripting
+;
+; Please visit documentation for the other options and examples
+; https://docs.platformio.org/page/projectconf.html
+
+[env:m5stack-core2]
+platform = espressif32
+board = m5stack-core2
+framework = arduino
+lib_deps = 
+	m5stack/M5Core2@^0.0.6
+	lovyan03/LovyanGFX@^0.4.2
+```
+
+## Hello Worldしてみる
+### platformio.ioのアップロードポート設定を追加する
+
+```bash:platformio.io
+upload_port = /dev/cu.SLAB_USBtoUART
+```
+
+### サンプルコードを書く
+
+```cpp:aaa
+#include <M5Core2.h>
+
+// the setup routine runs once when M5Stack starts up
+void setup(){
+
+// Initialize the M5Stack object
+M5.begin();
+
+// LCD display
+M5.Lcd.print("Hello M5Stack");
+}
+
+// the loop routine runs over and over again forever
+void loop() {
+
+}
+```
+
+### ビルド&アップロード
+platformioの`PROJECT TASKS`から`Build` -> `Upload`を順に実行します
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631949716/blog/01ffj5r74ykepbn4ae7eymdzs1/gorifhbjtbrcmmnbm00e.png)
+
+出力されました！
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631949591/blog/01ffj5r74ykepbn4ae7eymdzs1/bbgczr1l6odhgluyxwau.jpg)
 
 
+# 最後に
+`LovyanGFX`は動かせませんでしたが、動いたら別記事で別途書こうと思います！以降はおまけです。
+
+---
 
 # (おまけ) Arduino.appで最初環境構築したメモ
-::: details 詳細
-### はじめに
+最初こちらで環境構築しましたが、VSCodeの方が便利だったので没にしました。
+
+## はじめに
 [M5STACK公式で提供されているQUICK START](https://docs.m5stack.com/en/arduino/arduino_core2_development)に従って環境構築を進める。タブでCore2シリーズを選択。
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631624513/blog/01ffj5r74ykepbn4ae7eymdzs1/im5tw7gek5zs8kwke7ef.png)
 
-### デバイスドライバーのインストール
+## デバイスドライバーのインストール
 
 Mac OSの場合、インストールする前に[システム環境設定]-> [セキュリティとプライバシー]-> [一般]を確認し、「AppStoreと確認済みの開発元からのアプリケーションを許可」になっていることを確認
 
@@ -143,7 +284,7 @@ pkgファイルをダブルクリックします
 インストール完了!
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631626429/blog/01ffj5r74ykepbn4ae7eymdzs1/m96hyxhymbscuwzehwhf.png)
 
-### Arduino-IDEのインストール
+## Arduino-IDEのインストール
 M5STACK公式に書いてある通り、Arduino-IDEを引き続きインストールしていきます
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631625978/blog/01ffj5r74ykepbn4ae7eymdzs1/isnqdgnh4eqzysyolqim.png)
@@ -189,7 +330,7 @@ M5STACK公式に書いてある通り、Arduino-IDEを引き続きインスト�
 インストールが開始されます(初回no protcolとエラーメッセージが出力され失敗。アプリを再起動して再度インストールを実施)
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631628373/blog/01ffj5r74ykepbn4ae7eymdzs1/uwqfyurtko1b7g1bkuy3.png)
 
-### AWS IoTEduKit用のCore2用の追加ライブラリのインストール
+## AWS IoTEduKit用のCore2用の追加ライブラリのインストール
 M5STACK公式の手順でこちらがあるのは助かります。。
 
 前の手順(M5Core2インストール)と同様に、ライブラリマネージャを開き、検索窓に`FastLED`と入力。インストールを押下
@@ -215,4 +356,3 @@ zipファイルを追加します
 `ArduinoECCX08.zip`を追加したことで下記のライブラリが追加されたと推測(ECC608関連のライブラリはインストール済みのライブラリに対して検索すると、こちら以外にもあるため違う可能性あり)
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631629706/blog/01ffj5r74ykepbn4ae7eymdzs1/efz2wvcal8z5rh5xlaf1.png)
 
-:::
