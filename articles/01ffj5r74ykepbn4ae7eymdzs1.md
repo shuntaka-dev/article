@@ -9,10 +9,11 @@ publish: true
 
 # はじめに
 業務でATECC608Aを使う機会があり、もうちょっとCレイヤーに入り込めたら実装できたであろう出来事があったため、素振りのため買ってみました。
-今回は、下記について試し見てみました
+
+今回は、下記について試してみました。
 
 * AWS IoT EduKitの一部サンプルを動かしてみる
-* プロジェクトを新規作成して動かしてみる
+* プロジェクトを新規作成してHello Worldしてみる
 
 # 外観
 **パッケージ**
@@ -64,10 +65,11 @@ $ ghq get https://github.com/m5stack/M5Core2.git
 
 コピーした内容`github.com/m5stack/Core2-for-AWS-IoT-EduKit/Getting-Started/platformio.ini`を修正
 
-```bash: platformio.ini
+```diff: platformio.ini
 -; upload_port =
 +upload_port = /dev/cu.SLAB_USBtoUART
 ```
+
 :::details platformio.ini全体
 ```bash: platformio.ini
 ; AWS IoT EduKit Getting Started PlatformIO Configuration File
@@ -144,11 +146,11 @@ ESP RainMaker スマートフォンアプリ用のQRコードが出ない場合�
 pio run --environment core2foraws --target erase
 ```
 
-再起動するとディスプレイには何も映らない。なんかプチプチ変な音がする。。(これは私だけかもしれない..)
+そのままだと、前のファームが動いている状態。再起動するとディスプレイには何も映らない。そしてプチプチ変な音がする。。(これは私だけかもしれない..)
 
-# プロジェクトの作成とライブラリの追加の追加
+# プロジェクト作成とライブラリ追加
 
-## プロジェクトの作成
+## プロジェクト作成
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631947259/blog/01ffj5r74ykepbn4ae7eymdzs1/z4unwlgtmpw88gt9quzn.png)
 
@@ -160,7 +162,7 @@ pio run --environment core2foraws --target erase
 
 ※ ファイルの変更を管理したい場合は、この段階でgitで初期化した方が良いです。このあとライブラリ追加した際に、設定ファイルの変更差分が追いやすいです。
 
-## ライブラリの追加
+## ライブラリ追加
 
 基本的に[VSCodeとPlatformIOでM5Stack Core2開発](https://qiita.com/desertfox_i/items/a6ff7deaa0a0b3802bcd)の記事と同様なので、原文の方をご参考にした方が良いです。
 
@@ -204,7 +206,7 @@ lib_deps =
 ```
 
 ## Hello Worldしてみる
-### platformio.ioのアップロードポート設定を追加する
+### platformio.ioのアップロードポート設定を追加
 
 ```bash:platformio.io
 upload_port = /dev/cu.SLAB_USBtoUART
@@ -212,7 +214,7 @@ upload_port = /dev/cu.SLAB_USBtoUART
 
 ### サンプルコードを書く
 
-```cpp:aaa
+```cpp:src/main.cpp
 #include <M5Core2.h>
 
 // the setup routine runs once when M5Stack starts up
