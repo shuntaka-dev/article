@@ -43,8 +43,7 @@ AWSカラーがかっこいい(!)
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631634297/blog/01ffj5r74ykepbn4ae7eymdzs1/slubzp6bprh7oikhdmo8.png)
 
 ## ソースコードの取得
-[ソースコードの取得](https://edukit.workshop.aws/jp/getting-started/prerequisites/macos.html#ソースコードの取得) の手順はやらない。
-変わりに、[github.com/m5stack/Core2-for-AWS-IoT-EduKit](https://github.com/m5stack/Core2-for-AWS-IoT-EduKit.git)を`ghq`を利用して取得。
+[ソースコードの取得](https://edukit.workshop.aws/jp/getting-started/prerequisites/macos.html#ソースコードの取得) の手順は行いませんでした。変わりに、[github.com/m5stack/Core2-for-AWS-IoT-EduKit](https://github.com/m5stack/Core2-for-AWS-IoT-EduKit.git)を`ghq`を利用して取得。
 
 ```bash
 $ ghq get https://github.com/m5stack/M5Core2.git
@@ -63,7 +62,7 @@ $ ghq get https://github.com/m5stack/M5Core2.git
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631635241/blog/01ffj5r74ykepbn4ae7eymdzs1/crjjj5tyeg8lwxmtdapq.png)
 
-コピーした内容`github.com/m5stack/Core2-for-AWS-IoT-EduKit/Getting-Started/platformio.ini`を修正
+先ほどコピーした内容を`github.com/m5stack/Core2-for-AWS-IoT-EduKit/Getting-Started/platformio.ini`に追加
 
 ```diff: platformio.ini
 -; upload_port =
@@ -187,8 +186,8 @@ pio run --environment core2foraws --target erase
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1631948645/blog/01ffj5r74ykepbn4ae7eymdzs1/qtdq3l6bsuuj4fpoeafk.png)
 
 ### platformio.ioファイルの変化
-追加ライブラリが、`lib_deps`オプションの中に入っている。これは依存管理が捗るの助かりますね。
-```bash:platformio.io
+追加ライブラリが、`lib_deps`オプションの中に自動で追記されます。依存管理が捗るので助かります。
+```bash:platformio.ini
 ; PlatformIO Project Configuration File
 ;
 ;   Build options: build flags, source filter
@@ -209,9 +208,9 @@ lib_deps =
 ```
 
 ## Hello Worldしてみる
-### platformio.ioのアップロードポート設定を追加
+### ファームウェアをアップロードするポート設定を追記
 
-```bash:platformio.io
+```bash:platformio.ini
 upload_port = /dev/cu.SLAB_USBtoUART
 ```
 
