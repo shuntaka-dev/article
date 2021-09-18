@@ -68,7 +68,6 @@ $ ghq get https://github.com/m5stack/M5Core2.git
 -; upload_port =
 +upload_port = /dev/cu.SLAB_USBtoUART
 ```
-
 :::details platformio.ini全体
 ```bash: platformio.ini
 ; AWS IoT EduKit Getting Started PlatformIO Configuration File
@@ -108,6 +107,8 @@ board_build.embed_txtfiles =
 ; http://docs.platformio.org/page/projectconf.html
 ```
 :::
+
+<br>
 
 ## ターミナルを開く
 ターミナルを開きます。本手順でTerminalを開かないと`pio`コマンドが利用できない
