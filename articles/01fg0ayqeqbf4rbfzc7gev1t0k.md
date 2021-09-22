@@ -50,6 +50,22 @@ cd ~/esp
 git clone -b v4.3.1 --recursive https://github.com/espressif/esp-idf.git
 ```
 
+:::message warning
+EdukitをESP-IDFでビルドしたところ、アプリがバグる事象が発生したため、4.2にダウングレードした方法を書く
+
+```bash
+$ cd ~/esp
+$ rm -rf esp-idf
+$ git clone -b v4.2 https://github.com/espressif/esp-idf.git
+$ cd ~/esp/esp-idf
+$ ./install.sh
+# => 初回よくみたら、Pythonパッケージが追加されておらずエラーになっていた。新しいzshを立ち上げ再度実行したところ解消
+$ idf.py --version
+ESP-IDF v4.2
+```
+結局バージョンを下げても解消せず。。。PlatformIOは内部でどのバージョンのESP-IDFを利用しているのだろうか..
+:::
+
 
 ## Step 3. ツールのセットアップ
 
