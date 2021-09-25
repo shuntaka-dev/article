@@ -192,6 +192,38 @@ AWS IoTのMQTTテストクライアントを使って`test_topic/esp32`をサブ
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1632561699/blog/01fgdc0bawyb6d34gs54vxgpg9/i0gkrohfmofplqu69tjc.gif)
 
 
+# 補足
+## ccls定義の出力
+Neovimとcoc.nvimで開発しているため、補完や定義ジャンプをするには、`.ccls`定義が必要となります。下記の手順で出力することが出来ます。
+
+`target_add_binary_data` の箇所をコメントアウト
+
+```bash:src/CMakeLists.txt
+# This file was automatically generated for projects
+# without default 'CMakeLists.txt' file.
+
+FILE(GLOB_RECURSE app_sources ${CMAKE_SOURCE_DIR}/src/*.*)
+
+set(COMPONENT_SRCS "main.c")
+set(COMPONENT_ADD_INCLUDEDIRS ".")
+
+register_component()
+
+if(CONFIG_EXAMPLE_EMBEDDED_CERTS)
+	# target_add_binary_data(${COMPONENT_TARGET} "certs/aws-root-ca.pem" TEXT)
+	# target_add_binary_data(${COMPONENT_TARGET} "certs/certificate.pem.crt" TEXT)
+	# target_add_binary_data(${COMPONENT_TARGET} "certs/private.pem.key" TEXT)
+endif()
+```
+
+下記のコマンドを実行すると`.ccls`定義が出力されます。
+```bash
+pio init --board=m5stack-core2 --project-option="framework=espidf" --ide vim
+```
+
+
+
+
 # 最後に
 ESP32環境で、比較的ミニマムなコードでMQTT通信を行うサンプルを試しました。`esp-aws-iot`の魅力は、[Using an ATECC608A with the ESP-AWS-IoT](https://github.com/espressif/esp-aws-iot/tree/249c573cbdcf653c03a6bf3a30f658f005856880#using-an-atecc608a-with-the-esp-aws-iot)にあるように、secure elementをサポートしている点です。Edukitだとソースが膨大すぎて、追うのが大変でした。今回のようにミニマムな実装を繰り返していくことで、secure elemetnサポート周りの理解が進められたらなぁと思います。
 
