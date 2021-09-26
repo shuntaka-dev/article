@@ -191,6 +191,15 @@ pio device monitor -p /dev/cu.SLAB_USBtoUART
 AWS IoTのMQTTテストクライアントを使って`test_topic/esp32`をサブスクライブしてみると、M5Stack Core2から定期的に電文がpublishされていることが確認できます。
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1632561699/blog/01fgdc0bawyb6d34gs54vxgpg9/i0gkrohfmofplqu69tjc.gif)
 
+:::message warning
+シリアルモニターの出力の`␛[0;32mI`が気になる場合、`--raw`オプションをつける解決します
+
+```bash
+pio device monitor -p /dev/cu.SLAB_USBtoUART --raw
+```
+
+:::
+
 
 # 補足
 ## ccls定義の出力
