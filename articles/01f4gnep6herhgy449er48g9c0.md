@@ -453,6 +453,8 @@ depth=3 C = US, ST = Arizona, L = Scottsdale, O = "Starfield Technologies, Inc."
 [boto3でIoT CoreのATSエンドポイントに接続する（SSL validation failedエラー対応）](https://dev.classmethod.jp/articles/boto3-iot-core-use-ats-endpointo-ssl-validation-failed/)にある通り、boto3のcertifiで`VeriSign Class 3 Public Primary Certification Authority - G5 O`のルート証明書が削除された。
 boto3は、デフォルトでiot:Dataを参照しており、certifiでVeriSignルート証明書が削除されたことで、ルート証明書の検証が出来ず、SSL検証でエラーになった。VeriSignルート証明書が削除されたcertifiと依存があるboto3を使った場合明示的にiot:Data-ATSエンドポイントを指定する必要があある。
 
+実際に経験した例だと、AWS Lambdaからboto3を使ってiot:Dataエンドポイントを参照してモノ情報を取得していた。Lambdaのランタイムにはboto3が元々入っており、新しいバージョンの(VeriSignルートCAが削除された)certifiに依存したboto3が使われたため、iot:Dataエンドポイントの証明書を受け取ったとき、証明書チェーンを確認し、boto3側でVeriSignのルートCAがないので、検証できずサーバー認証でエラーになる。
+
 :::details MQTT接続をiot:Dataエンドポイントに行うと、TLSのエラーが確認できる
 ACCOUNT_PREFIXに、 **-ats** なし。
 ```bash
