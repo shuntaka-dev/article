@@ -10,7 +10,7 @@ publish: false
 
 ## グローバル変数の出力
 
-```Lua:グローバル変数一覧の出力
+```lua:グローバル変数一覧の出力
 local function getfiled(f)
   local v = _G
   for w in string.gmatch(f, "[%w_]+") do
@@ -75,7 +75,7 @@ Luaでは、グローバル変数はテーブル`_G`に保存されている。`
 
 Luaの正規表現はPerlと異なる点があるため、`[%w_]+`ついて解説する。`[]`は、setを表す。[0-9]や[a-Z]なら見覚えがあると思う。今回は全ての英数文字を示す`%w`と`_`が含まれる文字列がマッチされるようにしている。故にサンプルコードの出力結果は以下の通りとなる
 
-```Lua
+```lua
 for w in string.gmatch("aaa bb_b ccc_ __ddd", "[%w_]+") do print("[%w_]:" .. w) end
 ```
 
@@ -90,7 +90,7 @@ for w in string.gmatch("aaa bb_b ccc_ __ddd", "[%w_]+") do print("[%w_]:" .. w) 
 
 ## グローバル変数に値をセットする
 
-```Lua
+```lua
 local function setfield(f, v)
   local t = _G
   for w, d in string.gmatch(f, "([%w_]+)(%.?)") do
