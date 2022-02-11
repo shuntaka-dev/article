@@ -352,8 +352,9 @@ staticで基準の領域を示し、abusoluteで相対的なdivを配置する�
 
 |クラス名|Properties|説明|
 |---|---|---|
-|flex|flex: 1 1 0%|要素横並びにフレックコンテナを作るクラス|
-|flex-auto|flex: 1 1 auto)|with,hightでサイズ指定可能だが、flexコンテナの開く容量を埋めるように伸縮する
+|flex||要素横並びにフレックコンテナを作るクラス。flexコンテナ要素につけやつ
+|flex-1|flex: 1 1 0%|フレックスアイテムは初期サイズを無視して、必要に応じて伸縮する
+|flex-auto|flex: 1 1 auto)|flex-1より初期サイズを考慮して、flexコンテナが伸縮する
 |flex-initial|flex: 0 1 auto)|flexコンテナに合うように伸縮する
 |flex-none|flex: none,flex 0 0 auto|width, hight固定。指定されいる要素は伸縮しない| 
 
@@ -408,6 +409,41 @@ staticで基準の領域を示し、abusoluteで相対的なdivを配置する�
 
 
 # サンプル解説
+
+## button
+
+|観点|例
+|---|---|
+|テキストサイズ|text-sm
+|フォントサイズ|font-medium
+|テキストカラー|text-indigo-600
+|テキストカラー(hover)|hover:text-indigo-500
+|バックグラウンドカラー|bg-white
+|ボタンの丸み|rounded-md
+|フォーカスしたときの枠幅|focus:ring-2
+|フォーカスしたときの枠色|focus:ring-indigo-500
+|枠をボタンの外側にする場合|focus:ring-offset-2|
+|Chromeなどで、テキストエリアのフォーカス時に自動付加するピンク色の枠を消す|focus:outline-none(※1)
+
+
+※1 input type="search"でも、本オプションはデフォルトで利用するべき
+
+
+## Header
+以下のようなヘッダーを作る時
+
+flex-colで以下のように全体的に領域を切る
+```bash
+[header]
+[content]
+[footer]
+```
+
+
+```bash
+|Logo|SearchBox menu1 menu2 menu3|BellIcon|
+```
+
 
 
 

@@ -44,8 +44,6 @@ return (
   <div>
     <MainEcosystem>
       <div>
-        {/*<ReloadPrompt /> */}
-
         <div className="flex flex-col bg-black items-center py-16">
           <div className="w-32 h-32">
             <Transition
