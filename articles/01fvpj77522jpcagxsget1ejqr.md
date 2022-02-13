@@ -1,15 +1,20 @@
 ---
 title: "SPAにTwitter OAuth 2.0を組み込む際の雑メモ"
-type: "note"
+type: "tech"
 category: []
 description: "SPAにTwitter OAuth2.0を組み込む際の雑メモ"
 thumbnail: ""
 publish: true
 ---
 
+# はじめに
+Twitter OAuth 2.0の認可の仕組みを利用して、Webアプリを作る場合、どういうアーキテクチャがいいか検討してみました。表題の通り雑です。またセキュリティ的にも裏が取れているわけではないので、参考程度にお願いします。
+
 # 構成
 
-方法はざっくり以下の3つ(雑)。3がいいかなぁと
+
+## トークンの扱い検討
+方法はざっくり以下の3つ(雑すぎ)。3がいいかなぁと思いシーケンスを書いてみる
 
 1. Authraizationヘッダー + localStorage
   => XSS怖い
@@ -18,6 +23,12 @@ publish: true
 3. Cookie認証 + Cookie(HTTP Only属性+Same site(Lax,Strict))
   => XSS,CSRF対策出来てそう
 
+## シーケンス
+
+補足事項
+* Twitter OAuth 2.0は、`OAuth 2.0 Authorization Code Flow with PKCE`というフローを採用している
+* Cloudflare Functionsを使って、クラサバを同一ドメインにしている
+* SetCookieは、SameSite=Lax;Secure;HttpOnly;を付与
 
 @startuml
 actor "User" as user
@@ -51,13 +62,13 @@ twServer-->twServer: Redirects to your app's callback URL
 twServer-->clPages: authraization code
 deactivate twServer
 clPages->clPages: cookieからcode_verifierを取り出し
-clPages->clFunctions: code, code_verifier
+clPages->clFunctions: code, code_verifier, clientSecret(※3)
 activate clFunctions
 clFunctions->twServer: code, code_verifier
 activate twServer
 twServer-->clFunctions: accessToken
 deactivate twServer
-clFunctions-->clPages: set cookie(http only;secure;samesite)
+clFunctions-->clPages: set cookie(SameSite=Lax;Secure;HttpOnly;)
 deactivate clFunctions
 clPages->clFunctions: 認可情報取得(/api/me)
 activate clFunctions
@@ -98,15 +109,22 @@ deactivate user
 @enduml
 
 
-※1 もやもやしている箇所。Twitterに遷移してしまうため、永続領域に書き込まないといけない。
-code_verifierの格納は、secure属性とSameSite=Laxを付与。HttpOnly属性はJSからなので付与できない。プラスで適切なexpire時間を設定する。
+※1
+もやもや箇所。Twitterに遷移してしまうため、永続領域に書き込まないといけない。code_verifierの格納は、secure属性とSameSite=Laxを付与。HttpOnly属性はJSからなので付与できない。プラスで適切なexpire時間を設定する。
 ```bash
 document.cookie="code_verifier=hoge;secure;SameSite=Lax"
 ```
 
-※2 scopeは以下の通り
-/2/users/meエンドポイントが実行できる ... `users.read` `tweet.read`
-refresh tokeの取得 ... `offline.access`
+※2
+scopeは以下の通り
+* /2/users/meエンドポイントが実行できる ... `users.read` `tweet.read`
+* refresh tokeの取得 ... `offline.access`
+
+※3
+Twitterには、Public ClientとConfidetial Clientが指定できます。サーバーサイドで安全にClientSecretを運用できる今回のケースでは、Confidetial Clientでいいかなと思いました。Public Clientの場合、`Authorization: Basic`ヘッダーを利用せず、ClientSecretも利用しません。Confidetial Clientを指定すると、Public Clientのトークン取得方法が利用できませんが、逆は可能みたいです。
+
+# さいごに
+実際にこの構成でアプリを作ってみるので、更新情報があればまた書こうと思います。
 
 # 雑記
 仕事で公開されているPOSTのAPIのHTTPレスポンスヘッダー(`Access-Control-Allow-Origin`)に呼び出し元を指定して、CSRF対策したのを思い出した
