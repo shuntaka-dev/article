@@ -72,7 +72,7 @@ clFunctions-->clPages: set cookie(SameSite=Lax;Secure;HttpOnly;)
 deactivate clFunctions
 clPages->clFunctions: 認可情報取得(/api/me)
 activate clFunctions
-clFunctions->twApi: 認可情報取得(/users/me)
+clFunctions->twApi: 認可情報取得(/users/me) (※4)
 activate twApi
 twApi-->clFunctions: 取得OK
 deactivate twApi
@@ -123,14 +123,43 @@ scopeは以下の通り
 ※3
 Twitterには、Public ClientとConfidetial Clientが指定できます。サーバーサイドで安全にClientSecretを運用できる今回のケースでは、Confidetial Clientでいいかなと思いました。Public Clientの場合、`Authorization: Basic`ヘッダーを利用せず、ClientSecretも利用しません。Confidetial Clientを指定すると、Public Clientのトークン取得方法が利用できませんが、逆は可能みたいです。
 
-# さいごに
-実際にこの構成でアプリを作ってみるので、更新情報があればまた書こうと思います。
+※4
+[Rate limits](https://developer.twitter.com/en/docs/twitter-api/rate-limits)と[Users lookup](https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me)を参照。アプリレート制限とユーザーレート制限があり、別で計算される
 
-# 雑記
-仕事で公開されているPOSTのAPIのHTTPレスポンスヘッダー(`Access-Control-Allow-Origin`)に呼び出し元を指定して、CSRF対策したのを思い出した
+* ユーザーレート制限
+  * 認証されたユーザー毎に15分間に75リクエスト
+* アプリレート制限
+  * アプリのOAuth 2.0ベアラートークンは、15分間に900リクエスト
+
+
+# 留意点
+
+## アクセストークンのライフサイクル
+
+|項目|値|
+|---|---|
+|アクセストークンの期限|2(h)
+|リフレッシュトークンの期限|不明
+
+## トークンの無効化
+[Authentication](https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token)より、`/2/oauth2/revoke`エンドポイントが用意されている。`token_type_hint`でアクセストークンもしくはリフレッシュトークンを利用して、トークンをrevokeできる。revokeされるのは両方のトークン。
+
+```bash
+$ curl --location --request POST 'https://api.twitter.com/2/oauth2/revoke' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--basic -u '<ClientId>:<ClientSecret>' \
+--data-urlencode 'token_type_hint=refresh_token' \
+# --data-urlencode 'token_type_hint=access_token' \
+--data-urlencode 'token=xxx'
+```
+
+
+# さいごに
+実際にこの構成でアプリを作ってみるので、更新情報があればまた書こうと思います。仕事で公開されているPOSTのAPIのHTTPレスポンスヘッダー(`Access-Control-Allow-Origin`)に呼び出し元を指定して、CSRF対策したのを思い出した。
 
 # 参考
 
-[OAuth 2.0 Making requests on behalf of users](https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code)
-[stackoverflow| Best practice on Securing code_verifier in PKCE-enhanced Authorization Code Flow](https://stackoverflow.com/questions/67517436/best-practice-on-securing-code-verifier-in-pkce-enhanced-authorization-code-flow)
+* [OAuth 2.0 Making requests on behalf of users](https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code)
+* [stackoverflow| Best practice on Securing code_verifier in PKCE-enhanced Authorization Code Flow](https://stackoverflow.com/questions/67517436/best-practice-on-securing-code-verifier-in-pkce-enhanced-authorization-code-flow)
+
 
