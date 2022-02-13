@@ -62,9 +62,9 @@ twServer-->twServer: Redirects to your app's callback URL
 twServer-->clPages: authraization code
 deactivate twServer
 clPages->clPages: cookieからcode_verifierを取り出し
-clPages->clFunctions: code, code_verifier, clientSecret(※3)
+clPages->clFunctions: code, code_verifier
 activate clFunctions
-clFunctions->twServer: code, code_verifier
+clFunctions->twServer: code, code_verifier, clientSecret(※3)
 activate twServer
 twServer-->clFunctions: accessToken
 deactivate twServer
