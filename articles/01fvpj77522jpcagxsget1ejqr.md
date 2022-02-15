@@ -9,7 +9,6 @@ publish: true
 
 # はじめに
 Twitter OAuth 2.0の認可の仕組みを利用して、Webアプリを作る場合、どういうアーキテクチャがいいか検討してみました。表題の通り雑です。またセキュリティ的にも裏が取れているわけではないので、参考程度にお願いします。
-
 # 構成
 
 
@@ -29,6 +28,81 @@ Twitter OAuth 2.0の認可の仕組みを利用して、Webアプリを作る場
 * Twitter OAuth 2.0は、`OAuth 2.0 Authorization Code Flow with PKCE`というフローを採用している
 * Cloudflare Functionsを使って、クラサバを同一ドメインにしている
 * SetCookieは、SameSite=Lax;Secure;HttpOnly;を付与
+
+### (1) User-Agentとサーバーサイド間をセッション管理しつつ、サーバサイドでaccessToken,refreshTokenを保持する
+
+:::message warn
+編集中
+:::
+
+@startuml
+actor "User" as user
+box "Cloudflare Pages" #dee6ee
+  participant "トップページ" as clPages
+end box
+box "CDN Edge Server" #e6e6fa
+  participant "Cloudflare Functions" as clFunctions
+  database "User" as dbUser
+  database "Session" as dbSession
+end box
+box "Twitter" #2bc4ff
+  participant "Twitter認可画面" as twAuth
+  participant "Twitter認可サーバー" as twServer
+  participant "TwitterAPI" as twApi
+end box
+activate clPages
+activate user
+user->clPages: login with Twitterを押下
+clPages->clPages: code_verifier生成
+clPages->clPages: code_verifierをcookieに保存(※1)
+clPages->clPages: code_verifierからcode_challenge生成
+clPages->twAuth: code_challenge
+activate twAuth
+twAuth->twAuth: Present authorization dialog
+twAuth-->user
+deactivate twAuth
+user->user: Authraize or declines app(※2)
+user->twServer
+activate twServer
+twServer-->twServer: Redirects to your app's callback URL
+twServer-->clPages: authraization code
+deactivate twServer
+clPages->clPages: cookieからcode_verifierを取り出し
+clPages->clFunctions: code, code_verifier
+activate clFunctions
+clFunctions->twServer: code, code_verifier, clientSecret(※3)
+activate twServer
+twServer-->clFunctions: accessToken
+deactivate twServer
+clFunctions->twApi: 認可情報の取得
+activate twApi
+twApi-->clFunctions: 取得OK
+deactivate twApi
+clFunctions->clFunctions: 認可情報からidを取得
+clFunctions->clFunctions: userIdのジェネレート
+clFunctions->dbUser: idで検索
+activate dbUser
+alt 存在しない場合
+  dbUser-->clFunctions: 取得NG
+  clFunctions->dbUser: id,userId,accessToken,refreshTokenを登録
+  dbUser-->clFunctions: 登録OK
+end
+dbUser-->clFunctions: 取得OK
+deactivate dbUser
+clFunctions->clFunctions: SessionIdを生成
+clFunctions->dbSession: SessionIdとidを保存
+activate dbSession
+dbSession-->clFunctions: 保存OK
+deactivate dbSession
+clFunctions-->clPages: SessionId(SetCookie: SameSite=Lax;Secure;HttpOnly;)
+deactivate clFunctions
+clPages-->user: ログインSuccess
+deactivate clPages
+deactivate user
+@enduml
+
+
+### (2) CookieにaccessToken,refreshTokenを保持する場合(非推奨)
 
 @startuml
 actor "User" as user
