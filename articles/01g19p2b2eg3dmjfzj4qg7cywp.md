@@ -37,8 +37,8 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 |14:40|[database/sqlパッケージを理解する](https://gocon.jp/2022spring/sessions/a8-s/) [📄(未)]() |[「自動コード生成ツール」を20分で作れるようになろう](https://gocon.jp/2022spring/sessions/b8-s/) [📄(未)]()|
 |15:20|[GoでAPI クライアントの実装](https://gocon.jp/2022spring/sessions/a9-s/) [📄(未)]()|[GoらしいAPIを求める旅路 並行処理編](https://gocon.jp/2022spring/sessions/b9-s/) [📄(未)]()|
 |15:40|[testingパッケージを使ったWebアプリケーションテスト（単体テストからE2Eテストまで）](https://gocon.jp/2022spring/sessions/a10-s/) [📄(未)]()|[HTTP Tunneling in Go](https://gocon.jp/2022spring/sessions/b10-s/) [📄(未)]()|
-|16:00|[GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用](https://gocon.jp/2022spring/sessions/a11-s/) [📄(未)]()|[Go Module with Microservices and Monorepo: Clear Dependencies with Ease of Development](https://gocon.jp/2022spring/sessions/b11-s/) [📄(未)]()|
-|16:30|[型パラメータが使えるようになったのでLINQを実装してみた](https://gocon.jp/2022spring/sessions/a12-s/) [📄(未)]()|[IoT with TinyGo](https://gocon.jp/2022spring/sessions/b12-s/) [📄(未)]()|
+|16:00|[GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用](https://gocon.jp/2022spring/sessions/a11-s/) [📄](https://speakerdeck.com/saicologic/go-conference-2022-spring-gotolambdawoshi-yong-sitagao-pahuomansudesabaresuna-maikurosabisufalsekai-fa-toyun-yong)|[Go Module with Microservices and Monorepo: Clear Dependencies with Ease of Development](https://gocon.jp/2022spring/sessions/b11-s/) [📄(未)]()|
+|16:30|[型パラメータが使えるようになったのでLINQを実装してみた](https://gocon.jp/2022spring/sessions/a12-s/) [📄(未)]()|[IoT with TinyGo](https://gocon.jp/2022spring/sessions/b12-s/) [📄](https://docs.google.com/presentation/d/1bOu9oGluosLUhLgPrhJnzGd9IIMSnAa4--AZf2KnfYA)|
 |16:50|[Let's contribute to OSS with Go](https://gocon.jp/2022spring/sessions/a13-s/) [📄(未)]()|[Go で始める将棋AI](https://gocon.jp/2022spring/sessions/b13-s/) [📄(未)]()|
 |17:10|[The introduction of my way to learn Go together with Go community.](https://gocon.jp/2022spring/sessions/a14-s/) [📄(未)]()|[Motto Go Forward Goを支える文化とコミュニティ 〜なぜ我々はコミュニティにコントリビュートするのか？〜](https://gocon.jp/2022spring/sessions/b14-s/) [📄(未)]()
 |17:45|[Goの標準機能で簡易システムを低コストで作成するテクニック](https://gocon.jp/2022spring/sessions/lt1/) [📄(未)]()|-|
@@ -147,6 +147,10 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 
 ## GoらしいAPIを求める旅路 並行処理編
 
+:::message
+TODO
+:::
+
 ### 感想
 
 
@@ -154,10 +158,35 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 
 ### 感想
 
-## GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用
+
+## testingパッケージを使ったWebアプリケーションテスト（単体テストからE2Eテストまで）
+
+:::message
+TODO
+:::
 
 ### 感想
 
+## GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用
+
+### 感想
+ランタイムが1つというのは確かにメリットだなと感じました！ベンチマーク結果のGoのパフォーマンスがよかった。ただここら辺は実際にアプリを書くと、Nodeは自然と非同期になるけど、Goはgroutineを使わないといけないと考えると楽に早くかけるのはNodeなのかなぁとも思いました。
+
 ## IoT with TinyGo
+
+[📄](https://docs.google.com/presentation/d/1bOu9oGluosLUhLgPrhJnzGd9IIMSnAa4--AZf2KnfYA)
+
+### メモ
+* fastlyがほぼフルタイムでTinyGoの改善をしているとのこと
+
+### 感想
+goroutineも使えるのは意外だった。httpやMQTT(内部的にはpahoを利用)のpub/subが使えるので、それなりに遊びが出来る段階には来ているんだなーと感じました。Wio Terminal持っているし、どこかで試したいですね。
+
+
+## Python製の姓名分割ライブラリをGoに移植した話
+
+### 感想
+
+## 大規模ゲーム開発におけるContext活用パターン
 
 ### 感想
