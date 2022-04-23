@@ -40,7 +40,7 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 |16:00|[GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用](https://gocon.jp/2022spring/sessions/a11-s/) [📄](https://speakerdeck.com/saicologic/go-conference-2022-spring-gotolambdawoshi-yong-sitagao-pahuomansudesabaresuna-maikurosabisufalsekai-fa-toyun-yong)|[Go Module with Microservices and Monorepo: Clear Dependencies with Ease of Development](https://gocon.jp/2022spring/sessions/b11-s/) [📄(未)]()|
 |16:30|[型パラメータが使えるようになったのでLINQを実装してみた](https://gocon.jp/2022spring/sessions/a12-s/) [📄](https://speakerdeck.com/makki_d/xing-parametagashi-eruyouninatutafalsedelinqwoshi-zhuang-sitemita)|[IoT with TinyGo](https://gocon.jp/2022spring/sessions/b12-s/) [📄](https://docs.google.com/presentation/d/1bOu9oGluosLUhLgPrhJnzGd9IIMSnAa4--AZf2KnfYA)|
 |16:50|[Let's contribute to OSS with Go](https://gocon.jp/2022spring/sessions/a13-s/) [📄(未)]()|[Go で始める将棋AI](https://gocon.jp/2022spring/sessions/b13-s/) [📄(未)]()|
-|17:10|[The introduction of my way to learn Go together with Go community.](https://gocon.jp/2022spring/sessions/a14-s/) [📄(未)]()|[Motto Go Forward Goを支える文化とコミュニティ 〜なぜ我々はコミュニティにコントリビュートするのか？〜](https://gocon.jp/2022spring/sessions/b14-s/) [📄(未)]()
+|17:10|[The introduction of my way to learn Go together with Go community.](https://gocon.jp/2022spring/sessions/a14-s/) [📄](https://docs.google.com/presentation/d/1TJSGpUS3kuQu7s16GnddyzGrcH0knHGBdGLHwttN2KU)|[Motto Go Forward Goを支える文化とコミュニティ 〜なぜ我々はコミュニティにコントリビュートするのか？〜](https://gocon.jp/2022spring/sessions/b14-s/) [📄(未)]()
 |17:45|[Goの標準機能で簡易システムを低コストで作成するテクニック](https://gocon.jp/2022spring/sessions/lt1/) [📄(未)]()|-|
 |17:50|[Python製の姓名分割ライブラリをGoに移植した話](https://gocon.jp/2022spring/sessions/lt2/) [📄](https://speakerdeck.com/nagano/pythonzhi-falsexing-ming-fen-ge-raiburariwogoniyi-zhi-sitahua)|-|
 |17:55|[外部コマンドの実行を含む関数のテスト](https://gocon.jp/2022spring/sessions/lt3/) [📄](https://speakerdeck.com/pongzu/wai-bu-komandofalseshi-xing-wohan-muguan-shu-falsetesuto)|-|
@@ -48,7 +48,7 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 |18:05|[GoとKubernetesを用いたバッチ開発のすすめ](https://gocon.jp/2022spring/sessions/lt5/) [📄](https://speakerdeck.com/waytkheming/gotokuberneteswoyong-itabatutikai-fa-falsesusume)|-|
 |18:10|[Gopher, Chrome, Automation in 5m](https://gocon.jp/2022spring/sessions/lt6/) [📄(未)]()|-|
 |18:15|[Go runtime の歩き方](https://gocon.jp/2022spring/sessions/lt7/) [📄](https://speakerdeck.com/convto/how-to-follow-go-runtime-function)|-|
-|18:20|[Go言語仕様輪読会の開催を通じた振り返り](https://gocon.jp/2022spring/sessions/lt8/) [📄(未)]()|-|
+|18:20|[Go言語仕様輪読会の開催を通じた振り返り](https://gocon.jp/2022spring/sessions/lt8/) [📄](https://speakerdeck.com/syumai/goyan-yu-shi-yang-lun-du-hui-falsekai-cui-wotong-zitazhen-rifan-ri)|-|
 
 
 # セッション
@@ -145,6 +145,8 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 
 ## GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用
 
+[📄](https://speakerdeck.com/saicologic/go-conference-2022-spring-gotolambdawoshi-yong-sitagao-pahuomansudesabaresuna-maikurosabisufalsekai-fa-toyun-yong)
+
 ### 感想
 ランタイムが1つというのは確かにメリットだなと感じました！ベンチマーク結果は、GoはやはりLambdaでも良いパフォーマンス結果が出ていました。ただ実際にアプリを書くと、Nodeは自然と非同期になる一方、Goはgoroutineを使う必要があることを考慮すると要件次第だなぁとも思いました。。
 
@@ -158,10 +160,6 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 ### 感想
 goroutineも使えるのは意外だった。httpやMQTT(内部的にはpahoを利用)のpub/subが使えるので、それなりに遊びが出来る段階には来ているんだなーと感じました。Wio Terminal持っているし、どこかで試したいですね。
 
-
-## Python製の姓名分割ライブラリをGoに移植した話
-
-### 感想
 
 ## 外部コマンドの実行を含む関数のテスト
 
