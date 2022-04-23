@@ -43,7 +43,7 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 |17:10|[The introduction of my way to learn Go together with Go community.](https://gocon.jp/2022spring/sessions/a14-s/) [📄(未)]()|[Motto Go Forward Goを支える文化とコミュニティ 〜なぜ我々はコミュニティにコントリビュートするのか？〜](https://gocon.jp/2022spring/sessions/b14-s/) [📄(未)]()
 |17:45|[Goの標準機能で簡易システムを低コストで作成するテクニック](https://gocon.jp/2022spring/sessions/lt1/) [📄(未)]()|-|
 |17:50|[Python製の姓名分割ライブラリをGoに移植した話](https://gocon.jp/2022spring/sessions/lt2/) [📄](https://speakerdeck.com/nagano/pythonzhi-falsexing-ming-fen-ge-raiburariwogoniyi-zhi-sitahua)|-|
-|17:55|[外部コマンドの実行を含む関数のテスト](https://gocon.jp/2022spring/sessions/lt3/) [📄(未)]()|-|
+|17:55|[外部コマンドの実行を含む関数のテスト](https://gocon.jp/2022spring/sessions/lt3/) [📄](https://speakerdeck.com/pongzu/wai-bu-komandofalseshi-xing-wohan-muguan-shu-falsetesuto)|-|
 |18:00|[大規模ゲーム開発におけるContext活用パターン](https://gocon.jp/2022spring/sessions/lt4/) [📄(未)]()|-|
 |18:05|[GoとKubernetesを用いたバッチ開発のすすめ](https://gocon.jp/2022spring/sessions/lt5/) [📄](https://speakerdeck.com/waytkheming/gotokuberneteswoyong-itabatutikai-fa-falsesusume)|-|
 |18:10|[Gopher, Chrome, Automation in 5m](https://gocon.jp/2022spring/sessions/lt6/) [📄(未)]()|-|
@@ -143,28 +143,6 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 自動生成コードI/O処理の極小化として、File I/Oはギリギリまで発生させないという話は分かりみが深かった。`goimports`や`gofmt`をライブラリから生成されたバイト配列に対して適用しているとのこと(面白い)。自動生成定義にprotocを使って素振りしたいなと感じました。
 
 
-## GoらしいAPIを求める旅路 並行処理編
-
-:::message
-TODO
-:::
-
-### 感想
-
-
-## testingパッケージを使ったWebアプリケーションテスト（単体テストからE2Eテストまで）
-
-### 感想
-
-
-## testingパッケージを使ったWebアプリケーションテスト（単体テストからE2Eテストまで）
-
-:::message
-TODO
-:::
-
-### 感想
-
 ## GoとLambdaを使用した高パフォーマンスでサーバレスなマイクロサービスの開発と運用
 
 ### 感想
@@ -185,10 +163,13 @@ goroutineも使えるのは意外だった。httpやMQTT(内部的にはpahoを�
 
 ### 感想
 
-## 大規模ゲーム開発におけるContext活用パターン
+## 外部コマンドの実行を含む関数のテスト
+
+[📄](https://speakerdeck.com/pongzu/wai-bu-komandofalseshi-xing-wohan-muguan-shu-falsetesuto)
 
 ### 感想
 
+目から鱗でした。外部コマンド実行結果のモックがサクッと実装できるとテストが捗りそうですね。。標準ライブラリのテスト読んでみることの重要さにも気づけて良かったです。
 
 ## Gopher, Chrome, Automation in 5m
 
