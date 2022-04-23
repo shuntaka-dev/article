@@ -42,12 +42,12 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 |16:50|[Let's contribute to OSS with Go](https://gocon.jp/2022spring/sessions/a13-s/) [📄(未)]()|[Go で始める将棋AI](https://gocon.jp/2022spring/sessions/b13-s/) [📄(未)]()|
 |17:10|[The introduction of my way to learn Go together with Go community.](https://gocon.jp/2022spring/sessions/a14-s/) [📄(未)]()|[Motto Go Forward Goを支える文化とコミュニティ 〜なぜ我々はコミュニティにコントリビュートするのか？〜](https://gocon.jp/2022spring/sessions/b14-s/) [📄(未)]()
 |17:45|[Goの標準機能で簡易システムを低コストで作成するテクニック](https://gocon.jp/2022spring/sessions/lt1/) [📄(未)]()|-|
-|17:50|[Python製の姓名分割ライブラリをGoに移植した話](https://gocon.jp/2022spring/sessions/lt2/) [📄(未)]()|-|
+|17:50|[Python製の姓名分割ライブラリをGoに移植した話](https://gocon.jp/2022spring/sessions/lt2/) [📄](https://speakerdeck.com/nagano/pythonzhi-falsexing-ming-fen-ge-raiburariwogoniyi-zhi-sitahua)|-|
 |17:55|[外部コマンドの実行を含む関数のテスト](https://gocon.jp/2022spring/sessions/lt3/) [📄(未)]()|-|
 |18:00|[大規模ゲーム開発におけるContext活用パターン](https://gocon.jp/2022spring/sessions/lt4/) [📄(未)]()|-|
-|18:05|[GoとKubernetesを用いたバッチ開発のすすめ](https://gocon.jp/2022spring/sessions/lt5/) [📄(未)]()|-|
+|18:05|[GoとKubernetesを用いたバッチ開発のすすめ](https://gocon.jp/2022spring/sessions/lt5/) [📄](https://speakerdeck.com/waytkheming/gotokuberneteswoyong-itabatutikai-fa-falsesusume)|-|
 |18:10|[Gopher, Chrome, Automation in 5m](https://gocon.jp/2022spring/sessions/lt6/) [📄(未)]()|-|
-|18:15|[Go runtime の歩き方](https://gocon.jp/2022spring/sessions/lt7/) [📄(未)]()|-|
+|18:15|[Go runtime の歩き方](https://gocon.jp/2022spring/sessions/lt7/) [📄](https://speakerdeck.com/convto/how-to-follow-go-runtime-function)|-|
 |18:20|[Go言語仕様輪読会の開催を通じた振り返り](https://gocon.jp/2022spring/sessions/lt8/) [📄(未)]()|-|
 
 
