@@ -30,7 +30,7 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 |10:10|[人間の直感に対応させた複雑度<Cognitive Complexity>の計測ツールをgo/astで実装してみよう](https://gocon.jp/2022spring/sessions/a1-c/) [📄(未)]()|-|
 |10:30|[創業以来のPHPシステムが生み出した混沌をGoへの移行で乗り越えた話](https://gocon.jp/2022spring/sessions/a2-c/) [📄(未)]()|-|
 |11:00|[Dissecting Slices, Maps and Channels in Go](https://gocon.jp/2022spring/sessions/a3-l/) [📄(未)]() |[ゼロから作る Protocol Buffer のパーサーとレキサー](https://gocon.jp/2022spring/sessions/b3-l/) [📄](https://speakerdeck.com/yoheimuta/lexer-in-go-from-scratch)|-|
-|11:40|[GoのGC(garbage collector)について理解する](https://gocon.jp/2022spring/sessions/a4-s/) [📄(未)]()|[lock free な doubly linked list を実装していたらいつのまにか concurrent skip list map を実装していたでござる](https://gocon.jp/2022spring/sessions/b4-s/) [📄(未)]()|
+|11:40|[GoのGC(garbage collector)について理解する](https://gocon.jp/2022spring/sessions/a4-s/) [📄](https://speakerdeck.com/uji/gofalsegc-garbage-collector-nituiteli-jie-suru)|[lock free な doubly linked list を実装していたらいつのまにか concurrent skip list map を実装していたでござる](https://gocon.jp/2022spring/sessions/b4-s/) [📄](https://docs.google.com/presentation/d/1ShLO-hWIiRVGm8ZMzUOlHFuUkWMciIjvA3h3fjfEwKo)|
 |13:10|[レガシーシステムをGoにリプレースした一年間の振り返り](https://gocon.jp/2022spring/sessions/a5-c/) [📄(未)]()|-|
 |13:30|[メタバースを支える技術 ～UGCに溢れる3D空間のリアルタイム同期を支えるGo〜](https://gocon.jp/2022spring/sessions/a6-c/) [📄(未)]()|-|
 |14:00|[高速で統一的な自動生成ツールをprotocプラグインとして実装した話](https://gocon.jp/2022spring/sessions/a7-l/) [📄(未)]()|[Go で RDB に SQL でアクセスするためのライブラリ Kra の紹介]() [📄(未)](https://gocon.jp/2022spring/sessions/b7-l/)|
@@ -91,7 +91,7 @@ go-protoparserを読むのも良さそうです(執筆時15000行くらいはあ
 
 ## GoのGC(garbage collector)について理解する
 
-[📄]()
+[📄](https://speakerdeck.com/uji/gofalsegc-garbage-collector-nituiteli-jie-suru)
 
 ### メモ
 * discordの事例でGoを利用した結果、2分毎のGCによってSTWが起きて、レイテンシが高くなり、許容できずRustにリライトした
