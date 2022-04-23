@@ -65,8 +65,6 @@ Goとしばらく離れていたが、最近作りたいものができたこと
 `Cyclomatic complexity`(循環環複雑度)は聞いたことがあったが、`Cognitive Complexity`(認知的複雑度)は知らなかった。。人間の直感近い複雑度が計測できるとのこと。
 `Cognitive Complexity`を計測するため`go/ast`を使って、静的解析ツールを作るセッション。astの構造体を理解する上で参考にしたいと思いました！
 
-
-
 ## 創業以来のPHPシステムが生み出した混沌をGoへの移行で乗り越えた話
 
 [📄(未)]()
@@ -190,3 +188,15 @@ goroutineも使えるのは意外だった。httpやMQTT(内部的にはpahoを�
 ## 大規模ゲーム開発におけるContext活用パターン
 
 ### 感想
+
+
+## Gopher, Chrome, Automation in 5m
+
+### 感想
+私が昔Chrome自動化をする際には、[sclevine/agouti](https://github.com/sclevine/agouti)を使っていましたね。紹介されていたライブライどれも使いやすそうです。
+
+* 見逃した
+* [go-rod/rod](https://github.com/go-rod/rod)
+* [chromedp/chromedp](https://github.com/chromedp/chromedp)
+
+この手のchrome自動化ツールはスタンドアローンで起動しますが、プロファイルのcookieやlocal storageを使いたいケースがあり、そこら辺いい感じになっていると嬉しいなーと思いました！
