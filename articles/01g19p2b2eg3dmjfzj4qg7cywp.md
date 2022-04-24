@@ -57,10 +57,10 @@ Goとしばらく離れていましたが、最近作りたいものができた
 
 [📄(未)]()
 
-#### メモ
+**メモ**
 * 認知的複雑度を測定する静的解析ツール [nrnrk/gocognito](https://github.com/nrnrk/gocognito)
 
-#### 感想
+**感想**
 
 `Cyclomatic complexity`(循環環複雑度)は聞いたことがあったが、`Cognitive Complexity`(認知的複雑度)は知らなかった。。人間の直感近い複雑度が計測できるとのこと。
 `Cognitive Complexity`を計測するため`go/ast`を使って、静的解析ツールを作るセッション。astの構造体を理解する上で参考にしたいと思いました！
@@ -69,11 +69,11 @@ Goとしばらく離れていましたが、最近作りたいものができた
 
 [📄(未)]()
 
-#### メモ
+**メモ**
 * CMS側をPHPからGoへ移行した話。テスト,静的解析,クラス,関数全てなしのコードのリプレースに関するセッション
 * RDBにJSONのカラム(text)があり、map[string]stringや定義した構造体にパースするため、`sqlx`の`Scanner`や`Valuer`といったインタフェースを駆使し、課題解決した
 
-#### 感想
+**感想**
 `sqlx`でイレギュラーなRDBの値に対して、対応する手段があるのは便利だなと思いました！
 
 
@@ -81,7 +81,7 @@ Goとしばらく離れていましたが、最近作りたいものができた
 
 [📄](https://speakerdeck.com/yoheimuta/lexer-in-go-from-scratch)
 
-#### 感想
+**感想**
 個人的にGoはパーサー実装に強いと思っています。理由として`gojq`や`esbuild`の既存実装を移植したプロジェクトも存在し、どれも本家と遜色ないどころか高パフォーマンスだったりします。
 本セッションは、なんらかの理由で(Google公式のprotoパーサーだと全ての文法規則に対応していない?)Protocol Bufferのパーサーを実装するという内容。
 
@@ -94,7 +94,7 @@ go-protoparserを読むのも良さそうです(執筆時15000行くらいはあ
 
 [📄](https://speakerdeck.com/uji/gofalsegc-garbage-collector-nituiteli-jie-suru)
 
-#### メモ
+**メモ**
 * discordの事例でGoを利用した結果、2分毎のGCによってSTWが起きて、レイテンシが高くなり、許容できずRustにリライトした
   * Go 1.9.2の利用事例で少し古いという指摘もあり
 * GCは生産性を上げるために必要なため、GoにはGCが存在する
@@ -103,7 +103,7 @@ go-protoparserを読むのも良さそうです(執筆時15000行くらいはあ
 * GCもバージョン毎に改善が入っている
   * GoチームでGCのSLOがある
 
-#### 感想
+**感想**
 GoのGC理解の大一歩としてとても良いセッションと感じました。GoのGCアルゴリズムの概要から始まり、バージョン毎に改善が入っている点、GoチームでGCのSLOがある点など、個人的に知らないこと盛りだくさんでした！
 
 
@@ -111,7 +111,7 @@ GoのGC理解の大一歩としてとても良いセッションと感じまし�
 
 [📄(未)]()
 
-#### 感想
+**感想**
 DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話。並列テストにも少し言及があり、参考になりました。
 
 
@@ -119,7 +119,7 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 
 [📄(未)]()
 
-#### 感想
+**感想**
 
 メタバースなアプリケーションのサーバーサイドでのGo活用事例。UGC(ユーザー側で作成できるコンテンツ)の素材の転送効率の最適化やPub Subサーバー(ユーザーアバター、空間制御周り)でGoを利用しているとのこと。一般的なWebアプリと異なる高負荷、ステーフルな環境下であるメタバース領域でのGo活用事例でとても新鮮でした！
 
@@ -128,14 +128,14 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 
 [📄(未)]()
 
-#### メモ
+**メモ**
 * ソーシャルゲームのGo事例。マスターデータ量が多く、コードを自動生成しないと辛いレベルの規模感。自動ジェネレートが遅く、Protocol Bufferを活用
 * `goimports`をかけたときに、import文を追加する処理は、対象のライブラリが見つかるまで探索(Nまで探索)するので重い。対策として、あらかじめimportを追加しておく、`goimports`のimports削除はAST解析のみでされるので、誤ってimportしてしまうことを許容して問題ないとのこと。
 * `filepath.Walk`より`filepath.Walkdir`が速い。(Go 1.16で追加)
 * protcプラグインはログに標準エラー出力を使う
 
 
-#### 感想
+**感想**
 自動生成コードI/O処理の極小化として、File I/Oはギリギリまで発生させないという話は分かりみが深かった。`goimports`や`gofmt`をライブラリから生成されたバイト配列に対して適用しているとのこと(面白い)。自動生成定義にprotocを使って素振りしたいなと感じました。
 
 
@@ -143,17 +143,17 @@ DDD, Clean Architecture, Onion Architectureを利用したプロダクトの話�
 
 [📄](https://speakerdeck.com/saicologic/go-conference-2022-spring-gotolambdawoshi-yong-sitagao-pahuomansudesabaresuna-maikurosabisufalsekai-fa-toyun-yong)
 
-#### 感想
+**感想**
 ランタイムが1つというのは確かにメリットだなと感じました！ベンチマーク結果は、GoはやはりLambdaでも良いパフォーマンス結果が出ていました。ただ実際にアプリを書くと、Nodeは自然と非同期になる一方、Goはgoroutineを使う必要があることを考慮すると要件次第だなぁとも思いました。。
 
 ## IoT with TinyGo
 
 [📄](https://docs.google.com/presentation/d/1bOu9oGluosLUhLgPrhJnzGd9IIMSnAa4--AZf2KnfYA)
 
-#### メモ
+**メモ**
 * fastlyがほぼフルタイムでTinyGoの改善をしているとのこと
 
-#### 感想
+**感想**
 goroutineも使えるのは意外だった。httpやMQTT(内部的にはpahoを利用)のpub/subが使えるので、それなりに遊びが出来る段階には来ているんだなーと感じました。Wio Terminal持っているし、どこかで試したいですね。
 
 
@@ -161,13 +161,13 @@ goroutineも使えるのは意外だった。httpやMQTT(内部的にはpahoを�
 
 [📄](https://speakerdeck.com/pongzu/wai-bu-komandofalseshi-xing-wohan-muguan-shu-falsetesuto)
 
-#### 感想
+**感想**
 
 目から鱗でした。外部コマンド実行結果のモックがサクッと実装できるとテストが捗りそうですね。。標準ライブラリのテスト読んでみることの重要さにも気づけて良かったです。
 
 ## Gopher, Chrome, Automation in 5m
 
-#### 感想
+**感想**
 私が昔Chrome自動化をする際には、[sclevine/agouti](https://github.com/sclevine/agouti)を使っていましたね。紹介されていたライブライどれも使いやすそうです。
 
 * [mafredri/cdp](https://github.com/mafredri/cdp)
