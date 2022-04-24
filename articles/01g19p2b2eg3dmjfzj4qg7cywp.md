@@ -46,7 +46,7 @@ Goとしばらく離れていましたが、最近作りたいものができた
 |17:55|[外部コマンドの実行を含む関数のテスト](https://gocon.jp/2022spring/sessions/lt3/) [📄](https://speakerdeck.com/pongzu/wai-bu-komandofalseshi-xing-wohan-muguan-shu-falsetesuto)|-|
 |18:00|[大規模ゲーム開発におけるContext活用パターン](https://gocon.jp/2022spring/sessions/lt4/) [📄(未)]()|-|
 |18:05|[GoとKubernetesを用いたバッチ開発のすすめ](https://gocon.jp/2022spring/sessions/lt5/) [📄](https://speakerdeck.com/waytkheming/gotokuberneteswoyong-itabatutikai-fa-falsesusume)|-|
-|18:10|[Gopher, Chrome, Automation in 5m](https://gocon.jp/2022spring/sessions/lt6/) [📄(未)]()|-|
+|18:10|[Gopher, Chrome, Automation in 5m](https://gocon.jp/2022spring/sessions/lt6/) [📄](https://docs.google.com/presentation/d/1tnYI2lJi0YO0GNGeYhM6xru5jUVOwXOeNAvuvWvoD_8)|-|
 |18:15|[Go runtime の歩き方](https://gocon.jp/2022spring/sessions/lt7/) [📄](https://speakerdeck.com/convto/how-to-follow-go-runtime-function)|-|
 |18:20|[Go言語仕様輪読会の開催を通じた振り返り](https://gocon.jp/2022spring/sessions/lt8/) [📄](https://speakerdeck.com/syumai/goyan-yu-shi-yang-lun-du-hui-falsekai-cui-wotong-zitazhen-rifan-ri)|-|
 
