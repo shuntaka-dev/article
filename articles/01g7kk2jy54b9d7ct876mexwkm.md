@@ -131,7 +131,9 @@ $ zig build run
 info: All your codebase are belong to us.
 ```
 
-### Neovim/coc.nvim設定
+# Neovim
+
+## LSP設定(coc.nvim)
 
 cocプラグインを導入
 ```vim
@@ -165,8 +167,28 @@ export PATH="$HOME/zls:$PATH" # LSP
 
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1657441768/blog/01g7kk2jy54b9d7ct876mexwkm/lp9pgnnhufemxkfozpcn.png)
 
+## その他(tabやオートフォーマット設定)
+
+公式が出しているVimプラグイン[ziglang/zig.vim](https://github.com/ziglang/zig.vim)を利用。init.luaの詳細は、[shuntaka9576/dotfiles](https://github.com/shuntaka9576/dotfiles/blob/master/lua/init.lua)参照。
+
+```lua:init.lua設定
+vim.api.nvim_command("autocmd BufNewFile,BufRead *.zig setlocal tabstop=4 shiftwidth=4 expandtab")
+...
+use({
+  "ziglang/zig.vim",
+  function()
+    vim.cmd [[
+      let g:zig_fmt_autosave = 1 -- オートフォーマット設定を有効化(便利なので特別な理由がない限り有効化推奨)
+    ]]
+  end,
+})
+```
+
+
+
+
 # さいごに
 
-あまり環境構築周りでハマることはなかったです、LSPも揃っていていい感じです。WASM周りが気になるので、別記事で試していこうと思います。
+あまり環境構築周りでハマることはなかったです、LSPやオートフォーマッターも揃っていていい感じです。WASM周りが気になるので、別記事で試していこうと思います。
 
 
