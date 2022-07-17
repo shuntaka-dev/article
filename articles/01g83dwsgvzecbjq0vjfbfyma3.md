@@ -158,4 +158,195 @@ std.debug.print("bit_pattern len: {}\n", .{ bit_pattern.len }); // 11
 std.debug.print("bit_pattern last value: {}\n", .{ bit_pattern[bit_pattern.len - 1] }); // 1
 ```
 
+`for of`のような形で配列の添字使用しない形でのループ記法がサポートされている。ここら辺はC言語よりモダンで良さそう
+```zig:配列のループ
+std.debug.print("LEET:", .{});
 
+for (leet) |n| {
+    std.debug.print("{}", .{n});
+}
+
+std.debug.print(", Beits:", .{});
+
+for (bit_pattern) |n| {
+    std.debug.print("{}", .{n});
+}
+// LEET:1337, Beits:100110011001
+```
+
+# 006
+
+[006_strings.zig](https://github.com/ratfactor/ziglings/blob/main/exercises/006_strings.zig)
+
+文字列に関する例題
+
+* Zigは文字列をバイトの配列として格納
+
+```zig:文字列をバイト配列で格納している例
+const std = @import("std");
+
+pub fn main() void {
+    const helloStr = "Hello";
+    // [_]u8{ 'H', 'e', 'l', 'l', 'o' };と同様
+
+    for (helloStr) |n| {
+        std.debug.print("{}, ", .{n});
+    }
+}
+```
+
+```bash:出力結果
+72, 101, 108, 108, 111,
+```
+
+`005`で行った配列操作を、文字列が配列であることから活用可能。`std.debug.print`で数値出力
+```zig:例題
+const std = @import("std");
+
+pub fn main() void {
+    const ziggy = "stardust";
+
+    // const d: u8 = ziggy[????]
+    const d: u8 = ziggy[4];
+
+    // const laugh = "ha" ???;
+    const laugh = "ha" ** 3;
+
+    const major = "Major";
+    const tom = "Tom";
+    // const major_tom = major ??? tom;
+    const major_tom = major ++ tom;
+
+    // `{}`プレースホルダーを指定している。
+    std.debug.print("d={u} {s}{s}\n", .{ d, laugh, major_tom });
+}
+```
+
+`u`は、UTF-8文字。`s`はUTF-8文字列としてフォーマットするように指示している。`u`を指定しない場合は、UTF-8に対応する10進数である`100`が表示される。
+`s`を指定しない場合、コンパイルエラーとなる。理由は、`変数d`はu8型だったのに対し、`変数laughと変数major_tom`はu8配列であるため、配列のフォーマットを試みるためである。
+```bash:出力結果
+d=d hahahaMajorTom
+```
+
+`u`の代わりにASCIIエンコード文字をフォーマットする`c`フォーマット文字列も存在する。UTF-8の最初128文字はASCIIと同様なので同じように動作する。
+
+# 007
+
+[007_strings2.zig](https://github.com/ratfactor/ziglings/blob/main/exercises/007_strings2.zig)
+
+文字列関する例題2
+
+`\\`を先頭につけることで、改行を含む文字列を定義可能。視認性が高く良いと思う。
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const lyrics =
+        \\Ziggy played guitar
+        \\Jamming good with Andrew Kelley
+        \\And the Spiders from Mars
+    ;
+
+    std.debug.print("{s}", .{lyrics});
+}
+```
+
+```bash:出力結果
+Ziggy played guitar
+Jamming good with Andrew Kelley
+And the Spiders from Mars
+```
+
+# 008
+初のクイズタイム。書き換えたところはコメントにしている。
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const letters = "YZhifg";
+
+    // const x: usize = 1;
+    var x: usize = 1;
+
+    var lang: [3]u8 = undefined;
+
+    lang[0] = letters[x];
+
+    x = 3;
+    // lang[???] = letters[x];
+    lang[1] = letters[x];
+
+    // x = ???;
+    x = letters.len - 1;
+    // lang[2] = letters[???];
+    lang[2] = letters[x];
+
+    // We want to "Program in Zig!" of course:
+    std.debug.print("Program in {s}!\n", .{lang});
+}
+```
+
+
+```bash:出力結果
+Program in Zig!
+```
+
+今までの課題の既出でないポイントとしては、`undefined`でメモリ(空配列)を初期化できる点が重要だと思う。
+
+
+# 009
+
+[009_if.zig](https://github.com/ratfactor/ziglings/blob/main/exercises/009_if.zig)
+
+Zigのifで重要な点は、唯一ブール値を受け入れる点。その他の記法はよく利用される言語と似ている。
+
+* a == b   means "a equals b"
+* a < b    means "a is less than b"
+* a > b    means "a is greater than b"
+* a != b   means "a does not equal b"
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const foo = 1;
+
+    // if (foo) { // bool値出ないためコンパイルエラー
+    if (foo == 1) {
+        std.debug.print("Foo is 1!\n", .{});
+    } else {
+        std.debug.print("Foo is not 1!\n", .{});
+    }
+}
+```
+
+```bash:出力結果
+Foo is 1!
+```
+
+
+# 010
+
+[010_if2.zig](https://github.com/ratfactor/ziglings/blob/main/exercises/010_if2.zig)
+
+三項演算子チックな書き方が可能
+
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    var discount = true;
+
+    // var price: u8 = if ???;
+    var price: u8 = if (discount) 17 else 18;
+
+    std.debug.print("With the discount, the price is ${}.\n", .{price});
+}
+```
+
+```bash:出力結果
+With the discount, the price is $17.
+```
