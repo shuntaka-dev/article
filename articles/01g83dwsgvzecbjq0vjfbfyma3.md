@@ -455,3 +455,58 @@ pub fn main() void {
     std.debug.print("n={}\n", .{n});
 }
 ```
+
+# 015
+[015_for.zig](https://github.com/ratfactor/ziglings/blob/main/exercises/015_for.zig)
+
+`005`でも登場していた配列長を取らなくても終端までループできるfor記法
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const story = [_]u8{ 'h', 'h', 's', 'n', 'h' };
+
+    std.debug.print("A Dramatic Story:", .{});
+
+    for (story) |scene| {
+        if (scene == 'h') std.debug.print(":-) ", .{});
+        if (scene == 's') std.debug.print(":-( ", .{});
+        if (scene == 'n') std.debug.print(":-| ", .{});
+    }
+
+    std.debug.print("The End.\n", .{});
+}
+```
+
+```bash:出力結果
+A Dramatic Story::-) :-) :-( :-| :-) The End.
+```
+
+# 016
+
+forループ時の添字取得方法
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const bits = [_]u8{ 1, 0, 1, 1 };
+    var value: u32 = 0;
+
+    for (bits) |bit, i| {
+        var place_value = std.math.pow(u32, 2, @intCast(u32, i));
+        value += place_value * bit;
+        std.debug.print("bit: {}, index:{}, place_value: {}\n", .{ bit, i, place_value });
+    }
+
+    std.debug.print("The value ob bits '1101': {}.\n", .{value}); // 1+4+8 = 13
+}
+```
+
+累乗する関数も初出です。
+
+```zig
+// i^2を表す
+var place_value = std.math.pow(u32, 2, @intCast(u32, i));
+```
