@@ -1,0 +1,171 @@
+---
+title: "2022年の振り返り"
+type: "tech"
+category: []
+description: "お世話になった皆様、感謝です！本記事では、2022年の活動を軽く振り返ります。"
+thumbnail: ""
+publish: false
+---
+
+# はじめに
+
+今年も残すところx日です。お世話になった皆様感謝です。
+
+
+# 今年の活動(技術)
+
+## 個人ブログ
+
+チラ裏用途の個人ブログ。ブログ自体の改善は、Next12、React18、GA4対応くらいしかやっていない。本業はサーバーサイドなので(言い訳)
+
+1月-4月末のPV数は約800PV/月くらい
+![img](https://user-images.githubusercontent.com/12817245/209315474-4057648c-7560-47cd-9298-f35e1b6b2b1d.png)
+
+4月末にUAからGA4へ切り替えた。約300くらい。UAとGA4だと全然概念が違うので、そもそも比較にはならない気がする。
+![img](https://user-images.githubusercontent.com/12817245/209314560-508f1126-767d-424d-927e-576fab141bac.png)
+
+記事は3つしか書いていないので、2021資産がPVに寄与した感じ。Go Conferenceは1年ぶりに参加したが、色んなトピックの話が聞けて参考になった。詳しくは記事を見てね。
+
+|記事タイトル|
+|---|
+|[新しいJavaScriptランタイムBunとその開発言語Zigの開発環境を作る](https://blog.hozi.dev/hozi576/articles/01g7kk2jy54b9d7ct876mexwkm)|
+|[Go Conference 2022 Spring参加レポート](https://blog.hozi.dev/hozi576/articles/01g19p2b2eg3dmjfzj4qg7cywp)|
+|[SPAにTwitter OAuth 2.0を組み込む際の雑メモ](https://blog.hozi.dev/hozi576/articles/01fvpj77522jpcagxsget1ejqr)|
+
+素振りネタとセッションレポートと振り返りを書くところになりつつある個人ブログでした！
+
+## Zenn
+
+今年はどちらかというとZennへの投稿が多かった。圧倒的に読まれるので。Recapメールを貼ってみる。
+
+![img](https://user-images.githubusercontent.com/12817245/209311719-e083bb8b-87bf-492b-8b88-997cbebae93c.png)
+![img](https://user-images.githubusercontent.com/12817245/209311835-534a7b86-d049-466a-8bc3-b8de85930912.png)
+
+### Litestream
+
+特に面白かったのはLitestream on App Runner構成、大体月1000円くらいで可用性とSQLを捨てずにWebアプリが作れる構成。SQLiteとはいえ基本的なクエリはもちろんWindow関数もあるので、個人でやりたいサービスがあればプロトタイピングにピッタリだと思う。業務で本構成を取ることはないので、趣味アーキテクチャな気はする。実際食事記録アプリみたいなのを作って見たりした。(世に出ることはなかった)
+
+### Cloudflare
+
+昨今パフォーマンスを求められたとき、CDN Edgeを使うという選択肢があり、私の業務的にはここまで必要にならないことは多い。が、このロジックはCDN Edge配信できるなーとか考える機会が増えたので、いざというときためになりそう()
+
+### GitHub CLI(プラグイン)
+
+GitHubの便利ツールは全部GitHub CLIのプラグインでいいなとなった。理由は権限周りの取り回しをGitHub CLI側に持たされるのが大きい。PATの管理機構を丸っとサボれる。ただGitHub CLIのラッパーになるので、カリカリにチューニングしたい場合はやめた方がいいかな。
+
+
+|記事タイトル|
+|---|
+|[GitHub Projectsへ簡単にissueを作成、追加するGitHub CLI拡張を作った](https://zenn.dev/shuntaka/articles/edfd9ce2c0ee52)|
+|[Litestream on App RunnerでS3にSQLiteをレプリケートしつつアプリをホスティングする](https://zenn.dev/shuntaka/articles/9d35c4710a4b29)|
+|[DynamoDBの個人的便利ツール(CLI)を作った話](https://zenn.dev/shuntaka/articles/68072c00f54700)|
+|[AWSのクレデンシャルをローテートしつつ、LitestreamでSQLite3をS3にレプリケートする](https://zenn.dev/shuntaka/articles/8dcfd60d5f21ec)|
+|[JestでTwitter OAuth 2.0の認可コード取得処理を自動化する](https://zenn.dev/shuntaka/articles/5b9ea7521c7522c5ab0b)|
+|[\[小ネタ\]WebアプリのセッションIDに情報をセキュアに持たせるライブラリ](https://zenn.dev/shuntaka/articles/31f4c228de920b1776e8)|
+|[Cloudflare Pages(Functions,KV)を使ったサイトをホスティングする際に行ったこと](https://zenn.dev/shuntaka/articles/db30a06a59a0f98150cc)|
+
+
+## その他
+
+### PKCS#11
+
+ATECC608の外部から読み出せないスロットの秘密鍵でAWS IoT CoreとMQTT通信するのが去年末出来なかったのができるようになっていた。もう少し掘り下げたかったものの、Cを書きまくる必要があり、自然と優先度が下がっていた。
+
+### Tauri
+
+TauriというRust製のデスクトップフレームワークがあり、似たフレームワークとしてelectronがある。結構成熟していて、試して楽しかった。
+
+|記事タイトル|
+|---|
+|[AWS IoTを使ったIoTエッジソフト開発(Python on Raspberry Pi OS)でやって良かったこと](https://dev.classmethod.jp/articles/shuntaka-aws-iot-with-rpi-develop-tips/)
+|[\[reTerminal\] PKCS#11を用いて秘密鍵を安全に管理しつつAWS IoTとMQTT通信する](https://dev.classmethod.jp/articles/shuntaka-reterminal-pkcs11/)
+|[Kinesis Data StreamsとLambdaのイベントフィルタリング機能を利用して、条件に応じたLambdaを起動する](https://dev.classmethod.jp/articles/shuntaka-event-filtering-lambda-and-kinesis/)
+|[Lambdaから別のアカウントのLambdaを呼び出すCDK構成](https://dev.classmethod.jp/articles/shuntaka-cdk-cross-account-invoke-lambda/)
+
+
+
+### 登壇
+
+Kyoto.go remote #32 LT会で登壇した。登壇内容は後述します。同じLT会でプロトコル開発に関するLTがあり、自分もPing,ARP,UDPあたりを発表者様のブログを参考にGoで実装した。プロトコルスタックやRFCが少し怖くなくなったのでとても良かった。TCPで挫折したけどね！
+
+|登壇|
+|---|
+|[GoでDynamoDBのCLI(便利)を作った](https://docs.google.com/presentation/d/1wNYydZQckmyKrU0NgwNlUc2vn6V0TuGEaUh1PGkWZyo/edit#slide=id.p)|
+
+
+## 作ったツール
+
+今年趣味で作ったツールについて
+
+### [ddbrew](https://github.com/shuntaka9576/ddbrew)
+
+DynamoDBのバックアップ、リストアツール。業務でDynamoDBのマイグレーションやゴミデータの削除が多いので作った。ワーカープールを作って並列書き込みするという内容は、Goととても相性が良かった。
+ないよりもgoroutineやチャネルを活用してCLIを作るのは楽しい。
+
+### [gh-p2](https://github.com/shuntaka9576/gh-p2)
+
+GitHub Projects V2のカード(Issue)作る君。これも業務で必要なので作った。V1のときよりできることが増えていて、カンバンのレーンに直接カードを配置できたり、Pointの設定もAPI経由で出来る。業務で毎週使っていて、来年も使うことになりそう。既に宣伝済みだけど、機能増やしてもっと便利にしてより広めてもいいかも。
+
+### [preview-hozi-dev](https://github.com/shuntaka9576/preview-hozi-dev)
+
+汎用的なツールではなく、個人ブログのプレビューツール。過去にNeovimでmsgpackrpcの仕組みを使ったリモートプラグインという仕組みで作っていたのをdenopsベースにした。理由は単にリモートプラグイン版が動かなくなり、保守も面倒になったため。
+
+denoはnpmパッケージをサポートしているため、自作のnpmマークダウンパーサーをそのまま利用した。便利。サーバー側でパースしてHTMLにして、Web側へWebsocketで送るというこの手のツールではよくある方法。
+
+
+## 仕事
+
+10月一杯で3年くらいやっていたIoTの案件が終わり、11月からは普通のWebアプリのサーバーサイドやっている。Fargate,Aurora,Nest,Prismaあたりを触っている。来年はここら辺の発信が増えるかもです。
+
+# 技術以外
+
+## 健康面
+
+今年通して、基本5時起き21時就寝という超朝方生活をしている。これは原神のデイリーをなんとしてでも消化したくて、朝やることにしたため。ただ8月くらいからddbrewの開発が楽しくて原神は放置気味になり、早起きだけが残った。早起きを習慣にしたい人には原神がお勧めである。
+
+運動の習慣がついた。週一最低1回はジムに行って運動している。バイク漕ぐか軽いウェイトトレーニングのみではあるものの、体調は良くなった。来年も続けたい。
+
+## ゲーム
+
+たいしてやってないMHRに飽きて、少し過去作のMHWを始めた。ようやくアイスボーン。原神は放置気味で来年もそんな感じになりそう。
+
+# 2022年の目標振り返り
+
+> `blog.hozi.dev`は他媒体と比較しても一番使いやすいので、引き続き記事を書いていく
+
+
+3記事書けたので満足。2022年は作ったばかりで住み分けが曖昧だったけど、素振り、セッションレポート、振り返りここら辺のネタがあれば書いていくスタイルでいい気がする。
+
+> * 技術の素振り場所を増やす
+
+今年はスクラップをそれなりに書いた気がする。今スクラップされたネタは来年記事になるはず、
+
+> * 個人ブログとは別にWebアプリを1つを作り、運用する
+>    * WASM, Deno, CDN関連Saas(Cloudflare Workers, Workers KVとか)あたりが組み込めるテーマがいいな..
+
+DenoやCloudflareは今年試せたので、この時より解像度が上がっているもののWebアプリまでは作れてない。WASMはあまり触れなかった。
+
+> * M5Stack(ESP32, Arduino)を使って何かアプリを作る(ｽﾀｯｸﾁｬﾝとか..)
+
+Cが必要で、1度は業務をこなさないと時間ばかりかかってしまうので断念
+
+> * `blog.hozi.dev`の採用技術の見直し、素振り
+>   * 例えば、VercelをAmplifyにする、DynamoDB, Firebase Authenticationをsupabaseにする等
+
+今はFargate Aurora構成にしたい気しかない。MySQLのFULLTEXT INDEXが手軽で良かったのでサーバーレスAPIから移行するのありかも
+
+# 2023年に向けて
+
+* Neovimとより仲良くなる(言い続けて幾年)
+  * プラグイン開発
+    * denopsで開発とはいえ、VimScriptをもっと理解する必要あり
+    * gh-p2と絡めても面白いかもしれない
+* Tauriを使ったデスクトップアプリ開発
+  * デスクトップアプリの得意な領域はあるなという思いがあり、何か作りたい
+* WASMネタなんか
+
+# 最後に
+
+今年はあまりスラスラとやりたいことが出てこなかった。趣味プログラミングも年々ハードルが高くなっていて、やり切るまで要する時間がインフレしている。あと来年頭は結構忙しくなることが見えており、業務のキャッチアップでお腹いっぱいになりそう。中盤、後半になったら何かやりたいことが見つかるかもしれない。それまではプラグインとMHWやって過ごします!
+
+ということで、1年間お世話になりましたー。良いお年を〜。
