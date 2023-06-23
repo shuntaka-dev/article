@@ -68,7 +68,7 @@ Custom domainsの設定を確認しても「Activate」状態になっており�
 果報寝て待て
 
 # 参考
+
 [Getting Started with Cloudflare Pages, Google domains and Gmail](https://dev.to/julianjurai/getting-started-with-cloudflare-pages-google-domains-and-gmail-fhf)
-[一連のツイート](https://twitter.com/h0z1_576/status/1423666447713128451)
 
 

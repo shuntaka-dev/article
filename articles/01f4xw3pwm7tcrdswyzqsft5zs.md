@@ -8,7 +8,7 @@ publish: true
 
 # はじめに
 
-本ブログは、自分用途に下書きをプレビューしたり、公開するまでもないメモを認証を通して閲覧する機能があります。認証には、Firebase AuthenticationとJWTで、AWS API GatewayとLambdaオーソライザで認証しています。詳しくは[こちら](https://blog.hozi.dev/hozi576/articles/01f07hctzhjcwtdq4h6ew9stk8#%E6%A7%8B%E6%88%90%E6%A6%82%E8%A6%81)
+本ブログは、自分用途に下書きをプレビューしたり、公開するまでもないメモを認証を通して閲覧する機能があります。認証には、Firebase AuthenticationとJWTで、AWS API GatewayとLambdaオーソライザで認証しています。詳しくは[こちら](https://shuntaka.dev/shuntaka/articles/01f07hctzhjcwtdq4h6ew9stk8#%E6%A7%8B%E6%88%90%E6%A6%82%E8%A6%81)
 
 Firebase Authenticationのライブラリは、非常に優秀でJWTの検証はライブラリがいい感じにやってくれます。Auth0などの他のIDaaSも一緒だと思います。
 ただ、JWTの概念、作成・検証ロジックを知っておくと様々な認証設計時に有効です。故に記事にすることにしました。
@@ -60,8 +60,8 @@ $ cat firebase_public_key_list.json
 後述するが今回サンプル使うJWTのHeaderの`kid`が`cc3f4e8b2f1d02f0ea4b1bdde55add8b08bc5386`なので、`firebase_public_key_list.json`の値に入っている公開鍵を`firebase_public_key.pem`に保存します。
 
 ```bash
-$ cat firebase_public_key_list.json | \
-$ jq -r '.cc3f4e8b2f1d02f0ea4b1bdde55add8b08bc5386' > firebase_public_key.pem
+cat firebase_public_key_list.json | \
+  jq -r ".\"cc3f4e8b2f1d02f0ea4b1bdde55add8b08bc5386\"" > firebase_public_key.pem
 ```
 
 前述のとおり公開鍵が含まれており、`Public-Key: (2048 bit)`より鍵長が2048bitであることがわかる

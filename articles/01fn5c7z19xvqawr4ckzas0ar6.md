@@ -173,7 +173,7 @@ timer:start(1000, 0, vim.schedule_wrap(function() popup:unmount() end))
   curl["post"]({
     -- url = "https://reqres.in/api/users?page=5",
     -- TODO: ある程度不可をかけたい場合
-    -- url = "https://api.hozi.dev/v1/users/hozi576/articles?type=tech",
+    -- url = "https://api.hozi.dev/v1/users/shuntaka/articles?type=tech",
     -- TODO: 本番
     url = "https://api-free.deepl.com/v2/translate",
     accept = "application/json",

@@ -13,8 +13,6 @@ publish: true
 
 社会人も7年目になり、新卒のときチュータでこの人凄いなと思っていた先輩と同じくらいのキャリア()になったことを考え軽く...になりましたが元気です。
 
-また今年は特に**吉野家**と**ぎょうざの満州**にお世話になりました。多くのカロリーをご提供頂きこの場を借りて重ねて感謝申し上げます。
-
 # 今年の活動(技術)
 
 ## 個人ブログ
@@ -38,9 +36,9 @@ publish: true
 
 |記事タイトル|
 |---|
-|[新しいJavaScriptランタイムBunとその開発言語Zigの開発環境を作る](https://blog.hozi.dev/hozi576/articles/01g7kk2jy54b9d7ct876mexwkm)|
-|[Go Conference 2022 Spring参加レポート](https://blog.hozi.dev/hozi576/articles/01g19p2b2eg3dmjfzj4qg7cywp)|
-|[SPAにTwitter OAuth 2.0を組み込む際の雑メモ](https://blog.hozi.dev/hozi576/articles/01fvpj77522jpcagxsget1ejqr)|
+|[新しいJavaScriptランタイムBunとその開発言語Zigの開発環境を作る](https://shuntaka.dev/shuntaka/articles/01g7kk2jy54b9d7ct876mexwkm)|
+|[Go Conference 2022 Spring参加レポート](https://shuntaka.dev/shuntaka/articles/01g19p2b2eg3dmjfzj4qg7cywp)|
+|[SPAにTwitter OAuth 2.0を組み込む際の雑メモ](https://shuntaka.dev/shuntaka/articles/01fvpj77522jpcagxsget1ejqr)|
 
 以上、素振りネタとセッションレポートと振り返りを書くところになりつつある個人ブログでした！
 
@@ -48,7 +46,7 @@ publish: true
 
 今年はどちらかというとZennへの投稿が多かった。圧倒的に読まれるので。Recapメールを貼ってみる。
 
-![img](https://user-images.githubusercontent.com/12817245/209311719-e083bb8b-87bf-492b-8b88-997cbebae93c.png)
+![img](https://github.com/shuntaka9576/zenn-content/assets/12817245/6088993d-5f63-449a-8646-b8a8e05e1f08)
 ![img](https://user-images.githubusercontent.com/12817245/209311835-534a7b86-d049-466a-8bc3-b8de85930912.png)
 
 
@@ -145,22 +143,13 @@ swaggerとasciidocのプレビューワーをリモートプラグイン作っ�
 
 ## 健康面
 
-今年通して、基本5時起き21時就寝という超朝方生活をしている。これは原神のデイリーをなんとしてでも消化したくて、朝やることにしたため。ただ8月くらいからddbrewの開発が楽しくて原神は放置気味になり、早起きだけが残った。早起きを習慣にしたい人には原神がお勧めである。
-
 運動の習慣がついた。今年の後半から週最低1回はジムに行って運動している。バイク漕ぐか軽いウェイトトレーニングのみではあるものの、体調は良くなった。書いている時点で体重が約60kgで体脂肪率約17%なので今年中に15%きりたい。来年も早起きと週3以上の運動は維持したい。
-
-
-## ゲーム
-
-たいしてやってない。MHRに飽きて、少し過去作のMHWを始めた。ようやくアイスボーン。早速洗礼を受けていて、亜種系は兜割り結構当てても時間一杯使うとかある。
-
-原神はスメール前から放置気味で来年もそんな感じになりそう。ガッツリやってはいないけど七聖召喚は面白い、、大学時代紙のカードゲームにハマっていたのでやればハマれる気がする。DTCGはコードオブジョーカー以来で新鮮だった(こなみかん)
 
 
 # 振り返り
 ## 振り返りの振り返り
 
-> `blog.hozi.dev`は他媒体と比較しても一番使いやすいので、引き続き記事を書いていく
+> `shuntaka.dev`は他媒体と比較しても一番使いやすいので、引き続き記事を書いていく
 
 
 3記事書けたので満足。2022年はブログを作ったばかりで住み分けが曖昧だったけど、素振り、セッションレポート、振り返りネタを書いていくスタイルに落ち着きそう。
@@ -178,7 +167,7 @@ DenoやCloudflareは今年試せたので、書いた当初より理解度が上
 
 Cが必要で、1度は業務をこなさないと時間ばかりかかってしまうので断念。
 
-> * `blog.hozi.dev`の採用技術の見直し、素振り
+> * `shuntaka.dev`の採用技術の見直し、素振り
 >   * 例えば、VercelをAmplifyにする、DynamoDB, Firebase Authenticationをsupabaseにする等
 
 Fargate Aurora構成にしたい気持ちがあるものの、手軽さ、金銭面の問題がネックで辞めた。

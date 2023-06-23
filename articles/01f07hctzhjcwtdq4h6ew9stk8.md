@@ -61,8 +61,8 @@ Next.jsでブログ作ってみました記事は、だいたいNext.jsアプリ
 lernaを使ったモノレポ構成で管理している。課題は、npmにpublishしないとパッケージを使う側と結合テスト出来ない点。モノレポにしなければnpmの場合、雑にリポジトリ名とブランチ名指定でパッケージインストール可能なので、悩みどころ。
 
 lerna関連では、過去に記事を書いたのでこちらも参考にすると良いかもしれない。
-* [lernaでモノレポで管理したパッケージをnpmに公開する際の注意点](https://blog.hozi.dev/hozi576/articles/01ev3p1knggn1wwsg0n0e98915)
-* [npmモジュールをモノレポで管理し、煩雑なリリース業務を効率化する](https://blog.hozi.dev/hozi576/articles/01evbw029qzxavp20erstgvm5r)
+* [lernaでモノレポで管理したパッケージをnpmに公開する際の注意点](https://shuntaka.dev/shuntaka/articles/01ev3p1knggn1wwsg0n0e98915)
+* [npmモジュールをモノレポで管理し、煩雑なリリース業務を効率化する](https://shuntaka.dev/shuntaka/articles/01evbw029qzxavp20erstgvm5r)
 
 ## ダッシュボードページ
 管理ページで、著者しかみれないページなので、実質ユーザーには縁のないページ。(Firebas Authenticationでサインアップすれば同じことができるようにはしています)
@@ -238,7 +238,7 @@ export const getArticleListByUserIdAndType = async (
 ## GitHub Webhook受け取り
 ZennのようなGitHub連携機能を付けたくて実装した。GitHub Appsをインストールしたリポジトリにpushすると、APIGatewayを通して本Lambdaが実行される。ロジックは別途記事を書く予定。
 
-GitHub Appsとはなんぞや？という方は、以前投稿した[GitHubとの連携手段(OAuth Apps, GitHub Apps)を整理する](https://blog.hozi.dev/hozi576/articles/01ezm5k2rt1jm6zbsewm33r0xw)を参考にする良いかも。
+GitHub Appsとはなんぞや？という方は、以前投稿した[GitHubとの連携手段(OAuth Apps, GitHub Apps)を整理する](https://shuntaka.dev/shuntaka/articles/01ezm5k2rt1jm6zbsewm33r0xw)を参考にする良いかも。
 
 ## ユーザー情報取得
 Firebase AuthenticationのUIDに紐づけた情報を取得するAPI。Lambdaからユーザーテーブルに問い合わせ取得した内容を返却する。
@@ -259,7 +259,7 @@ Firebase AuthenticationのUIDに紐づけた情報を取得するAPI。Lambdaか
 GSI OVERLOADINGは1つのGSIであらゆる属性からユーザーIDを**逆引き**出来るのが強みで採用している。
 
 ## GitHub Appsインストール
-[GitHub Appsのインストールのフロー](https://blog.hozi.dev/hozi576/articles/01ezm5k2rt1jm6zbsewm33r0xw#%E3%83%95%E3%83%AD%E3%83%BC-1)のバックエンドの部分の処理を担う。
+[GitHub Appsのインストールのフロー](https://shuntaka.dev/shuntaka/articles/01ezm5k2rt1jm6zbsewm33r0xw#%E3%83%95%E3%83%AD%E3%83%BC-1)のバックエンドの部分の処理を担う。
 主な処理は下記。
 * 前述のユーザーテーブルにinstalltionIdとFirebase AuthenticationのUIDを紐づけて保存する
 

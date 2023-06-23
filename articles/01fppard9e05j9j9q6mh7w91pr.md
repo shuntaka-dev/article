@@ -137,7 +137,7 @@ lernaの設定に関しては、割愛します。特別なことはしていま
 # リリースする
 
 ## ソースを修正してコミット
-alertの内容を修正します。コミットメッセージは、Conventional Commitsでバージョンが変わるprefixを利用してください。Conventional Commitsについては、[npmモジュールをモノレポで管理し、煩雑なリリース業務を効率化する](https://blog.hozi.dev/hozi576/articles/01evbw029qzxavp20erstgvm5r#conventional-commits)で詳しく解説しております。参考まで。
+alertの内容を修正します。コミットメッセージは、Conventional Commitsでバージョンが変わるprefixを利用してください。Conventional Commitsについては、[npmモジュールをモノレポで管理し、煩雑なリリース業務を効率化する](https://shuntaka.dev/shuntaka/articles/01evbw029qzxavp20erstgvm5r#conventional-commits)で詳しく解説しております。参考まで。
 
 ```rust:lib.rs
 mod utils;

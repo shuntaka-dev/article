@@ -49,12 +49,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 * 当初サブドメインなしの`hozi.dev`で配信検討。サブドメインなしの場合、ANAMEかネームサーバーを変更する必要あり。
   * 調べた感じANAME対応のドメインレジストラは少なそう..?
-  * 既にAPIGatewayを`api.hozi.dev`で配信していたため、ネームサーバーを変えるのはちょっと面倒で、`blog.hozi.dev`でCNAMEをRoute53に設定することで妥協
+  * 既にAPIGatewayを`api.hozi.dev`で配信していたため、ネームサーバーを変えるのはちょっと面倒で、`shuntaka.dev`でCNAMEをRoute53に設定することで妥協
 
 ## Vercel
 * リポジトリをGitHub Teamに作っていたため、連携する際にVercelでチームを作る必要あり。Trial期間後、20$/mo [pricing](https://vercel.com/pricing)
   * 個人のリポジトリなら無料なので、リポジトリを個人アカウント配下へ移行
-* `blog.hozi.dev`はVercel経由でドメイン取得(証明書も自動で作られる)。ここら辺はサクサク設定できた
+* `shuntaka.dev`はVercel経由でドメイン取得(証明書も自動で作られる)。ここら辺はサクサク設定できた
   * 前述の通りRoute53側にのCNAMEに`cname.vercel-dns.com`設定する必要あり
 
 ## マークダウンからHTMLへの変換

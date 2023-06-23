@@ -27,7 +27,7 @@ publish: true
 * プライベートな記事を認証付き(Firebase Authentication)で見られる仕組みの導入
 * GitHub Appsを使ったリポジトリとブログの同期システム 
 
-実際に書いたコードは、[公開](https://github.com/hozi-dev)しているので、気になる人がいるわけないと思いますが、参考になればと思います。ここら辺の話の詳細は[Next.jsとサーバレスAPIで自分のブログを作った話](https://blog.hozi.dev/hozi576/articles/01f07hctzhjcwtdq4h6ew9stk8)に書いたので、気になる方は見てみてください。
+実際に書いたコードは、[公開](https://github.com/hozi-dev)しているので、気になる人がいるわけないと思いますが、参考になればと思います。ここら辺の話の詳細は[Next.jsとサーバレスAPIで自分のブログを作った話](https://shuntaka.dev/shuntaka/articles/01f07hctzhjcwtdq4h6ew9stk8)に書いたので、気になる方は見てみてください。
 
 PV数は大体月500PVくらいです。まだまだですが、自分の備忘録として書くというスタンスでこれからも続けます。
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1640317706/blog/01fqn7vgp6hcejnyhe6k0fs208/x7exp0dr4mz9cn1lv57f.png)
@@ -36,18 +36,16 @@ PV数は大体月500PVくらいです。まだまだですが、自分の備忘�
 
 |記事タイトル|PV数|
 |---|---|
-|[Next.jsとサーバレスAPIで自分のブログを作った話](https://blog.hozi.dev/hozi576/articles/01f07hctzhjcwtdq4h6ew9stk8)|697|
-|[GitHubとの連携手段(OAuth Apps, GitHub Apps)を整理する](https://blog.hozi.dev/hozi576/articles/01ezm5k2rt1jm6zbsewm33r0xw)|526|
-|[AWS IoTで独自CA証明書を使ってMQTT通信を試してみる](https://blog.hozi.dev/hozi576/articles/01f4gnep6herhgy449er48g9c0)|422|
-|[OpenSSLでJWTの作成、検証ロジックを確認する](https://blog.hozi.dev/hozi576/articles/01f4xw3pwm7tcrdswyzqsft5zs)|282|
-|[npmモジュールをモノレポで管理し、煩雑なリリース業務を効率化する](https://blog.hozi.dev/hozi576/articles/01evbw029qzxavp20erstgvm5r)|269|
-|[Vim/Neovimプラグイン開発サイクルをまとめてみる](https://blog.hozi.dev/hozi576/articles/01f0n3x0afc5wt54qeaz77zvw4)|257|
-|[App EngineとCloud CDNでstale-while-revalidate可能な環境を構築する](https://blog.hozi.dev/hozi576/articles/01f2wwqs2jcdgc7fh8bmhnewk6)|253|
-|[next/linkのpassHref属性がどのような場合に必要か整理、検証してみる](https://blog.hozi.dev/hozi576/articles/01f3qsp7vz8dtetg5cq27ercna)|217|
-|[lernaでモノレポで管理したパッケージをnpmに公開する際の注意点](https://blog.hozi.dev/hozi576/articles/01ev3p1knggn1wwsg0n0e98915)|207|
+|[Next.jsとサーバレスAPIで自分のブログを作った話](https://shuntaka.dev/shuntaka/articles/01f07hctzhjcwtdq4h6ew9stk8)|697|
+|[GitHubとの連携手段(OAuth Apps, GitHub Apps)を整理する](https://shuntaka.dev/shuntaka/articles/01ezm5k2rt1jm6zbsewm33r0xw)|526|
+|[AWS IoTで独自CA証明書を使ってMQTT通信を試してみる](https://shuntaka.dev/shuntaka/articles/01f4gnep6herhgy449er48g9c0)|422|
+|[OpenSSLでJWTの作成、検証ロジックを確認する](https://shuntaka.dev/shuntaka/articles/01f4xw3pwm7tcrdswyzqsft5zs)|282|
+|[npmモジュールをモノレポで管理し、煩雑なリリース業務を効率化する](https://shuntaka.dev/shuntaka/articles/01evbw029qzxavp20erstgvm5r)|269|
+|[Vim/Neovimプラグイン開発サイクルをまとめてみる](https://shuntaka.dev/shuntaka/articles/01f0n3x0afc5wt54qeaz77zvw4)|257|
+|[App EngineとCloud CDNでstale-while-revalidate可能な環境を構築する](https://shuntaka.dev/shuntaka/articles/01f2wwqs2jcdgc7fh8bmhnewk6)|253|
+|[next/linkのpassHref属性がどのような場合に必要か整理、検証してみる](https://shuntaka.dev/shuntaka/articles/01f3qsp7vz8dtetg5cq27ercna)|217|
+|[lernaでモノレポで管理したパッケージをnpmに公開する際の注意点](https://shuntaka.dev/shuntaka/articles/01ev3p1knggn1wwsg0n0e98915)|207|
 
-クエリによっては1桁順位で掲載されることもあり、作ってよかったと思いました。
-![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1640319312/blog/01fqn7vgp6hcejnyhe6k0fs208/iwny4hghqzhyxib9i30j.png)
 
 ## その他
 ほぼないので、ブログところで水増ししました。
@@ -59,9 +57,9 @@ PV数は大体月500PVくらいです。まだまだですが、自分の備忘�
 
 少し耐性がついた結果、M5Stack Core2 for AWSを購入して色々記事を書きました。
 
-* [NeovimでM5Stack Core2ファームウェア開発を快適に行う環境を作った](https://blog.hozi.dev/hozi576/articles/01ffwa0x782te58803721b1czg)
-* [ESP-IDFの導入と使い心地を試す](https://blog.hozi.dev/hozi576/articles/01fg0ayqeqbf4rbfzc7gev1t0k)
-* [[M5Stack Core2] PlatformIOでesp-aws-iotのサンプルsubscribe_publishを動かしてみる](https://blog.hozi.dev/hozi576/articles/01fgdc0bawyb6d34gs54vxgpg9)
+* [NeovimでM5Stack Core2ファームウェア開発を快適に行う環境を作った](https://shuntaka.dev/shuntaka/articles/01ffwa0x782te58803721b1czg)
+* [ESP-IDFの導入と使い心地を試す](https://shuntaka.dev/shuntaka/articles/01fg0ayqeqbf4rbfzc7gev1t0k)
+* [[M5Stack Core2] PlatformIOでesp-aws-iotのサンプルsubscribe_publishを動かしてみる](https://shuntaka.dev/shuntaka/articles/01fgdc0bawyb6d34gs54vxgpg9)
 
 今年は、個人で18記事と会社で3記事の合計21記事書きました。
 
@@ -70,24 +68,18 @@ PV数は大体月500PVくらいです。まだまだですが、自分の備忘�
 ## 運動
 5月,6月は、平日1万/休日1万5千歩くらい歩いていました。おかげで10kgくらい痩せました。登山グッズも買ったのですが、1回大山行ったきりです。。最近はサボり気味ですが、また太ってきたら再開しよーかなーと思っています。
 
-## ゲーム
-6,7月はMHST2が面白くて、結果MHRも買ってプレイしました。
-10月くらいに惰性で続けていたFGOを完全引退(キャラ全て霊基遷移済みなので復帰はしないでしょう)しました。8,9月で2部1章 - 2部6章完走して以降楽しみでしたが、未練はないです（）
-結果的に原神に乗り換えました。11月開始で今ランク42で、社会人以来初くらいにハマっています。原神はいいぞ。
-
 # 2022年向けて
 ざっくりですが、2022年は下記をテーマにやっていきたいなと思います。
 
-* `blog.hozi.dev`は他媒体と比較しても一番使いやすいので、引き続き記事を書いていく
+* 本ブログは他媒体と比較しても一番使いやすいので、引き続き記事を書いていく
 * 技術の素振り場所を増やす
   * 個人ブログとは別にWebアプリを1つを作り、運用する
     * WASM, Deno, CDN関連Saas(Cloudflare Workers, Workers KVとか)あたりが組み込めるテーマがいいな..
 * M5Stack(ESP32, Arduino)を使って何かアプリを作る(ｽﾀｯｸﾁｬﾝとか..)
-* `blog.hozi.dev`の採用技術の見直し、素振り
+* 本ブログの採用技術の見直し、素振り
   * 例えば、VercelをAmplifyにする、DynamoDB, Firebase Authenticationをsupabaseにする等
 
 # 最後に
-休日は歩いたり、登山したり、ゲームする比重が多い1年だった気がします。。一方で自作ブログがいい感じで育ってくれたのが収穫でした。仕事で試せない技術の素振り場所として活用出来たらなー思います。来年やりたいテーマもゆるく出来たので、生きていける気がします。
 
 ちなみにサムネイルは大さん橋埠頭から撮った写真です。実家から歩いて90分くらいのところにあり、引っ越すともうこの景色は歩いて見れなくなるなーという気持ちで今年の振り返りのサムネイルにしました。どうでもいいですね。
 

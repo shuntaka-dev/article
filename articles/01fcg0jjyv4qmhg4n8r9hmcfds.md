@@ -175,7 +175,7 @@ $ wrangler dev --env pre
 ## Cloudflare CDNの設定
 [Cloudflare DNS設計](#cloudflare-dns設計)参考
 
-※ Cloudflare Pagesは別途Custom domainsの設定が必要です。嵌ったら、[Cloudflare PagesにApexドメインを設定しようとして嵌った話](https://blog.hozi.dev/hozi576/articles/01fcexkj03t5wr0hkjt37t7dcz)が少し参考になるかもしれません。
+※ Cloudflare Pagesは別途Custom domainsの設定が必要です。嵌ったら、[Cloudflare PagesにApexドメインを設定しようとして嵌った話](https://shuntaka.dev/shuntaka/articles/01fcexkj03t5wr0hkjt37t7dcz)が少し参考になるかもしれません。
 
 
 # 最後に

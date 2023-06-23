@@ -87,18 +87,18 @@ Certificate:
 本ブログの証明書を確認してみる
 
 ```bash
-openssl s_client -connect blog.hozi.dev:443 -showcerts
+openssl s_client -connect shuntaka.dev:443 -showcerts
 
 CONNECTED(00000005)
 depth=2 O = Digital Signature Trust Co., CN = DST Root CA X3
 verify return:1
 depth=1 C = US, O = Let's Encrypt, CN = R3
 verify return:1
-depth=0 CN = blog.hozi.dev
+depth=0 CN = shuntaka.dev
 verify return:1
 ---
 Certificate chain
- 0 s:CN = blog.hozi.dev
+ 0 s:CN = shuntaka.dev
    i:C = US, O = Let's Encrypt, CN = R3
 # 1
 -----BEGIN CERTIFICATE-----
@@ -133,7 +133,7 @@ Certificate:
         Validity
             Not Before: Mar 10 22:28:02 2021 GMT
             Not After : Jun  8 22:28:02 2021 GMT
-        Subject: CN = blog.hozi.dev
+        Subject: CN = shuntaka.dev
 (中略)
 ```
 
