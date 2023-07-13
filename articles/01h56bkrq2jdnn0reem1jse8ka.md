@@ -167,6 +167,12 @@ NUMMI
     * 自己強化サイクルを生み出している
     * どれほどの結果が出せるのか。それをは測れるシステムはあるか
 
+* Reading Betweed the Lines
+  * GitHub CUPSモデル
+  *  API支援プログッミングを使うとかくよりレビューに時間をつやす
+  * 
+
+* the best both worlds
 
 
 
