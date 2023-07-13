@@ -171,10 +171,6 @@ NUMMI
   * GitHub CUPSモデル
   *  API支援プログッミングを使うとかくよりレビューに時間をつやす
   * 
-
 * the best both worlds
-
-
-
-
+  * ハイブリッドワーク
 
