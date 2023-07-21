@@ -22,8 +22,8 @@ publish: true
 |10:30|From Metrics to Mastery: Improving Performance with DORA and the SPACE Framework [📄(未)]()||
 |12:10|組織をスケールさせるためのFour keysとチームトポロジー[📄](https://speakerdeck.com/zigorou/zu-zhi-wosukerusaserutameno-four-keys-totimutoporozi)|生産性向上に自ら取り組むチームカルチャーが生み出す顧客価値 [📄](https://speakerdeck.com/mixplace/customer-value-created-by-dev-team-culture-that-works-to-improve-productivity)|フロー効率を重視して「2年半でエンジニア2名→35名」の急拡大組織で高い生産性を実現した話 [📄](https://speakerdeck.com/rinchsan/huroxiao-lu-wozhong-shi-site-2nian-ban-deenzinia2ming-35ming-noji-kuo-da-zu-zhi-degao-isheng-chan-xing-woshi-xian-sitahua)|
 |12:45|なぜ Four Keys を改善するのか？ 〜How ではなく Why を重視したメトリクス改善活動〜 [📄](https://speakerdeck.com/lmi/productivity-con-link-and-motivation)|専用インフラ不要、デザイン変更不要！リアルタイム機能をあなたのAPIにもらくらく追加 [📄(未)]()|-|
-|13:20|The Metrics Key: Connecting Product, System, Team [📄(未)]()|サイバーエージェントの組織文化を活かした開発生産性への取り組み事例 [📄(未)]()|Four Keys改善だけはない。ZOZOTOWN/WEARの開発生産性向上の取り組み [📄(未)]()|
-|14:00|大手企業の開発内製化事例 〜東急×KINTOが語る内製化の3ステップ〜 [📄(未)]()|全社ワークスペースにGitHubを選んだROUTE06の開発生産性 [📄(未)]()|Cloud Nativeの作法: 成熟度モデルを活用したCloud Nativeへの道筋 [📄](https://speakerdeck.com/nwiizo/cloud-native-nozuo-fa)
+|13:20|The Metrics Key: Connecting Product, System, Team [📄](https://speakerdeck.com/i35_267/the-metrics-key-connecting-product-system-team)|サイバーエージェントの組織文化を活かした開発生産性への取り組み事例 [📄(未)]()|Four Keys改善だけはない。ZOZOTOWN/WEARの開発生産性向上の取り組み [📄(未)]()|
+|14:00|大手企業の開発内製化事例 〜東急×KINTOが語る内製化の3ステップ〜 [📄(未)]()|全社ワークスペースにGitHubを選んだROUTE06の開発生産性 [📄](https://speakerdeck.com/route06/development-productivity-of-route06)|Cloud Nativeの作法: 成熟度モデルを活用したCloud Nativeへの道筋 [📄](https://speakerdeck.com/nwiizo/cloud-native-nozuo-fa)
 |15:00|Four keysを超えて 〜信頼性はいかに開発生産性を高めるのか〜 [📄(未)]()|メルカリ×DeNAの考える開発生産性とは？〜専門チームが語る”可視化”のNext Action〜 [📄(未)]()|
 |16:15|これからのソフトウェア開発 "GitHub x AI" による生産性革命 [📄(未)]()|フィーチャーチーム化への取り組みと、それを支える組織マネジメント体制 [📄](https://speakerdeck.com/tanakayuki/huitiyatimuhua-henoqu-rizu-mito-sorewozhi-eruzu-zhi-manesimentoti-zhi)|スタートアップと上場企業、二つの視点から見る技術的負債との向き合い方 〜リアーキテクチャとDevOps改善〜 [📄(未)]()
 |17:10|行政府の開発生産性向上のアプローチと、目指す未来 [📄(未)]()| エンジニア1人から始めた開発生産性改善が、組織100名、経営をも巻き込んだ話 [📄(未)]()|Four Keys改善のハードシングス！NewsPicks・バイセル・はてなが直面したハードルと乗り越え方 [📄(未)]()
