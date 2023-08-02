@@ -19,7 +19,7 @@ publish: true
 
 |時刻|ホールA|ホールB|ルーム1|
 |---|---|---|---|
-|10:30|From Metrics to Mastery: Improving Performance with DORA and the SPACE Framework [📄(未)]()||
+|10:30|From Metrics to Mastery: Improving Performance with DORA and the SPACE Framework [📄](https://speakerdeck.com/findyinc/kai-fa-sheng-chan-xing-conference-keynote-dr-dot-nicole-forsgren-from-metrics-to-mastery-improving-performance-with-dora-and-the-space-framework)||
 |12:10|組織をスケールさせるためのFour keysとチームトポロジー[📄](https://speakerdeck.com/zigorou/zu-zhi-wosukerusaserutameno-four-keys-totimutoporozi)|生産性向上に自ら取り組むチームカルチャーが生み出す顧客価値 [📄](https://speakerdeck.com/mixplace/customer-value-created-by-dev-team-culture-that-works-to-improve-productivity)|フロー効率を重視して「2年半でエンジニア2名→35名」の急拡大組織で高い生産性を実現した話 [📄](https://speakerdeck.com/rinchsan/huroxiao-lu-wozhong-shi-site-2nian-ban-deenzinia2ming-35ming-noji-kuo-da-zu-zhi-degao-isheng-chan-xing-woshi-xian-sitahua)|
 |12:45|なぜ Four Keys を改善するのか？ 〜How ではなく Why を重視したメトリクス改善活動〜 [📄](https://speakerdeck.com/lmi/productivity-con-link-and-motivation)|専用インフラ不要、デザイン変更不要！リアルタイム機能をあなたのAPIにもらくらく追加 [📄(未)]()|-|
 |13:20|The Metrics Key: Connecting Product, System, Team [📄](https://speakerdeck.com/i35_267/the-metrics-key-connecting-product-system-team)|サイバーエージェントの組織文化を活かした開発生産性への取り組み事例 [📄(未)]()|Four Keys改善だけはない。ZOZOTOWN/WEARの開発生産性向上の取り組み [📄(未)]()|
