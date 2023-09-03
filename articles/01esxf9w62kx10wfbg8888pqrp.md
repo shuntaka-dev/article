@@ -9,6 +9,10 @@ publish: true
 # はじめに
 Next.jsでブログリニューアルしました！
 
+:::message
+詳細は後日[こちら](https://shuntaka.dev/shuntaka/articles/01f07hctzhjcwtdq4h6ew9stk8)のブログ書きました。
+:::
+
 # 動機
 今までHugoで本サイトとは別のドメインで運用していました。Next.jsが流行っているので、これを機会に乗り換えました。デザインは悩んだ、アクセシビリティとか私自身知見がなく、これを機に学びたい。
 
