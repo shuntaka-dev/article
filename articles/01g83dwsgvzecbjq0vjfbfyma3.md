@@ -494,8 +494,9 @@ pub fn main() void {
     const bits = [_]u8{ 1, 0, 1, 1 };
     var value: u32 = 0;
 
-    for (bits) |bit, i| {
-        var place_value = std.math.pow(u32, 2, @intCast(u32, i));
+    for (bits, 0..) |bit, i| {
+        const i_u32: u32 = @intCast(i)
+        var place_value = std.math.pow(u32, 2, i_u32);
         value += place_value * bit;
         std.debug.print("bit: {}, index:{}, place_value: {}\n", .{ bit, i, place_value });
     }
@@ -505,6 +506,8 @@ pub fn main() void {
 ```
 
 累乗する関数も初出です。
+
+`Returns x raised to the power of y (x^y).`(x を y のべき乗にした値 (x^y) を返す。)
 
 ```zig
 // i^2を表す
