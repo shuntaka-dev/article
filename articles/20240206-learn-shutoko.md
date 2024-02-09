@@ -65,9 +65,9 @@ publish: true
 |9号深川線|9|[リンク](https://ja.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E9%AB%98%E9%80%9F9%E5%8F%B7%E6%B7%B1%E5%B7%9D%E7%B7%9A#%E5%87%BA%E5%85%A5%E5%8F%A3%E3%81%AA%E3%81%A9)
 |10号晴海線|10|[リンク](https://ja.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E9%AB%98%E9%80%9F10%E5%8F%B7%E6%99%B4%E6%B5%B7%E7%B7%9A#%E5%87%BA%E5%85%A5%E5%8F%A3%E3%81%AA%E3%81%A9)
 |11号台場線|11|[リンク](https://ja.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E9%AB%98%E9%80%9F11%E5%8F%B7%E5%8F%B0%E5%A0%B4%E7%B7%9A#%E5%87%BA%E5%85%A5%E5%8F%A3%E3%81%AA%E3%81%A9)
-|八重洲線||[リンク]()
-|湾岸線(東京線)||[リンク]()
-|湾岸線(神奈川線)||[リンク]()
+|八重洲線|Y|[リンク](https://ja.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E9%AB%98%E9%80%9F%E5%85%AB%E9%87%8D%E6%B4%B2%E7%B7%9A#%E5%87%BA%E5%85%A5%E5%8F%A3%E3%81%AA%E3%81%A9)
+|湾岸線(東京線)|B|[リンク](https://ja.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E9%AB%98%E9%80%9F%E6%B9%BE%E5%B2%B8%E7%B7%9A#%E5%87%BA%E5%85%A5%E5%8F%A3%E3%81%AA%E3%81%A9)
+|湾岸線(神奈川線)|B|[リンク](https://ja.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E9%AB%98%E9%80%9F%E6%B9%BE%E5%B2%B8%E7%B7%9A#%E5%87%BA%E5%85%A5%E5%8F%A3%E3%81%AA%E3%81%A9)
 |神奈川1号横羽線|K1|[リンク]()
 |神奈川2号三ツ沢線|K2|[リンク]()
 |神奈川3号狩場線|K3|[リンク]()
@@ -79,4 +79,9 @@ publish: true
 |埼玉新都心線|S2|[リンク]()
 |埼玉大宮線|S3|[リンク]()
 |新大宮上尾道路|S4|[リンク]()
+
+
+## 湾岸線
+
+* 路線名は、`Bay Shore Route` の `B` が由来
 
