@@ -97,13 +97,37 @@ publish: true
 * 路線名は、`Bay Shore Route` の `B` が由来
 
 
+
+## 東京湾アクアライン連絡道
+
+### 概要
+
+|略称|資料
+|---|---|
+|CA|[資料](https://www.ne.jp/asahi/expressway/dataroom/CA.htm)
+
+
+
+
+### JCT
+
+#### [木更津JCT](https://www.driveplaza.com/traffic/jct_map/1130026.html)
+
+`CA` 袖ヶ浦IC方面からの分岐
+
+|1|2|3|
+|---|---|---|
+|![img](https://www.driveplaza.com/assets/img/traffic/jct_map/XX120101.png =400x400)|![img](https://www.driveplaza.com/assets/img/traffic/jct_map/XX120102.png =400x400)|![img](https://www.driveplaza.com/assets/img/traffic/jct_map/CA052171.png =400x400)
+
+
+
+
+
 ## 館山自動車道
 
 ### 概要
 
-|略称|
-|---|
-|E14|
-
-[参考](https://www.ne.jp/asahi/expressway/dataroom/tateyama_expwy.htm)
+|略称|資料
+|---|---|
+|E14|[資料](https://www.ne.jp/asahi/expressway/dataroom/tateyama_expwy.htm)
 
