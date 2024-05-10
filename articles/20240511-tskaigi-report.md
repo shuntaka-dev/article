@@ -14,6 +14,8 @@ TSKaigiに参加した。1億数年ぶりに中野に降り立った。
 
 ## スライドまとめ(随時更新)
 
+セッション一覧は[こちら](https://tskaigi.org/talks)
+
 |時刻|Track1|Track2|Track3
 |---|---|---|---|
 |10:30 ~ 11:15|Keynote: What's New in TypeScript [📄(未)]()
@@ -43,9 +45,22 @@ TSKaigiに参加した。1億数年ぶりに中野に降り立った。
 ||多言語化対応における TypeScript の型定義を通して開発のしやすさについて考えた[📄(未)]()|Real World Type Puzzle and Code Generation[📄(未)]()
 
 
-
 ## 参加セッションと感想
+
+感想は簡易的なものです、、すいません。。
+
+### Keynote
+
+TypeScript 5.4, 5.5の話で、Narrowingの強化周りは自分のコードの書き方的にも影響がありそう。[Isolated Declarations](https://devblogs.microsoft.com/typescript/announcing-typescript-5-5-beta/#isolated-declarations)周りの話は後で見直したい。。
 
 ### TypeScript ASTを利用したコードジェネレーターの実装入門
 
 
+
+
+
+
+
+## さいごに
+
+とても楽しいセッションばかりでした！スタッフ、スポンサーの皆様ありがとうございました！
