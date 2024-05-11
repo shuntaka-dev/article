@@ -12,7 +12,6 @@ publish: true
 
 TSKaigiに参加した。1億数年ぶりに中野に降り立った。
 
-![img](https://github.com/shuntaka9576/public-image/assets/12817245/00bf6d6a-3a2e-4ff4-b0e8-0c4b1ac41e3c)
 
 ## スライドまとめ(随時更新)
 
@@ -58,6 +57,14 @@ TypeScript 5.4, 5.5の話で、Narrowingの強化周りは自分のコードの�
 ### TypeScript ASTを利用したコードジェネレーターの実装入門
 
 [Himenon/openapi-typescript-code-generator](https://github.com/Himenon/openapi-typescript-code-generator)の作者の方。AST周りはGoで静的解析ツール作ったことがある程度で、TSでも簡単に出来るか気になったので、セッションを聞いた。[TypeScript AST Viewer](https://ts-ast-viewer.com/#)が便利で、ざっくりどういう構造を知るのに良いなと感じた。graphql-codegenは文字列結合という話を聞き、逆にコードジェネレーターをAST以外で扱うこともあるのかと感じた。ASTは[ts-morph](https://github.com/dsherret/ts-morph)も使ってみたい。スナップショットテストなど、テストも簡単に出来る方法が用意されてるし、思ったよりハードルが低くて良きと感じた。
+
+### TypeScript 関数型バックエンド開発のリアル
+
+### 複雑なビジネスルールに挑む：正確性と効率性を両立するfp-tsのチーム活用術
+
+### Step by Stepで学ぶ、ADT(代数的データ型)、モナドからEffect-TSまで
+
+
 
 
 
