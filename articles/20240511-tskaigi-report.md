@@ -10,12 +10,14 @@ publish: true
 
 ## はじめに
 
-TSKaigiに参加した。1億数年ぶりに中野に降り立った。
+[TSKaigi](https://tskaigi.org/talks)に参加した。1億数年ぶりに中野に降り立った。
 
 
 ## スライドまとめ(随時更新)
 
 セッション一覧は[こちら](https://tskaigi.org/talks)
+
+スライド最終更新: 2024/05/12 06:09
 
 |時刻|Track1|Track2|Track3
 |---|---|---|---|
@@ -33,20 +35,19 @@ TSKaigiに参加した。1億数年ぶりに中野に降り立った。
 |||TypeScriptでもLLMアプリケーション開発！LangChain.js入門[📄(未)]()|
 |||TanStack Routerで型安全かつ効率的なルーティングを実現[📄](https://speakerdeck.com/ytaisei/tanstack-routerdexing-an-quan-katuxiao-lu-de-naruteinguwoshi-xian)|
 |14:40 ~ 15:10|Step by Stepで学ぶ、ADT(代数的データ型)、モナドからEffect-TSまで[📄(未)]()|tRPCを実務に導入して分かった旨味と苦味[📄](https://speakerdeck.com/misoton665/trpcwoshi-wu-nidao-ru-sitefen-katutazhi-wei-toku-wei)|Type-safety in Angular[📄](https://docs.google.com/presentation/d/1lJ-4kesn8L0SnIJp1Ga69NXTI5Hc95ZaCwfns0PYfhw/edit?resourcekey=0-b0IY1EbZVyoSESDxc1THDQ)
-|15:20 ~ 15:50|ハードウェアを動かすTypeScrptの世界[📄](https://speakerdeck.com/9wick/hadoueawodong-kasutypescriptnoshi-jie)|サービス開発におけるVue3とTypeScriptの親和性について[📄(未)]()|TypeScriptできると思ったのは勘違いだった件[📄(未)]()
+|15:20 ~ 15:50|ハードウェアを動かすTypeScrptの世界[📄](https://speakerdeck.com/9wick/hadoueawodong-kasutypescriptnoshi-jie)|サービス開発におけるVue3とTypeScriptの親和性について[📄](https://speakerdeck.com/tsukuha/sabisukai-fa-niokeruvue3totypescriptnoqin-he-xing-nituite)|TypeScriptできると思ったのは勘違いだった件[📄(未)]()
 ||||Effectで作る堅牢でスケーラブルなAPIゲートウェイ[📄](https://speakerdeck.com/yasaichi/robust-and-scalable-api-gateway-built-on-effect)
 ||||Introduction to Database Connection Management Patterns in TypeScript[📄](https://speakerdeck.com/sugarcat7/introduction-to-database-connection-management-patterns-in-typescript)
 ||||Prismaでスキーマ変更を行う際のベストプラクティス[📄(未)]()
-|16:40 ~ 17:10|Prettierの未来を考える[📄(未)]()|TypeScriptのパフォーマンス改善[📄(未)]()|ｽﾀｯｸﾁｬﾝ -TypeScriptで動くオープンソースロボット-[📄](https://meganetaaan.github.io/slides-tskaigi2024/)
+|16:00 ~ 16:30|TypeScriptとGraphQLで実現する型安全なAPI実装[📄](https://speakerdeck.com/hokaccha/tskaigi-2024)|Exploring type-informed lint rules in Rust based TypeScript Linters[📄](https://speakerdeck.com/unvalley/exploring-type-informed-lint-rules-in-rust-based-linters)|Denoで作る快適な “as Code” プラットフォーム[📄(未)]()
+|16:40 ~ 17:10|Prettierの未来を考える[スピーカーノート](https://zenn.dev/sosukesuzuki/articles/756e04848885bd)|TypeScriptのパフォーマンス改善[📄(未)]()|ｽﾀｯｸﾁｬﾝ -TypeScriptで動くオープンソースロボット-[📄](https://meganetaaan.github.io/slides-tskaigi2024/)
 |||ts-morphを使ってコードリプレイスとASTへのハードルを下げる！[📄](https://speakerdeck.com/nyawach/ts-morphwoshi-tutekodoripureisutoasthenohadoruwoxia-geru)|
 |||SWC Transformerから見るTypeScript関数記述ベストプラクティス[📄(未)]()|
 |||TypeScriptのコード生成をつらくしないために[📄(未)]()|
 |17:20 ~ 17:40|TypeScriptが学生のエンジニアコミュニティ参加を促進する[📄(未)]()|Documetation testsの恩恵[📄](https://speakerdeck.com/ssssota/documentation-testing-benefits)
 ||Reactでハードウェア制御できるEdison.jsを作っている[📄(未)]()|Full TypeScriptだから実現できる世界線[📄(未)]()
-||多言語化対応における TypeScript の型定義を通して開発のしやすさについて考えた[📄(未)]()|Real World Type Puzzle and Code Generation[📄(未)]()
+||多言語化対応における TypeScript の型定義を通して開発のしやすさについて考えた[📄(未)]()|Real World Type Puzzle and Code Generation[📄](https://speakerdeck.com/yukukotani/real-world-type-puzzle-and-code-generation)
 
-* その他
-  * [Rust製TypeScript Linterにおける型情報Lintルールの模索](https://speakerdeck.com/unvalley/exploring-type-informed-lint-rules-in-rust-based-linters)
 
 
 ## 参加セッションと感想
@@ -77,7 +78,7 @@ Result型の合成で、エクセルのバリデーションチェックをす�
 
 コード生成、関数型、個別のライブラリの周りの話が多かった印象です。関数型ネタが多くて(自分が興味あるのもそう)、ここら辺はこれから流行りそうという印象を受けた。
 
-関数型というより、Result型にしたい行って意欲が大きいのかな。もうGoとかRustじゃtry catchは書かないもんね、、プラグラミング言語自体の潮流としてこの流れは理解できる。
+関数型というより、Result型にしたい行って意欲が大きいのかな。もうGoとかRustじゃtry catchは書かないもんね、、プログラミング言語自体の変遷とか流行りとしてこの流れは理解できる。
 
 コード生成はやはりフィールド多いドメイン領域に携わるときに型書くのがそもそも大変だったので、積極的に活用していいなと感じた。
 
