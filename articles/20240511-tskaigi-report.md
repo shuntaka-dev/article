@@ -3,14 +3,16 @@ title: "TSKaigi参加レポ"
 type: "tech"
 category: []
 description: ""
-thumbnail: "https://res.cloudinary.com/dkerzyk09/image/upload/v1715312546/blog/20240511-tskaigi/yxz6mruhgmvma01ewtnv.png"
-publish: false
+thumbnail: ""
+publish: true
 ---
 
 
 ## はじめに
 
 TSKaigiに参加した。1億数年ぶりに中野に降り立った。
+
+![img](https://github.com/shuntaka9576/public-image/assets/12817245/00bf6d6a-3a2e-4ff4-b0e8-0c4b1ac41e3c)
 
 ## スライドまとめ(随時更新)
 
@@ -19,7 +21,7 @@ TSKaigiに参加した。1億数年ぶりに中野に降り立った。
 |時刻|Track1|Track2|Track3
 |---|---|---|---|
 |10:30 ~ 11:15|Keynote: What's New in TypeScript [📄(未)]()
-|11:30 ~ 12:00|フロントエンドもバックエンドもインフラも… 全てをTypeScriptで統一したらこうなった！[📄](https://speakerdeck.com/kimitashoichi/11-dang-ri-suraido)|TypeScript ASTを利用したコードジェネレーターの実装入門[📄(未)]()|Prisma ORMを2年運用して培ったノウハウを共有する[📄(未)]()
+|11:30 ~ 12:00|フロントエンドもバックエンドもインフラも… 全てをTypeScriptで統一したらこうなった！[📄](https://speakerdeck.com/kimitashoichi/11-dang-ri-suraido)|TypeScript ASTを利用したコードジェネレーターの実装入門[📄(未)]() [サンプルコード](https://github.com/Himenon/tskaigi-2024-code-sample)|Prisma ORMを2年運用して培ったノウハウを共有する[📄](https://speakerdeck.com/tockn/prisma-ormwo2nian-yun-yong-sitepei-tutanouhauwogong-you-suru)
 |12:10 ~ 13:10|TypeScript化の旅: Helpfeelが辿った試行錯誤と成功の道のり[📄](https://docs.google.com/presentation/d/1z1ouyBtsNFgdJysGLAKyJXgt4pEHDN3kD555Mh2UiR0/edit#slide=id.g2db43f1dcdc_0_416)|TypescriptでのContextualな構造化ロギングと社内全体への導入！[📄](https://speakerdeck.com/leveragestech/typescripttenocontextualnagou-zao-hua-rokinkutoshe-nei-quan-ti-henodao-ru)|エンジニアの技術的な意思決定を支えるADR - LayerXの活用事例[📄(未)]()
 ||新サービス Progate Path の演習で TypeScript を採用して見えた教材観点からの利点と課題[📄](https://speakerdeck.com/makotoshimazu/tskaigi-2024-xin-sabisu-progate-path-noyan-xi-de-typescript-wocai-yong-sitejian-etajiao-cai-guan-dian-karanoli-dian-toke-ti)|生成 AI と Cloud Workstations で始めるクラウド AI ネイティブ開発[📄(未)]()|toggle holdingsとTSあるいはTSKaigi[📄(未)]()
 ||PMF達成の立役者！Full TypeScript Architecture の選定背景と構成[📄(未)]()|EARTHBRAINが挑むグローバルな課題とTypeScriptの活用事例について[📄(未)]()|高まった熱量をぶつけられるコミュニティ活動のススメ[📄(未)]()
