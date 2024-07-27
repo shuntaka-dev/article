@@ -1,5 +1,5 @@
 ---
-title: "自作基盤メモ"
+title: "自作基盤メモ(内部用途のためブログにする場合別記事へ)"
 type: "note"
 category: []
 description: ""
@@ -1066,6 +1066,93 @@ Loadされたら、importします
 無事importできました。このときはまだ3つしかノードがないので、正常に動作しています!
 
 ![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536794-640x303.png)
+
+
+## ArgoCDの導入
+
+```yml
+repositories:
+  - name: argocd
+    url: https://argoproj.github.io/argo-helm
+
+releases:
+  - name: argocd
+    namespace: argocd
+    chart: argocd/argo-cd
+    version: 7.3.11
+    values:
+      - values.yaml
+```
+
+実行自体はこけますが、repositoriesは追加されます
+```bash
+helmfile sync
+```
+
+```bash
+helm show values argocd/argo-cd>values.yaml
+```
+
+適用します
+```bash
+helmfile sync
+```
+
+```bash:出力結果
+Adding repo argocd https://argoproj.github.io/argo-helm
+"argocd" has been added to your repositories
+
+Upgrading release=argocd, chart=argocd/argo-cd
+Release "argocd" does not exist. Installing it now.
+NAME: argocd
+LAST DEPLOYED: Sat Jul 27 23:46:43 2024
+NAMESPACE: argocd
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+In order to access the server UI you have the following options:
+
+1. kubectl port-forward service/argocd-server -n argocd 8080:443
+
+    and then open the browser on http://localhost:8080 and accept the certificate
+
+2. enable ingress in the values file `server.ingress.enabled` and either
+      - Add the annotation for ssl passthrough: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
+      - Set the `configs.params."server.insecure"` in the values file and terminate SSL at your ingress: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
+
+
+After reaching the UI the first time you can login with username: admin and the random password generated during the installation. You can find the password by running:
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+(You should delete the initial secret afterwards as suggested by the Getting Started Guide: https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli)
+
+Listing releases matching ^argocd$
+argocd  argocd          1               2024-07-27 23:46:43.682250172 +0000 UTC deployed        argo-cd-7.3.11  v2.11.7
+
+
+UPDATED RELEASES:
+NAME     CHART            VERSION   DURATION
+argocd   argocd/argo-cd   7.3.11         41s
+```
+
+argocd関連のPodが動作していることを確認
+```bash
+$ k get pods -n argocd
+NAME                                               READY   STATUS      RESTARTS   AGE
+argocd-application-controller-0                    1/1     Running     0          4m11s
+argocd-applicationset-controller-dc8cfcbdc-59q4m   1/1     Running     0          4m11s
+argocd-dex-server-76cc78cfcf-7rkrd                 1/1     Running     0          4m11s
+argocd-notifications-controller-59c46695f5-jsj2v   1/1     Running     0          4m11s
+argocd-redis-5cf79bddc4-nl4jz                      1/1     Running     0          4m11s
+argocd-redis-secret-init-fl2vk                     0/1     Completed   0          4m46s
+argocd-repo-server-ccc55876c-pn92r                 1/1     Running     0          4m11s
+argocd-server-77cbc679c-4v672                      1/1     Running     0          4m11s
+```
+
+
+
 
 
 ## 最後に
