@@ -7,7 +7,9 @@ thumbnail: ""
 publish: false
 ---
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714533363-640x336.png" alt="" width="640" height="336" class="alignnone size-medium wp-image-1262128" />
+
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714533363-640x336.png)
+
 
 ## はじめに
 世の中ではGrafana Weekということで、Raspberry Pi 5複数台をクラスタリングしてKubernetesを作成し、Grafanaを載せてみたいと思います。
@@ -35,6 +37,7 @@ Mac(Kubernetesクラスタ外)から`kubectl port-forward`なしで、Grafanaが
 
 
 ![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714537552-2.gif)
+
 
 ### 注意点
 
@@ -79,53 +82,53 @@ Mac(Kubernetesクラスタ外)から`kubectl port-forward`なしで、Grafanaが
 
 一時的にしか使わないので、OSはRASBERY PI OS LITE(64-BIT)を利用します
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571189-640x403.jpg" alt="" width="640" height="403" class="alignnone size-medium wp-image-1262132" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571189-640x403.jpg)
 
 設定の編集をします
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571296-640x403.jpg" alt="" width="640" height="403" class="alignnone size-medium wp-image-1262134" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571296-640x403.jpg)
 
 ユーザーとWi-Fi設定を入れたら、サービスタブに移動します
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571468-640x653.jpg" alt="" width="640" height="653" class="alignnone size-medium wp-image-1262136" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571468-640x653.jpg)
 
 
 SSHを有効化します。書き込みの段階で指定できるの便利ですね！
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571545-640x653.jpg" alt="" width="640" height="653" class="alignnone size-medium wp-image-1262138" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713571545-640x653.jpg)
 
 書き込み開始します
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572144-1-640x403.jpg" alt="" width="640" height="403" class="alignnone size-medium wp-image-1262168" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572144-1-640x403.jpg)
 
 書き込み完了まで待ちます。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572144-640x403.jpg" alt="" width="640" height="403" class="alignnone size-medium wp-image-1262139" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572144-640x403.jpg)
 
 
 ### M.2 SSDにUbuntu Serverを書き込む
 
 先に恒常的に利用するM.2にもOSを書き込みます。6の外付けケースを利用して、PCに画像のような形で接続します。
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572773-640x686.jpg" alt="" width="640" height="686" class="alignnone size-medium wp-image-1262141" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572773-640x686.jpg)
 
 OSは`Ubuntu Server 24.04 LTS`を利用します
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714522805-640x444.jpg" alt="" width="640" height="444" class="alignnone size-medium wp-image-1262143" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714522805-640x444.jpg)
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572906-640x654.jpg" alt="" width="640" height="654" class="alignnone size-medium wp-image-1262144" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572906-640x654.jpg)
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572937-640x654.jpg" alt="" width="640" height="654" class="alignnone size-medium wp-image-1262145" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713572937-640x654.jpg)
 
 
 初回はイメージダウンロードの時間がかかるため、通信環境によっては時間がかかります。一度内部でイメージをダウンロードすれば、2回目以降は数分もかからず終わります。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714522805-1-640x444.jpg" alt="" width="640" height="444" class="alignnone size-medium wp-image-1262146" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714522805-1-640x444.jpg)
 
 書き込みが終わったら、再度M.2をPCにマウントします。すると画像のようにブートパーティションを認識します。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713584023-640x482.jpg" alt="" width="640" height="482" class="alignnone size-medium wp-image-1262147" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713584023-640x482.jpg)
 
 ブートパーティションを開いたら、config.txtを見つけます。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713584235-640x426.jpg" alt="" width="640" height="426" class="alignnone size-medium wp-image-1262148" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713584235-640x426.jpg)
 
 
 config.txtに2行追記します
@@ -137,21 +140,20 @@ config.txtに2行追記します
 
 ### RPi5にクーラーを取り付け
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713573425-640x480.jpg" alt="" width="640" height="480" class="alignnone size-medium wp-image-1262151" />
-
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713758751-640x395.jpg" alt="" width="640" height="395" class="alignnone size-medium wp-image-1262152" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713573425-640x480.jpg)
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713758751-640x395.jpg)
 
 
 ### RPi5 M.2拡張
 PCIe NVME M.2 拡張ボードを取り付けます
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713758843-640x471.jpg" alt="" width="640" height="471" class="alignnone size-medium wp-image-1262154" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713758843-640x471.jpg)
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714534398-640x457.jpg" alt="" width="640" height="457" class="alignnone size-medium wp-image-1262155" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714534398-640x457.jpg)
 
 裏は家にあったネジで高さを出すようにしました。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713758580-640x410.jpg" alt="" width="640" height="410" class="alignnone size-medium wp-image-1262156" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1713758580-640x410.jpg)
 
 
 ### 電源の設定
@@ -159,13 +161,13 @@ PCIe NVME M.2 拡張ボードを取り付けます
 電源はRPi5の2,4ピンに+5V、6,9ピンにGNDに繋ぎます。スイッチング電源1つに2つのRPi5を接続します。以下の図が分かりやすいです。下の直方体はコネクタのハウジングを示してます。
 
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714538385.png" alt="" width="475" height="420" class="alignnone size-full wp-image-1262157" />
-<br />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714538385.png)
+
 ※ 弊社のこの領域に強い方に教えて頂きました。ありがとうございます;;
 
 実際はこんな形です。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714531320-640x853.jpg" alt="" width="640" height="853" class="alignnone size-medium wp-image-1262158" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714531320-640x853.jpg)
 
 ### ブート設定(EEPROM書き込み)
 
@@ -1036,31 +1038,34 @@ monitoring         prometheus-server                     NodePort       10.111.1
 http://192.168.86.200にアクセスすると、http://192.168.86.200/loginにリダイレクトされて、grafanaのダッシュボードが閲覧できました
 
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536800-640x352.png" alt="" width="640" height="352" class="alignnone size-medium wp-image-1262160" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536800-640x352.png)
 
 
 Data sourcesを開きます
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536797-640x322.png" alt="" width="640" height="322" class="alignnone size-medium wp-image-1262161" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536797-640x322.png)
 
 
 DatasourceはHelmのvalue.yamlで定義しているため、Prometheusがすでにある状態です。
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536786-640x327.png" alt="" width="640" height="327" class="alignnone size-medium wp-image-1262162" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536786-640x327.png)
 
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536792-640x324.png" alt="" width="640" height="324" class="alignnone size-medium wp-image-1262163" />
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536792-640x324.png)
 
 
 今回は、[こちら](https://grafana.com/grafana/dashboards/11074-node-exporter-for-prometheus-dashboard-en-v20201010/?tab=revisions)のダッシュボードを利用しますので、11074を入力してLoadします。
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536789-640x493.png" alt="" width="640" height="493" class="alignnone size-medium wp-image-1262164" />
+
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536789-640x493.png)
 
 
 Loadされたら、importします
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536785-640x400.png" alt="" width="640" height="400" class="alignnone size-medium wp-image-1262165" />
+
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536785-640x400.png)
 
 
 無事importできました。このときはまだ3つしかノードがないので、正常に動作しています!
-<img src="https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536794-640x303.png" alt="" width="640" height="303" class="alignnone size-medium wp-image-1262166" />
+
+![img](https://devio2023-media.developers.io/wp-content/uploads/2024/05/1714536794-640x303.png)
 
 
 ## 最後に
