@@ -129,11 +129,11 @@ OSは`Ubuntu Server 24.04 LTS`を利用します
 
 
 config.txtに2行追記します
-[diff]
+```diff
 [all]
 +dtparam=nvme
 +dtparam=pciex1
-[/diff]
+```
 
 ### RPi5にクーラーを取り付け
 
@@ -171,7 +171,7 @@ PCIe NVME M.2 拡張ボードを取り付けます
 
 microSDを入れて、RPi5の電源を入れます。ホスト名は`raspberrypi.local`です。
 
-[bash]
+```bash
 $ ssh shuntaka@raspberrypi.local
 (中略)
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
@@ -185,11 +185,11 @@ individual files in /usr/share/doc/*/copyright.
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 shuntaka@raspberrypi:~ $
-[/bash]
+```
 
 ブートローダーを更新します。
 
-[bash]
+```bash
 shuntaka@raspberrypi:~ $ sudo rpi-eeprom-update
 *** UPDATE AVAILABLE ***
 BOOTLOADER: update available
@@ -197,11 +197,11 @@ BOOTLOADER: update available
     LATEST: Fri Feb 16 15:28:41 UTC 2024 (1708097321)
    RELEASE: default (/lib/firmware/raspberrypi/bootloader-2712/default)
             Use raspi-config to change the release.
-[/bash]
+```
 
 利用可能な更新がありそうなので、更新を実行します。
 
-[bash]
+```bash
 shuntaka@raspberrypi:~ $ sudo rpi-eeprom-update -d -a
 *** PREPARING EEPROM UPDATES ***
 
@@ -223,11 +223,11 @@ a bootloader rescue SD card image which restores the default bootloader image.
 
 flashrom -p linux_spi:dev=/dev/spidev10.0,spispeed=16000 -w /boot/firmware/pieeprom.upd
 UPDATE SUCCESSFUL
-[/bash]
+```
 
 
 変わっていないので、再起動する必要がありそう
-[bash]
+```bash
 shuntaka@raspberrypi:~ $ sudo rpi-eeprom-update
 *** UPDATE AVAILABLE ***
 BOOTLOADER: update available
@@ -235,45 +235,45 @@ BOOTLOADER: update available
     LATEST: Fri Feb 16 15:28:41 UTC 2024 (1708097321)
    RELEASE: default (/lib/firmware/raspberrypi/bootloader-2712/default)
             Use raspi-config to change the release.
-[/bash]
+```
 
 `sudo reboot` 後再度実行したところ更新完了していることを確認
-[bash]
+
+```bash
 shuntaka@raspberrypi:~ $ sudo rpi-eeprom-update
 BOOTLOADER: up to date
    CURRENT: Fri Feb 16 15:28:41 UTC 2024 (1708097321)
     LATEST: Fri Feb 16 15:28:41 UTC 2024 (1708097321)
    RELEASE: default (/lib/firmware/raspberrypi/bootloader-2712/default)
             Use raspi-config to change the release.
-[/bash]
-
+```
 
 
 ブート設定を変更します。極度のnanoアレルギーなのでviを設定します。
 
-[bash]
+```bash
 env EDITOR=vi sudo -E rpi-eeprom-config --edit
-[/bash]
+```
 
-[bash title="変更前"]
+```bash:変更前
 [all]
 BOOT_UART=1
 POWER_OFF_ON_HALT=0
 BOOT_ORDER=0xf461
-[/bash]
+```
 
 
 以下のように設定変更します
-[diff title="変更後(diff)"]
+```diff:変更後(diff)
 [all]
 BOOT_UART=1
 POWER_OFF_ON_HALT=0
 -BOOT_ORDER=0xf461
 +BOOT_ORDER=0xf416
 +PCIE_PROBE=1
-[/diff]
+```
 
-[bash title="実行結果"]
+```bash:実行結果
 shuntaka@raspberrypi:~ $ env EDITOR=vi sudo -E rpi-eeprom-config --edit
 Updating bootloader EEPROM
  image: /lib/firmware/raspberrypi/bootloader-2712/default/pieeprom-2024-02-16.bin
@@ -305,13 +305,13 @@ a bootloader rescue SD card image which restores the default bootloader image.
 
 flashrom -p linux_spi:dev=/dev/spidev10.0,spispeed=16000 -w /boot/firmware/pieeprom.upd
 UPDATE SUCCESSFUL
-[/bash]
+```
 
 ### M.2からブート
 
 一度RPi5の電源をきり、**microSDを抜いて**、M.2を挿します。Ubuntu 24.04 LTSの文字があるので、M.2から起動していることが確認できました。
 
-[bash]
+```bash
 $ ssh shuntaka@pi1.local
 shuntaka@pi1.local's password:
 Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-1004-raspi aarch64)
@@ -326,26 +326,26 @@ tmpfs           3.9G     0  3.9G   0% /dev/shm
 tmpfs           5.0M     0  5.0M   0% /run/lock
 /dev/nvme0n1p1  505M   85M  420M  17% /boot/firmware
 tmpfs           795M   12K  795M   1% /run/user/1000
-[/bash]
+```
 
 ### カーネルの更新
 
 `Ubuntu Server 24.04 LTS` では更新はありません。
 
-[bash]
+```bash
 $ uname -r
 6.8.0-1004-raspi
-[/bash]
+```
 
-[bash]
+```bash
 sudo apt update
 sudo apt -y upgrade
-[/bash]
+```
 
-[bash]
+```bash
 $ uname -r
 6.8.0-1004-raspi
-[/bash]
+```
 
 `Ubuntu Server 23.10` の場合、クーラーが回りっぱなしで音が大きいので確実にやるのが良いです。
 [参考](https://askubuntu.com/questions/1490462/fan-speed-control-on-raspberry-pi-5-not-working-in-ubuntu-23-10)
@@ -367,7 +367,7 @@ $ uname -r
 
 ### p1のnetplanの設定
 
-[bash]
+```bash
 cat <<EOF | sudo tee /etc/netplan/01-netcfg.yaml > /dev/null
 network:
   version: 2
@@ -380,17 +380,17 @@ network:
       nameservers:
         addresses: [8.8.8.8]
 EOF
-[/bash]
+```
 
-[bash]
+```bash
 sudo netplan apply
-[/bash]
+```
 
 ### pi2以降のnetplanの設定
 
 pi2~pi4のnetplanの設定をします
 
-[bash]
+```bash
 cat <<EOF | sudo tee /etc/netplan/01-netcfg.yaml > /dev/null
 network:
     version: 2
@@ -407,14 +407,14 @@ network:
           addresses:
             - 8.8.8.8
 EOF
-[/bash]
+```
 
-[bash]
+```bash
 sudo netplan apply
-[/bash]
+```
 
 `192.168.1.2`が割り当てられていることを確認
-[bash]
+```bash
 shuntaka@pi2:~$ ip a
 (中略)
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
@@ -422,7 +422,7 @@ shuntaka@pi2:~$ ip a
     inet 192.168.1.2/24 brd 192.168.1.255 scope global eth0
        valid_lft forever preferred_lft forever
 (中略)
-[/bash]
+```
 
 ## Kubernetesクラスタの構築
 
@@ -430,7 +430,7 @@ shuntaka@pi2:~$ ip a
 
 モジュールのロード設定を実施します
 
-[bash title="全てのノード"]
+```bash:全てのノード
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
@@ -446,17 +446,17 @@ net.ipv4.ip_forward                 = 1
 EOF
 
 sudo sysctl --system
-[/bash]
+```
 
 読み込まれているか確認
-[bash title="全てのノード"]
+```bash:全てのノード
 lsmod | grep br_netfilter
 lsmod | grep overlay
-[/bash]
+```
 
 kubelet kubeadm kubectlをインストールします
 
-[bash title="全てのノード"]
+```bash:全てのノード
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl # <--最初は apt-getでやっていたの確認
 
@@ -467,13 +467,13 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --
 sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
-[/bash]
+```
 
 ### cri-oのインストール
 
 [download.opensuse.org](http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/)から要件にあったものを選択
 
-[bash title="全てのノード"]
+```bash:全てのノード
 export OS=xUbuntu_22.04
 
 sudo echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" | sudo tee -a /etc/apt/sources.list.d/cri-o-stable.list >/dev/null
@@ -490,11 +490,11 @@ sudo rm -rf /etc/cni/net.d/*
 sudo systemctl daemon-reload
 sudo systemctl enable crio
 sudo systemctl start crio
-[/bash]
+```
 
 
 cri-oの動作確認
-[bash title="全てのノード"]
+```bash:全てのノード
 shuntaka@pi1:~$ sudo crictl info
 {
   "status": {
@@ -516,85 +516,87 @@ shuntaka@pi1:~$ sudo crictl info
   "config": {
     "sandboxImage": "registry.k8s.io/pause:3.9"
   }
-[/bash]
+```
 
 Kubernetesクラスタの初期化を実行します。
 
-[bash title="マスターノード"]
+```bash:マスターノード
 $ sudo kubeadm init \
   --pod-network-cidr=10.244.0.0/16 \
   --control-plane-endpoint=192.168.1.1 \
   --apiserver-advertise-address=192.168.1.1 \
   --apiserver-cert-extra-sans=192.168.1.1
-[/bash]
+```
 
 ワーカーノード側で実行する必要があるコマンドをメモします。
-[bash title="メモする出力結果"]
+```bash:メモする出力結果
 sudo kubeadm join 192.168.1.1:6443 --token rwmoll.7vfynzwt0wbparok \
         --discovery-token-ca-cert-hash sha256:bf28ffd7b92f505b93409da63dacc610d05e4d3566e50b629738a6a4cf4b259f
-[/bash]
+```
 
 `kubectl` が利用できるように、設定を行います
-[bash title="マスターノード"]
+
+```bash:マスターノード
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-[/bash]
+```
 
 Kubernetesクラスタに参加するコマンドを実行します
-[bash title="ワーカーノード"]
+
+```bash:ワーカーノード
 sudo kubeadm join 192.168.1.1:6443 --token rwmoll.7vfynzwt0wbparok \
         --discovery-token-ca-cert-hash sha256:bf28ffd7b92f505b93409da63dacc610d05e4d3566e50b629738a6a4cf4b259f
-[/bash]
+```
 
 ノードを確認します。この段階ではNotReadyですが、CNIをインストールするとReady状態になります
-[bash title="マスターノード"]
+```bash:マスターノード
 $ kubectl get node
 NAME   STATUS     ROLES           AGE     VERSION
 pi1    NotReady   control-plane   9m21s   v1.28.9
 pi2    NotReady   <none>          9s      v1.28.9
-[/bash]
+```
 
 ### CNI(calico)のインストール
 
 手順と異なり、Ubuntu Server 23.10の場合、以下の設定が必要です
-[bash title="全てのノード"]
+```bash:全てのノード
 # Ubuntu Server 23.10利用の場合のみ
 sudo apt install linux-modules-extra-raspi -y
-[/bash]
+```
 
 CNIをインストールします
 
-[bash title="マスターノード"]
+```bash:マスターノード
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/tigera-operator.yaml
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/custom-resources.yaml -O
 
 # custom-resources.yamlのcidr: 10.244.0.0/16 に修正
 kubectl create -f custom-resources.yaml
 kubectl get pods -n calico-system
-[/bash]
+```
 
 CNIがインストールされ、全てReadyになりました
-[bash]
+```bash
 $ kubectl get nodes
 NAME   STATUS   ROLES           AGE     VERSION
 pi1    Ready    control-plane   17m     v1.28.9
 pi2    Ready    <none>          8m16s   v1.28.9
-[/bash]
+```
 
 
 ### エイリアス設定
 
 使いやすいように、エイリアスと補完設定を入れます。この設定で省略された`k`コマンドと`tab`での補完が効くようになります。
 
-[bash]
+```bash
 cat <<EOF >> ~/.bashrc
 # k8s
 source <(kubectl completion bash)
 alias k=kubectl
 complete -o default -F __start_kubectl k
 EOF
-[/bash]
+```
 
 
 ## Helmの設定
@@ -605,24 +607,24 @@ EOF
 
 ### Helmのインストール
 
-[bash title="マスターノード"]
+```bash:マスターノード
 curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
 sudo apt install apt-transport-https --yes
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
 sudo apt update
 sudo apt install helm
-[/bash]
+```
 
 ### Helmfileのインストール
 
-[bash title="マスターノード"]
+```bash:マスターノード
 export VERSION="0.163.1"
 wget -O "/tmp/helmfile_${VERSION}_linux_arm64.tar.gz" "https://github.com/helmfile/helmfile/releases/download/v${VERSION}/helmfile_${VERSION}_linux_arm64.tar.gz"
 tar -xzvf "/tmp/helmfile_${VERSION}_linux_arm64.tar.gz" -C /tmp
 
 sudo mv /tmp/helmfile /usr/bin/helmfile
 sudo chmod 755 /usr/bin/helmfile
-[/bash]
+```
 
 
 ## MetalLBの設定
@@ -635,7 +637,7 @@ MetalLBは、ベアメタルKubernetes環境向けのロードバランサーで
 
 割り当てるIPプールを定義します。IPレンジはKubernetesの内部IPではなく、ルータで払い出されているものを利用してください。
 
-[yaml title="ip-address-pool.yaml"]
+```yaml:ip-address-pool.yaml
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
@@ -654,22 +656,22 @@ metadata:
 spec:
   ipAddressPools:
   - default
-[/yaml]
+```
 
 適用します
-[bash]
+```bash
 kubectl apply -f ip-address-pool.yaml
-[/bash]
+```
 
 ### MetalLBのホスティング
 
 [こちら](https://metallb.universe.tf/installation/) を参考に、以下のコマンドで、`strictARP`をtrueにします
 
-[bash]
+```bash
 kubectl edit configmap -n kube-system kube-proxy
-[/bash]
+```
 
-[yml title="helmfile.yaml"]
+```yml:helmfile.yaml
 repositories:
   - name: metallb
     url: https://metallb.github.io/metallb
@@ -681,23 +683,24 @@ releases:
     version: 0.14.5
     values:
       - values.yaml
-[/yml]
+```
 
 実行自体はこけますが、repositoriesは追加されます。
 
-[bash]
+```bash
 helmfile sync
-[/bash]
+```
 
 以下のコマンドで変更可能箇所を出力します。出力しますが変更箇所はありません。
-[bash]
+
+```bash
 helm show values metallb/metallb>values.yaml
-[/bash]
+```
 
 適用します。
-[bash]
+```bash
 helmfile sync
-[/bash]
+```
 
 ## PromethuesとGrafanaの設定
 
@@ -728,14 +731,14 @@ kubectl create namespace monitoring
 
 pvとpvcはcontrol-planeにデフォルトでは設定できないため、pi2側で設定します
 
-[bash title="pi2で実行!!!"]
+```bash:pi2で実行!!!
 sudo mkdir -p /mnt/k8s/pv/grafana
 sudo mkdir -p /mnt/k8s/pv/prometheus-server
 sudo mkdir -p /mnt/k8s/pv/prometheus-alertmanager
-[/bash]
+```
 
 pvとpvcを定義します
-[yml title="volume.yaml"]
+```yaml:volume.yaml
 # grafana
 kind: PersistentVolume
 apiVersion: v1
@@ -845,24 +848,25 @@ spec:
     requests:
       storage: 10Gi
   storageClassName: prometheus-alertmanager
-[/yml]
+```
 
 volumeを適用します
-[bash]
+```bash
 kubectl apply -f volume.yaml
-[/bash]
+```
 
 表通り作成されていることを確認できたらOKです
-[bash]
+
+```bash
 kubectl get pv
 kubectl get pvc -A
-[/bash]
+```
 
 ### Promethuesの設定
 
 helmfileを書きます
 
-[yml title="helmfile.yaml"]
+```yml:helmfile.yaml
 repositories:
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
@@ -874,21 +878,21 @@ releases:
     version: 25.9.0
     values:
       - values.yaml
-[/yml]
+```
 
 実行自体はこけますが、repositoriesは追加されます
 
-[bash]
+```bash
 helmfile sync
-[/bash]
+```
 
 以下のコマンドで変更可能箇所を出力します。出力しますが変更箇所はありません。
-[bash]
+```bash
 helm show values prometheus-community/prometheus > values.yaml
-[/bash]
+```
 
 以下のように修正します
-[yml title="values.yaml"]
+```yml:values.yaml
 server:
   ## Prometheus server container name
   ##
@@ -907,18 +911,18 @@ alertmanager:
   ## If false, alertmanager will not be installed
   ##
   enabled: false # <- 今回は利用しないためtrueからfalseへ変更
-[/yml]
+```
 
 適用します
-[bash]
+```bash
 helmfile sync
-[/bash]
+```
 
 ### Grafanaの設定
 
 同様にhelmfileを書きます
 
-[yml title="helmfile.yaml"]
+```yml:helmfile.yaml
 repositories:
   - name: grafana
     url: https://grafana.github.io/helm-charts
@@ -930,20 +934,21 @@ releases:
     version: 7.2.3
     values:
       - values.yaml
-[/yml]
+```
 
 こちらも同様です。
-[bash]
+```bash
 helmfile sync
-[/bash]
+```
 
 以下のコマンドで変更可能箇所を出力します。
-[bash]
+
+```bash
 helm show values grafana/grafana > values.yaml
-[/bash]
+```
 
 以下のように修正します
-[yaml title="values.yaml"]
+```yaml:values.yaml
 service:
   enabled: true
   type: NodePort # <- ClusterIPをNodePortへ変更
@@ -963,30 +968,30 @@ datasources:
       type: prometheus
       url: http://prometheus-server.monitoring.svc.cluster.local/
       isDefault: true
-[/yaml]
+```
 
 適用します
-[bash]
+```bash
 helmfile sync
-[/bash]
+```
 
 以下のコマンド実行して、マスターノードのクラスタ外から見れるプライベートIP:3000で、PCからアクセスしてGrafanaのログイン画面が見れれば成功です。
-[bash title="マスターノード"]
+```bash:マスターノード
 kubectl port-forward --address 0.0.0.0 svc/grafana 3000:80 -n monitoring
-[/bash]
+```
 
 ログインIDとパスワードは以下のコマンド出力できます
 
-[bash]
+```bash
 kubectl get secret grafana --namespace monitoring  -o jsonpath="{.data.admin-user}" | base64 --decode ; echo
 kubectl get secret grafana --namespace monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-[/bash]
+```
 
 ### Grafanaをクラスタ外から閲覧する
 
 MetalLBを利用して外部アクセス可能なLoadBalancerタイプのサービスを定義します。宛先にgrafanaを指定します。
 
-[yaml title="grafana-loadbalancer.yaml"]
+```yaml:grafana-loadbalancer.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -1001,17 +1006,17 @@ spec:
   selector:
     app.kubernetes.io/instance: grafana
     app.kubernetes.io/name: grafana
-[/yaml]
+```
 
 適用します
 
-[bash]
+```bash
 kubectl apply -f grafana-loadbalancer.yaml
-[/bash]
+```
 
 `grafana-loadbalancer`に`192.168.86.200`が振られていることが確認できます。
 
-[bash]
+```bash
 $ k get svc -A
 NAMESPACE          NAME                                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                  AGE
 calico-apiserver   calico-api                            ClusterIP      10.109.235.205   <none>           443/TCP                  5h2m
@@ -1026,7 +1031,7 @@ monitoring         prometheus-kube-state-metrics         ClusterIP      10.110.1
 monitoring         prometheus-prometheus-node-exporter   ClusterIP      10.108.144.213   <none>           9100/TCP                 4h34m
 monitoring         prometheus-prometheus-pushgateway     ClusterIP      10.107.27.149    <none>           9091/TCP                 4h34m
 monitoring         prometheus-server                     NodePort       10.111.109.182   <none>           80:31648/TCP             4h34m
-[/bash]
+```
 
 http://192.168.86.200にアクセスすると、http://192.168.86.200/loginにリダイレクトされて、grafanaのダッシュボードが閲覧できました
 
@@ -1078,33 +1083,33 @@ Loadされたら、importします
 
 curlやブラウザ経由でMetalLBで割り当てられたIPでgrafanaの画面が閲覧できな場合です。以下のコマンドでARPリクエスト送信し、tcpdumpでARP応答を返していることを確認できれば、MetalLBとしては動作しています。FW設定などに問題あるかどうかを切り分けできます。
 
-[bash]
+```bash
 # ARPリクエストを送信
 arping -I eth0 192.168.86.100
 # 応答していることを確認
 sudo tcpdump -n -i eth0 arp src host 192.168.86.100
-[/bash]
+```
 
 #### Grafanaダッシュボードからテストリクエストが通らない
 
 corednsを再起動したら動くケースがありました。
 
-[bash]
+```bash
 kubectl rollout restart deployment coredns -n kube-system
-[/bash]
+```
 
 #### PrometheusやGrafanaのホスティングをやり直したい
 
 永続化ストレージの消し忘れに注意
 
-[bash]
+```bash
 helm uninstall prometheus -n monitoring
 helm uninstall grafana -n monitoring
 
 sudo rm -rf /mnt/k8s/pv/grafana
 sudo rm -rf /mnt/k8s/pv/prometheus-server
 sudo rm -rf /mnt/k8s/pv/prometheus-alertmanager
-[/bash]
+```
 
 ## 参考資料
 
