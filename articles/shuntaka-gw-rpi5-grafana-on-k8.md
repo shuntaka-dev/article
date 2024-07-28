@@ -1070,6 +1070,8 @@ Loadされたら、importします
 
 ## ArgoCDの導入
 
+本手順は特別記載があるところを除き、全てpi1上で実行します。
+
 ```yml
 repositories:
   - name: argocd
@@ -1198,7 +1200,7 @@ ArgoCDのパスワード再設定。環境を汚さないようにMacにCLIを�
 
 linux-brewがARMをサポートしていないことから、バイナリを取得して配備します
 
-```bash:p1で実行
+```bash
 VERSION=2.11.7
 curl -SL -o argocd-linux-arm64 https://github.com/argoproj/argo-cd/releases/download/v$VERSION/argocd-linux-arm64
 sudo install -m 555 argocd-linux-arm64 /usr/local/bin/argocd
@@ -1207,7 +1209,7 @@ rm argocd-linux-arm64
 
 ArgoCDのサーバーへログイン。引数にはMetalLBが採番したIPを利用します。
 
-```bash:p1で実行
+```bash
 $ argocd login 192.168.86.202
 WARNING: server certificate had error: tls: failed to verify certificate: x509: certificate signed by unknown authority. Proceed insecurely (y/n)? y
 Username: admin
@@ -1216,12 +1218,12 @@ Password:
 Context '192.168.86.202' updated
 ```
 
-```bash:p1で実行
+```bash
 argocd account update-password
 ```
 
 パスワードが更新されたら、シークレットは削除します
-```bash:pi1上で実行
+```bash
 kubectl --namespace argocd delete secret/argocd-initial-admin-secret
 ```
 
@@ -1240,6 +1242,141 @@ INFO[0002] ClusterRoleBinding "argocd-manager-role-binding" created
 INFO[0007] Created bearer token secret for ServiceAccount "argocd-manager"
 Cluster 'https://192.168.1.1:6443' added
 ```
+
+QuickStart用にサンプルアプリを登録します
+
+```bash
+export APPLICATION_NAME="guestbook"
+export GITHUB_URL="https://github.com/argoproj/argocd-example-apps.git"
+export DIR_PATH="guestbook"
+export NAME_SPACE="default"
+
+argocd app create $APPLICATION_NAME \
+  --repo $GITHUB_URL \
+  --path $DIR_PATH \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace $NAME_SPACE
+```
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722145126/blog/shuntaka-gw-rpi5-grafana-on-k8/rnn1a7iqc7bhwnhvm4dy.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722145126/blog/shuntaka-gw-rpi5-grafana-on-k8/ghauynwqxwm9tujgzt6o.png)
+
+状態を確認します
+```bash
+$ argocd app get guestbook
+Name:               argocd/guestbook
+Project:            default
+Server:             https://kubernetes.default.svc
+Namespace:          default
+URL:                https://argocd.example.com/applications/guestbook
+Source:
+- Repo:             https://github.com/argoproj/argocd-example-apps.git
+  Target:
+  Path:             guestbook
+SyncWindow:         Sync Allowed
+Sync Policy:        Manual
+Sync Status:        OutOfSync from  (d7927a2)
+Health Status:      Missing
+
+GROUP  KIND        NAMESPACE  NAME          STATUS     HEALTH   HOOK  MESSAGE
+       Service     default    guestbook-ui  OutOfSync  Missing
+apps   Deployment  default    guestbook-ui  OutOfSync  Missing
+```
+
+このコマンドを実行し、リポジトリからマニフェストを取得し、kubectl applyを実行。立ち上げたUIからも実行可能。
+```bash
+$ argocd app sync guestbook
+TIMESTAMP                  GROUP        KIND   NAMESPACE                  NAME    STATUS    HEALTH        HOOK  MESSAGE
+2024-07-28T05:45:00+00:00            Service     default          guestbook-ui  OutOfSync  Missing
+2024-07-28T05:45:00+00:00   apps  Deployment     default          guestbook-ui  OutOfSync  Missing
+2024-07-28T05:45:00+00:00            Service     default          guestbook-ui  OutOfSync  Missing              service/guestbook-ui created
+2024-07-28T05:45:00+00:00   apps  Deployment     default          guestbook-ui  OutOfSync  Missing              deployment.apps/guestbook-ui created
+2024-07-28T05:45:00+00:00   apps  Deployment     default          guestbook-ui    Synced  Progressing              deployment.apps/guestbook-ui created
+2024-07-28T05:45:00+00:00            Service     default          guestbook-ui    Synced  Healthy                  service/guestbook-ui created
+
+Name:               argocd/guestbook
+Project:            default
+Server:             https://kubernetes.default.svc
+Namespace:          default
+URL:                https://argocd.example.com/applications/guestbook
+Source:
+- Repo:             https://github.com/argoproj/argocd-example-apps.git
+  Target:
+  Path:             guestbook
+SyncWindow:         Sync Allowed
+Sync Policy:        Manual
+Sync Status:        Synced to  (d7927a2)
+Health Status:      Progressing
+
+Operation:          Sync
+Sync Revision:      d7927a27b4533926b7d86b5f249cd9ebe7625e90
+Phase:              Succeeded
+Start:              2024-07-28 05:45:00 +0000 UTC
+Finished:           2024-07-28 05:45:00 +0000 UTC
+Duration:           0s
+Message:            successfully synced (all tasks run)
+
+GROUP  KIND        NAMESPACE  NAME          STATUS  HEALTH       HOOK  MESSAGE
+       Service     default    guestbook-ui  Synced  Healthy            service/guestbook-ui created
+apps   Deployment  default    guestbook-ui  Synced  Progressing        deployment.apps/guestbook-ui created
+```
+
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722145622/blog/shuntaka-gw-rpi5-grafana-on-k8/s1mqdfhrl52ssrucf2f6.png)
+
+RPi上では、ARMのためguestbookは動作しなさそう..(泣
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722146013/blog/shuntaka-gw-rpi5-grafana-on-k8/xjfyniwwqj8tjhe2lj3y.png)
+
+仕方がないので削除を実施
+
+```bash
+argocd app delete guestbook --yes
+```
+
+## ArgoCD と GitHub Apps連携
+
+以下を参考に進める
+
+* [ArgoCDにGitHub Appの資格情報を使ってリポジトリを登録する](https://zenn.dev/vampire_yuta/articles/58e85dad7a8e58)
+
+GitHub Appsを作成
+
+* Homgepage URLは適当
+* webhookは非アクティブ化でひとまず作成
+* 作成したら、デフォルト+Contentsのリード権限を付与
+
+その他やること
+* 連携先のリポジトリを作成(https://github.com/shuntaka9576/apps.git)
+* Fine-grained personal access tokensを利用している場合、リポジトリ権限を追加
+
+```bash
+export GITHUB_URL="https://github.com/shuntaka9576/apps.git"
+export GITHUB_APP_ID="955521"
+export GITHUB_INSTALL_ID="53237765"
+export PEM_NAME="shuntakaargocd.2024-07-27.private-key.pem"
+
+argocd repo add $GITHUB_URL \
+  --github-app-id $GITHUB_APP_ID \
+  --github-app-installation-id $GITHUB_INSTALL_ID \
+  --github-app-private-key-path $PEM_NAME
+```
+
+リポジトリが登録されていることを確認
+
+```bash
+$ argocd repo list
+TYPE  NAME  REPO                                      INSECURE  OCI    LFS    CREDS  STATUS      MESSAGE  PROJECT
+git         https://github.com/shuntaka9576/apps.git  false     false  false  false  Successful
+```
+
+コンソール上からも確認
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722148994/blog/shuntaka-gw-rpi5-grafana-on-k8/oj33pyavomadfg0ofggb.png)
+
+
+
+
+
+
 
 
 ## 最後に
