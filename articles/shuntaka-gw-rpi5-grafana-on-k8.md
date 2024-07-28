@@ -1373,6 +1373,91 @@ git         https://github.com/shuntaka9576/apps.git  false     false  false  fa
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722148994/blog/shuntaka-gw-rpi5-grafana-on-k8/oj33pyavomadfg0ofggb.png)
 
 
+```bash
+export APPLICATION_NAME="container-registry"
+export GITHUB_URL="https://github.com/shuntaka9576/apps.git"
+export DIR_PATH="$APPLICATION_NAME"
+export NAME_SPACE="middlewares"
+
+argocd app create $APPLICATION_NAME \
+  --repo $GITHUB_URL \
+  --path $DIR_PATH \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace $NAME_SPACE
+```
+
+
+## コンテナレジストリの導入
+
+```yml:helmfile.yaml
+repositories:
+  - name: harbor
+    url: https://helm.goharbor.io
+
+releases:
+  - name: harbor
+    namespace: harbor
+    chart: harbor/harbor
+    version: 1.15.0
+    values:
+      - values.yaml
+```
+
+実行自体はこけますが、repositoriesは追加されます。
+
+```bash
+helmfile sync
+```
+
+以下のコマンドで変更可能箇所を出力します。出力しますが変更箇所はありません。
+
+```bash
+helm show values harbor/harbor>values.yaml
+```
+
+適用します。
+```bash
+helmfile sync
+```
+
+サービスを確認します
+
+```bash
+$ k get svc -n harbor
+NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+harbor-core         ClusterIP   10.100.67.177    <none>        80/TCP              52s
+harbor-database     ClusterIP   10.100.235.34    <none>        5432/TCP            52s
+harbor-jobservice   ClusterIP   10.103.106.133   <none>        80/TCP              52s
+harbor-portal       ClusterIP   10.104.48.38     <none>        80/TCP              52s
+harbor-redis        ClusterIP   10.106.139.93    <none>        6379/TCP            52s
+harbor-registry     ClusterIP   10.96.207.6      <none>        5000/TCP,8080/TCP   52s
+harbor-trivy        ClusterIP   10.100.36.199    <none>        8080/TCP            52s
+```
+
+```yaml:harbor-loadbalancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: harbor-loadbalancer
+  namespace: harbor
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: harbor
+    component: portal
+```
+
+適用します
+
+```bash
+kubectl apply -f harbor-loadbalancer.yaml
+```
+
+
 
 
 
