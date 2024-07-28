@@ -1343,7 +1343,9 @@ GitHub Appsを作成
 
 * Homgepage URLは適当
 * webhookは非アクティブ化でひとまず作成
-* 作成したら、デフォルト+Contentsのリード権限を付与
+* 作成したら、デフォルト+
+ * Contentsのリード権限を付与
+ * Packagesのリード権限を付与
 
 その他やること
 * 連携先のリポジトリを作成(https://github.com/shuntaka9576/apps.git)
