@@ -1375,19 +1375,6 @@ git         https://github.com/shuntaka9576/apps.git  false     false  false  fa
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722148994/blog/shuntaka-gw-rpi5-grafana-on-k8/oj33pyavomadfg0ofggb.png)
 
 
-```bash
-export APPLICATION_NAME="container-registry"
-export GITHUB_URL="https://github.com/shuntaka9576/apps.git"
-export DIR_PATH="$APPLICATION_NAME"
-export NAME_SPACE="middlewares"
-
-argocd app create $APPLICATION_NAME \
-  --repo $GITHUB_URL \
-  --path $DIR_PATH \
-  --dest-server https://kubernetes.default.svc \
-  --dest-namespace $NAME_SPACE
-```
-
 
 ## コンテナレジストリの導入
 
@@ -1459,6 +1446,91 @@ spec:
 kubectl apply -f harbor-loadbalancer.yaml
 ```
 
+## アプリケーションをArgoCD経由でホストティングする
+
+ローカルでコンテナをビルドし、ghcrへpushします。ghcrを利用する理由は以下のためです。
+
+* harborがarmに対応していない
+* ECRはAWS外の場合、下り料金がかかる
+
+ghの権限でghcrにpushできるscopeを追加する
+
+```bash:Mac上で実行
+gh auth login --scopes "write:packages"
+```
+
+```bash:Mac上で実行
+export APP_NAME="example-app"
+export COMMIT_HASH=$(git rev-parse --short HEAD)
+
+docker buildx build --platform linux/arm64 -t $APP_NAME .
+docker tag $APP_NAME ghcr.io/$(gh api user --jq .login)/${APP_NAME}:latest
+docker tag $APP_NAME ghcr.io/$(gh api user --jq .login)/${APP_NAME}:${COMMIT_HASH}
+
+# 動かす場合
+docker run -p 8080:8080 $APP_NAME
+
+# ghcrへpush
+echo $(gh auth token) | docker login ghcr.io -u $(gh api user --jq .login) --password-stdin
+
+docker push ghcr.io/$(gh api user --jq .login)/${APP_NAME}:latest
+docker push ghcr.io/$(gh api user --jq .login)/${APP_NAME}:${COMMIT_HASH}
+```
+
+
+シークレットを作成します。トークンはGitHub Token(classic)となります。これはghcrがリポジトリに依存しない要素なので、これしかないというのが現状です。scopeは`read:packages`のみ付与すれば良いです。
+
+```bash:pi1上で実行
+kubectl create namespace example-app
+
+export PAT=""
+kubectl create secret docker-registry ghcr-secret \
+  --docker-server=ghcr.io \
+  --docker-username=hoge \
+  --docker-password=$PAT \
+  --docker-email=hoge@gmail.com \
+  -n example-app
+```
+
+argo-cd上でアプリケーション作成します。
+```bash:pi1上で実行
+export APPLICATION_NAME="example-app"
+export GITHUB_URL="https://github.com/shuntaka9576/apps.git"
+export DIR_PATH="example-app/manifests"
+export NAME_SPACE="example-app"
+
+argocd app create $APPLICATION_NAME \
+  --repo $GITHUB_URL \
+  --path $DIR_PATH \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace $NAME_SPACE
+
+argocd app sync $APPLICATION_NAME
+# 削除する場合
+# argocd app delete $APPLICATION_NAME
+```
+
+
+## TailScale設定
+
+現在metalLB側でARPリクエストに対して応答するようにし、IP動的に割り当てています。
+
+* `--advertise-routes=192.168.86.0/24` でローカルネットワークのルートをTailScaleネットワークにアドバタイズすることを指示している
+* `--accept-routes` は、他のtailscaleノードがアドバタイズしているルートを自動的に受け入れることを許可する
+
+```bash
+# Install Tailscale on a node
+curl -fsSL https://tailscale.com/install.sh | sh
+
+# Authenticate and enable IP forwarding
+sudo tailscale up --advertise-routes=192.168.86.0/24 --accept-routes
+```
+
+tailscaleのWebUI側でも設定が必要です(CLI側でオプションをつければ必要ないかもしれません...)
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722206214/blog/shuntaka-gw-rpi5-grafana-on-k8/iwlgartb4c2b3lqnt4qx.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722206217/blog/shuntaka-gw-rpi5-grafana-on-k8/ntw9y8xyjise3swxzgj6.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722206221/blog/shuntaka-gw-rpi5-grafana-on-k8/ajbn6nezib8yuvvfmpdf.png)
 
 
 
