@@ -1194,22 +1194,20 @@ argocd-server                      ClusterIP      10.109.206.234   <none>       
 $ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
-ArgoCDのパスワード再設定。Mac上で実行します。少し複雑な背景があります
+ArgoCDのパスワード再設定。環境を汚さないようにMacにCLIを入れようと思いましたが、k8sクラスタとの接続周りの設定が面倒なため、pi1にインストールします。
 
-* ArgoCDはARM向けのバイナリが存在しない
-* linux-brewもARMをサポートしていない
-* RPi上にArgoCDのCLIを入れないのは環境が綺麗に保てるという意味では良いさそう
+linux-brewがARMをサポートしていないことから、バイナリを取得して配備します
 
-
-Mac上でArgoCDのCLIのインストール
-
-```bash:Macで実行
-brew install argocd
+```bash:p1で実行
+VERSION=2.11.7
+curl -SL -o argocd-linux-arm64 https://github.com/argoproj/argo-cd/releases/download/v$VERSION/argocd-linux-arm64
+sudo install -m 555 argocd-linux-arm64 /usr/local/bin/argocd
+rm argocd-linux-arm64
 ```
 
-Mac上でArgoCDのサーバーへログイン
+ArgoCDのサーバーへログイン。引数にはMetalLBが採番したIPを利用します。
 
-```bash:Macで実行
+```bash:p1で実行
 $ argocd login 192.168.86.202
 WARNING: server certificate had error: tls: failed to verify certificate: x509: certificate signed by unknown authority. Proceed insecurely (y/n)? y
 Username: admin
@@ -1218,7 +1216,7 @@ Password:
 Context '192.168.86.202' updated
 ```
 
-```bash:Macで実行
+```bash:p1で実行
 argocd account update-password
 ```
 
@@ -1233,22 +1231,15 @@ kubernetes-admin@kubernetes
 ```
 
 
-```bash:Macで実行
-# ローカルではArgoCDがkubeconfigの有効なコンテキスト情報を見つけられないため、RPi側からコピーしてくる
-mkdir -p ~/.kube
-scp shuntaka@pi1.local:~/.kube/config ~/.kube/config_raspi
-export KUBECONFIG=~/.kube/config_raspi
-
-# ローカルのkubectlが古い場合、更新される
-kubectl config current-context
-argocd cluster add $(kubectl config current-context)
+```bash:p1で実行
+$ argocd cluster add $(kubectl config current-context)
+WARNING: This will create a service account `argocd-manager` on the cluster referenced by context `kubernetes-admin@kubernetes` with full cluster level privileges. Do you want to continue [y/N]? y
+INFO[0002] ServiceAccount "argocd-manager" created in namespace "kube-system"
+INFO[0002] ClusterRole "argocd-manager-role" created
+INFO[0002] ClusterRoleBinding "argocd-manager-role-binding" created
+INFO[0007] Created bearer token secret for ServiceAccount "argocd-manager"
+Cluster 'https://192.168.1.1:6443' added
 ```
-
-
-
-
-
-
 
 
 ## 最後に
