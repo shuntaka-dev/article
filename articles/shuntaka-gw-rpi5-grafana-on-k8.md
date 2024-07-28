@@ -1151,6 +1151,102 @@ argocd-repo-server-ccc55876c-pn92r                 1/1     Running     0        
 argocd-server-77cbc679c-4v672                      1/1     Running     0          4m11s
 ```
 
+```yaml:algocd-loadbalancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-loadbalancer
+  namespace: argocd
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/name: argocd-server
+```
+
+適用します
+
+```bash
+kubectl apply -f algocd-loadbalancer.yaml
+```
+
+argocd-serverに `192.168.86.202`がアサインされていることを確認します
+```bash
+$ k get svc -n argocd
+NAME                               TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)             AGE
+argocd-applicationset-controller   ClusterIP      10.110.94.104    <none>           7000/TCP            40m
+argocd-dex-server                  ClusterIP      10.110.70.9      <none>           5556/TCP,5557/TCP   40m
+argocd-loadbalancer                LoadBalancer   10.99.40.242     192.168.86.202   443:32605/TCP       10m
+argocd-redis                       ClusterIP      10.100.69.83     <none>           6379/TCP            40m
+argocd-repo-server                 ClusterIP      10.109.230.83    <none>           8081/TCP            40m
+argocd-server                      ClusterIP      10.109.206.234   <none>           80/TCP,443/TCP      40m
+```
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722126928/blog/shuntaka-gw-rpi5-grafana-on-k8/qeffcrwnyhzdvrstep5o.png)
+
+ユーザー名 `admin` とパスワードを入力します。
+
+```bash
+$ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+ArgoCDのパスワード再設定。Mac上で実行します。少し複雑な背景があります
+
+* ArgoCDはARM向けのバイナリが存在しない
+* linux-brewもARMをサポートしていない
+* RPi上にArgoCDのCLIを入れないのは環境が綺麗に保てるという意味では良いさそう
+
+
+Mac上でArgoCDのCLIのインストール
+
+```bash:Macで実行
+brew install argocd
+```
+
+Mac上でArgoCDのサーバーへログイン
+
+```bash:Macで実行
+$ argocd login 192.168.86.202
+WARNING: server certificate had error: tls: failed to verify certificate: x509: certificate signed by unknown authority. Proceed insecurely (y/n)? y
+Username: admin
+Password:
+'admin:login' logged in successfully
+Context '192.168.86.202' updated
+```
+
+```bash:Macで実行
+argocd account update-password
+```
+
+パスワードが更新されたら、シークレットは削除します
+```bash:pi1上で実行
+kubectl --namespace argocd delete secret/argocd-initial-admin-secret
+```
+
+```bash:p1上で実行
+$ kubectl config get-contexts -o name
+kubernetes-admin@kubernetes
+```
+
+
+```bash:Macで実行
+# ローカルではArgoCDがkubeconfigの有効なコンテキスト情報を見つけられないため、RPi側からコピーしてくる
+mkdir -p ~/.kube
+scp shuntaka@pi1.local:~/.kube/config ~/.kube/config_raspi
+export KUBECONFIG=~/.kube/config_raspi
+
+# ローカルのkubectlが古い場合、更新される
+kubectl config current-context
+argocd cluster add $(kubectl config current-context)
+```
+
+
+
+
 
 
 
