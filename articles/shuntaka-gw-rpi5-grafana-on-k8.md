@@ -1533,9 +1533,68 @@ tailscaleのWebUI側でも設定が必要です(CLI側でオプションをつ�
 ![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722206221/blog/shuntaka-gw-rpi5-grafana-on-k8/ajbn6nezib8yuvvfmpdf.png)
 
 
+## ネットワーク公開設定
+
+自分は本サイトで利用しようとしたドメインをムームードメインで契約していたため、ムームー側にcloudflareのNSレコードを設定した。このときPending Nameserver UpdateからActivateになるまで、少し時間がかかるので注意。
+
+※ 出来れば移管したかったが、取得後60日経過していなかったので、断念
 
 
+```bash
+brew install cloudflared
+```
 
+```bash
+cloudflared tunnel login
+```
+
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722285370/blog/shuntaka-gw-rpi5-grafana-on-k8/lv4svx0rt5rekkljohon.png)
+![img](https://res.cloudinary.com/dkerzyk09/image/upload/v1722285371/blog/shuntaka-gw-rpi5-grafana-on-k8/u2oub29iknqqi4ejfks5.png)
+
+```bash:出力結果
+(中略)
+
+If you wish to copy your credentials to a server, they have been saved to:
+/Users/shuntaka/.cloudflared/cert.pem
+```
+
+```bash
+export DOMAIN_NAME="shuntaka.cloud"
+
+# トンネル名
+export CF_TUNNEL_NAME=tunnel-dev
+
+# ドメイン指定
+export CF_TUNNEL_DOMAIN="tunnel-test.${DOMAIN_NAME}"
+
+# Tunnel作成
+$ cloudflared tunnel create $CF_TUNNEL_NAME
+Tunnel credentials written to /Users/shuntaka/.cloudflared/<UUID>.json. cloudflared chose this file based on where your origin certificate was found. Keep this file secret. To revoke these credentials, delete the tunnel.
+
+Created tunnel tunnel-dev with id <UUID>
+
+# DNSのCNAMEにTunnelを追加します
+$ cloudflared tunnel route dns $CF_TUNNEL_NAME $CF_TUNNEL_DOMAIN
+
+2024-07-29T20:52:27Z INF Added CNAME tunnel-test.shuntaka.cloud which will route to this tunnel tunnelID=<UUID>
+```
+
+CloudflareのWebコンソールからZero Trust -> Networks -> Tunnelsで確認できます。
+
+```bash:~/.cloudflared/config.yml
+tunnel: <UUID>
+credentials-file: /Users/shuntaka/.cloudflared/<UUID>.json
+
+ingress:
+  - hostname: tunnel-test.shuntaka.cloud
+    service: http://localhost:8080
+  - service: http_status:404
+```
+
+以下のコマンドで実行できます。`https://tunnel-test.shuntaka.cloud`とlocalhost:8080がマッピングされていることがわかります。
+```bash
+cloudflared tunnel run tunnel-dev
+```
 
 
 ## 最後に
