@@ -532,8 +532,8 @@ $ sudo kubeadm init \
 
 ワーカーノード側で実行する必要があるコマンドをメモします。
 ```bash:メモする出力結果
-sudo kubeadm join 192.168.1.1:6443 --token rwmoll.7vfynzwt0wbparok \
-        --discovery-token-ca-cert-hash sha256:bf28ffd7b92f505b93409da63dacc610d05e4d3566e50b629738a6a4cf4b259f
+sudo kubeadm join 192.168.1.1:6443 --token gdfhzr.gv99gncmeax7lqyi \
+        --discovery-token-ca-cert-hash sha256:8714a21a302f13ed2b400e34386f66f8bc5094e348941f2a80805674a21fd8a0
 ```
 
 `kubectl` が利用できるように、設定を行います
@@ -1210,7 +1210,7 @@ rm argocd-linux-arm64
 ArgoCDのサーバーへログイン。引数にはMetalLBが採番したIPを利用します。
 
 ```bash
-$ argocd login 192.168.86.202
+$ argocd login --insecure 192.168.86.202
 WARNING: server certificate had error: tls: failed to verify certificate: x509: certificate signed by unknown authority. Proceed insecurely (y/n)? y
 Username: admin
 Password:
