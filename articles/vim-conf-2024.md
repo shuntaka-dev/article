@@ -103,6 +103,8 @@ Local LLMを使ったソースコード補完のプラグインを作るとい�
 
 ### Neovim for Frontend Developers: Boosting Productivity and Creativity
 
+[📄](https://talks.ryoppippi.com/2024-11-23/1)
+
 フロントエンド開発におけるプラグインの紹介でした。自分の知らないプラグインが多くあり、全て試してみたいと感じました！主な紹介プラグインは以下の通りです：
 
 * [ugaterm.nvim](https://github.com/uga-rosa/ugaterm.nvim)
