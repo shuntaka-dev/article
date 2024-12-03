@@ -82,23 +82,34 @@ AIエージェントという新しいアプリの市場を開拓したと思う
 
 ### マイルストーン
 
-気分的にいは2をやりたいお気持ち。Webアプリの技術は業務でもやるので、別のことに時間を割きたいが、ここに吸い込まれやすい。。
+* Webアプリの技術は業務でもやるので、別のことに時間を割きたいが、ここに吸い込まれやすい
 
-1.1. LoxをRustで実装 (※1) 
-1.2. `WASM本(chikoskiさんのやつ)` を学習、1.1をWASMでgithub pagesなどにアップする
-1.3. shuntaka.devのバックエンドをRustでリプレース
-1.4. `関数型ドメイン駆動設計` で `1.1` の改善を実施
-1.5. `Effective Rust` で `1.1` の改善を実施
-1.6. Next.jsの15対応
-1.7. `1.6.` に `1.5` を組み込み
+
+
+* 1. 言語を作る
+  * 1.1. LoxをRustで実装 (※1) 
+  * 1.2. `WASM本(chikoskiさんのやつ)` を学習、1.1をWASMでgithub pagesなどにアップする
+
+---(年内完了)
+
+12/20以降は1が終わるまで2への着手はNG。NixOSで1ができるレベル(Java, Rustが動く状態)まで、12/20まで持っていければ理想だが難しそう
+
+* 2. Nixの学習
+  * 2.1. NixOSの導入
+
+* 3. Web Rustの学習
+  * 3.1. shuntaka.devのバックエンドをRustでリプレース
+  * 3.2. `関数型ドメイン駆動設計` で `1.1` の改善を実施
+  * 3.3. duckdbでオフラインの記事解析機能をつける
+  * 3.3. `Effective Rust` で `1.1` の改善を実施
+  * 3.4. Next.jsの15対応
+  * 3.5. `1.6.` に `1.5` を組み込み
 
 ※1
 * [Implementing a Lox interpreter in Rust](https://www.youtube.com/watch?v=mNOLaw-_Buc)でもいいかも
   * https://github.com/shuntaka9576/lox
 * [JSON Parsing from Scratch in Haskell](https://abhinavsarkar.net/posts/json-parsing-from-scratch-in-haskell/)も気になる
 
-2.1. NixOSの導入
-2.2. `すごいHaskell` `ふつうのHaskellプログラミング` で `2.1.` や `1.1` により関数型のエッセンスを取り込む
 
 
 ## さいごに
