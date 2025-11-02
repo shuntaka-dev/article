@@ -73,7 +73,7 @@ What(Structure)ではウィンドウ分割の話、`junegunn/goyo.vim` も使っ
 
 Whyでは、Ginの紹介。`:GinStatus` `:GinLog` `:GinBlame` `:GinDiff` `:GinLog`の紹介。lazygitで甘えているのでGin使いこなしたい。
 
-キーバインディングの設定も乗っていて、後から見直して差分を取り込みたいと感じました！
+キーバインディングの設定も乗っていて、後から見直して参考にしたいと感じました！
 
 ### スポンサーLT (株式会社テックリード)
 
@@ -99,5 +99,64 @@ Vimのプリミティブな機能の話。dot repeatは最後のundoブロック
 
 ### You Know They're Not Just Clipboards — Now Learn What They Really Are
 
+レジスタまわりや<C-r>の使い方など知らないことだらけでした。。。
+
+基礎的なVimの話、私は知識がなく、学び直したい...表がとてもみやすく、改めて手を動かしながら読み返したいありがたい2つのお話でした！
+
+
+### LTs
+
+* LT1
+  * pytorchの前身がlua実装？torchをNeovimから呼び出せるっぽい。知見💡
+  * notomo/gesture.nvim
+* LT2
+  * vim9Scriptの話
+  * 最新のVimが必要
+  * 高速だけどLSPがないので辛い部分もあるとか
+  * 開発中の機能もある
+* LT3
+  * unit test
+    * plenary.test_harness
+      * みんな入っている
+      * neotest
+      * zennに記事がある
+    * vusted mini.test
+      * lua-covと連携できる
+      * カバレッジが測れる
+      * Speakerは両方(plenary)使っているみたい
+        * plenaryと貴方は同じなので、plenaryで書いて移行も可能
+    * octcov
+  * mini.test
+    * E2E
+      * 非同期のテストが難しいので、こちらがおすすめ
+      * neovimを子プロセスとして動作させる
+      * スクリーンショットもできる
+      * カバレッジは低いのではなく伸び代がある
+      * octocovが便利
+* LT4
+  * Vimの中で休憩する話
+    * ボードゲームをする
+    * Vimの中でリバーシする
+    * ゼロ依存で実装するために、アルゴリズムに凝っていて面白い...
+* LT5
+  * Fluent finderの話
+  * [flf-vim](https://github.com/sirasagi62/flf-vim)
+  * ソースに対して意味的類似性検索ができるみたい！🤩🤩🤩
+  * インデックス化が1時間かかるみたい？
+  * 埋め込みモデルの話もあった
+    * SLM ruri-v3-70-code-v0.1
+    * 多分これかなぁ
+      * https://huggingface.co/cl-nagoya/ruri-v3-70m
+    * plamoと比較してどうなのかな、外部依存とかどうなのかな。気になる👀
+    * おもしろい取り組み⭐️
+* LT6
+  * Keymapping
+  * nvim-in-the-loop
+  * 自分のVimの操作のログをとって、AIに食わせて良いマッピングを提案してくれるっぽい
+  * 人がAIに食わせるからhuman-in-the-loop
 
 ## さいごに
+
+補完プラグイン開発、本体開発の話から始まり、ソースコードの読み方、CLIのコーディングエージェントとの連携、Vimを取り巻くエコシステムや、Vimの基礎的な話など、今年も変わらない基礎から最近の(Neo)Vimの知識まで濃厚に注入できました！
+
+スポンサー、運営の皆様ありがとうございました！✨
