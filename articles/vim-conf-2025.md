@@ -3,8 +3,8 @@ title: "VimConf 2025 Smallに参加しました！"
 type: "tech"
 category: []
 description: "VimConf 2025 Small参加&簡易レポです"
-publish: false
-thumbnail: "TODO"
+publish: true
+thumbnail: "https://res.cloudinary.com/dkerzyk09/image/upload/v1762071546/blog/vim-conf-2025/xsrcqgemtauiuor6hujm.png"
 ---
 
 ## はじめに
@@ -152,8 +152,7 @@ Vimのプリミティブな機能の話。dot repeatは最後のundoブロック
 * LT6
   * Keymapping
   * nvim-in-the-loop
-  * 自分のVimの操作のログをとって、AIに食わせて良いマッピングを提案してくれるっぽい
-  * 人がAIに食わせるからhuman-in-the-loop
+  * 自分のVimの操作のログをとって、AIに食わせて癖を見つける。AIに良いマッピングを提案してもらう🤩
 
 ## さいごに
 
